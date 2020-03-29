@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-03-29T12:44:41+08:00",
-        "dateModified": "2020-03-29T23:43:48+08:00",
+        "dateModified": "2020-03-30T02:22:11+08:00",
         "url": "https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/",
         "headline": "在 Spring Cache 中为 Redis 添加内存缓存",
         "description": "缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。\n",
@@ -113,7 +113,7 @@
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-03-29T12:44:41+08:00" />
-    <meta property="article:modified_time" content="2020-03-29T23:43:48+08:00" />
+    <meta property="article:modified_time" content="2020-03-30T02:22:11+08:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -1060,7 +1060,7 @@ graph TD;
         theme: "neutral",
         fontFamily: "'Sen', sans-serif",
         flowchart: {
-            useMaxWidth: false,
+            useMaxWidth: true,
             htmlLabels: true,
             rankSpacing: 25,
             curve: "basis"
