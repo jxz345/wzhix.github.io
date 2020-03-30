@@ -7,9 +7,9 @@
 
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>zhix.co</title>
+        <title>zhix</title>
         <link>https://zhix.co/</link>
-        <description>MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</description>
+        <description>zhix 的精神避难所。</description>
         <generator>Hugo 0.68.3 https://gohugo.io/</generator>
         
             <language>zh-cn</language>
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 31 Mar 2020 01:48:36 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 31 Mar 2020 03:45:33 +0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml" />
         
@@ -53,7 +53,7 @@
 <p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
 <dl>
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html"><em>ConcurrentMapCache</em></a></dt>
-<dd>基于 <em><strong>ConcurrentHashMap</strong></em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
+<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
 <dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html"><em>RedisCache</em></a></dt>
 <dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖。</dd>
 </dl>
@@ -679,6 +679,16 @@ graph TD;
                                 
                                 
                                 
+                                    <category domain="https://zhix.co/series/spring-framework/">Spring Framework</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
                                     <category domain="https://zhix.co/tags/java/">java</category>
                                 
                             
@@ -1118,6 +1128,8 @@ graph TD;
                                     <category domain="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/">技术</category>
                                 
                             
+                        
+                    
                         
                     
                         

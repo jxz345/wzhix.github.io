@@ -2,9 +2,9 @@
 
 
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn">
-    <title type="text">zhix.co</title>
-    <subtitle type="html">MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</subtitle>
-    <updated>2020-03-31T01:48:36+08:00</updated>
+    <title type="text">zhix</title>
+    <subtitle type="html">zhix 的精神避难所。</subtitle>
+    <updated>2020-03-31T03:45:33+08:00</updated>
     <id>https://zhix.co/</id>
     <link rel="alternate" type="text/html" href="https://zhix.co/" />
     <link rel="self" type="application/atom+xml" href="https://zhix.co/atom.xml" />
@@ -20,11 +20,11 @@
             <title type="text">在 Spring Cache 中为 Redis 添加内存缓存</title>
             <link rel="alternate" type="text/html" href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/" />
             <id>https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</id>
-            <updated>2020-03-31T01:47:40+08:00</updated>
+            <updated>2020-03-31T02:36:11+08:00</updated>
             <published>2020-03-29T12:44:41+08:00</published>
             <author>
                     <name>zhix</name>
-                    <uri>https://zhix.co</uri>
+                    <uri>https://zhix.co/</uri>
                     <email>zhixuan@zhix.co</email>
                     </author>
             <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
@@ -46,7 +46,7 @@
 <p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
 <dl>
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html"><em>ConcurrentMapCache</em></a></dt>
-<dd>基于 <em><strong>ConcurrentHashMap</strong></em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
+<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
 <dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html"><em>RedisCache</em></a></dt>
 <dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖。</dd>
 </dl>
@@ -672,6 +672,16 @@ graph TD;
                             
                             
                             
+                                <category scheme="https://zhix.co/series/spring-framework/" term="Spring Framework" label="Spring Framework" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
                                 <category scheme="https://zhix.co/tags/java/" term="java" label="java" />
                             
                         
@@ -736,7 +746,7 @@ graph TD;
             <published>2020-03-11T20:12:51+08:00</published>
             <author>
                     <name>zhix</name>
-                    <uri>https://zhix.co</uri>
+                    <uri>https://zhix.co/</uri>
                     <email>zhixuan@zhix.co</email>
                     </author>
             <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights>
@@ -1116,6 +1126,8 @@ graph TD;
                                 <category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术" />
                             
                         
+                    
+                
                     
                 
                     

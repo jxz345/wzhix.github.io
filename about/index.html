@@ -16,7 +16,7 @@
     
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <title>关于 ZHIX 和这里 | zhix.co</title>
+    <title>关于 ZHIX 和这里 | zhix</title>
 
     <link rel="stylesheet" href="/css/meme.min.css" />
 
@@ -34,10 +34,10 @@
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="zhix.co" />
+    <meta name="apple-mobile-web-app-title" content="zhix" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="zhix.co" />
+    <meta name="application-name" content="zhix" />
     <meta name="msapplication-starturl" content="../" />
     <meta name="msapplication-TileColor" content="#fff" />
     <meta name="msapplication-TileImage" content="../icons/mstile-150x150.png" />
@@ -56,7 +56,7 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "datePublished": "2020-02-13T04:42:43+08:00",
-        "dateModified": "2020-03-30T11:59:19+08:00",
+        "dateModified": "2020-03-31T02:58:44+08:00",
         "url": "https://zhix.co/about/",
         "name": "关于 ZHIX 和这里",
         "description": "我叫 ZHIX，是一名软件工程师，专注于游戏领域的 Web 服务端开发，喜欢编程，会点 Java",
@@ -64,7 +64,7 @@
         "license": "[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)",
         "publisher": {
             "@type": "Organization",
-            "name": "zhix.co",
+            "name": "zhix",
             "logo": {
                 "@type": "ImageObject",
                 "url": "https://zhix.co/icons/avatar.png"
@@ -79,14 +79,6 @@
 </script>
 
     
-
-
-
-<meta name="twitter:card" content="summary" />
-
-<meta name="twitter:site" content="@reuixiy" />
-<meta name="twitter:creator" content="@reuixiy" />
-
     
 
 
@@ -96,7 +88,7 @@
 <meta property="og:title" content="关于 ZHIX 和这里" />
 <meta property="og:description" content="我叫 ZHIX，是一名软件工程师，专注于游戏领域的 Web 服务端开发，喜欢编程，会点 Java" />
 <meta property="og:url" content="https://zhix.co/about/" />
-<meta property="og:site_name" content="zhix.co" />
+<meta property="og:site_name" content="zhix" />
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="website" />
 
@@ -139,6 +131,11 @@
         
             
                 <li class="menu-item"><a href="/tags/"><span class="menu-item-name">标签</span></a>
+                </li>
+            
+        
+            
+                <li class="menu-item"><a href="/series/"><span class="menu-item-name">系列</span></a>
                 </li>
             
         
@@ -206,6 +203,10 @@
 
 
         
+    <div class="updated-badge-container"><div title="最后更新于 2020-03-31 02:58:44 CST" style="cursor:help;display:inline-block">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2020-03-31</text><text x="915" y="140" textLength="650" transform="scale(.1)">2020-03-31</text></g></svg></div></div>
+
 
         
 
@@ -286,6 +287,33 @@
 
 
 
+
+
+    <div class="app-refresh" id="app-refresh">
+        <div class="app-refresh-wrap" onclick="location.reload()">
+            <label>已更新最新版本</label>
+            <span>点击刷新</span>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.addEventListener('controllerchange', function() {
+                    location.reload()
+                });
+            }
+
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('../sw.js');
+            });
+        }
+
+        function showNotification() {
+            document.querySelector('meta[name=theme-color]').content = '#000';
+            document.getElementById('app-refresh').className += ' app-refresh-show';
+        }
+    </script>
 
 
 
