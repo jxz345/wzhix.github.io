@@ -22,8 +22,8 @@
 
     <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
 
-        <link rel="stylesheet" href="https://fonts.loli.net/css?family=Zilla&#43;Slab:400,400i,600,600i%7cNoto&#43;Serif&#43;SC:400,700%7cBerkshire&#43;Swash%7cSen:400&amp;display=swap&amp;subset=chinese-simplified" media="print" onload="this.media='all'" />
-        <noscript><link rel="stylesheet" href="https://fonts.loli.net/css?family=Zilla&#43;Slab:400,400i,600,600i%7cNoto&#43;Serif&#43;SC:400,700%7cBerkshire&#43;Swash%7cSen:400&amp;display=swap&amp;subset=chinese-simplified" /></noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Berkshire&#43;Swash&amp;family=Noto&#43;Serif&#43;SC:wght@400;700&amp;family=Sen&amp;family=Zilla&#43;Slab:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Berkshire&#43;Swash&amp;family=Noto&#43;Serif&#43;SC:wght@400;700&amp;family=Sen&amp;family=Zilla&#43;Slab:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap" /></noscript>
 
     <meta name="author" content="zhix" />
     <meta name="description" content="MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。" />
@@ -54,7 +54,7 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "datePublished": "1989-06-04T20:17:43+00:00",
-        "dateModified": "2020-03-30T12:22:43+08:00",
+        "dateModified": "2020-03-30T17:38:24+08:00",
         "url": "https://zhix.co/tags/%E7%BC%96%E7%A8%8B/",
         "name": "Tags: 编程",
         "description": "MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。",
@@ -98,6 +98,7 @@
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="website" />
 
+        <meta name="google-site-verification" content="WBSln2uSQt2h-Het7vXAuWTyUsaokRDR51yl95Ar0G4" />
 
     
 </head>
@@ -286,49 +287,6 @@
 
 
 
-    <script>
-    if (typeof MathJax === 'undefined') {
-        window.MathJax = {
-            loader: {
-                load: ['[tex]/mhchem']
-            },
-            
-            tex: {
-                inlineMath: {'[+]': [['$', '$']]},
-                tags: 'ams',
-                packages: {'[+]': ['mhchem']}
-            }
-        };
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js';
-            script.defer = true;
-            document.head.appendChild(script);
-        })();
-    } else {
-        MathJax.texReset();
-        MathJax.typeset();
-    }
-</script>
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
-<script>
-    var config = {
-        startOnLoad: true,
-        theme: "neutral",
-        fontFamily: "'Sen', sans-serif",
-        flowchart: {
-            useMaxWidth: true,
-            htmlLabels: true,
-            rankSpacing: 25,
-            curve: "basis"
-        }
-    };
-    mermaid.initialize(config);
-</script>
 
 
 
@@ -355,7 +313,6 @@
 
 
 
-<script src="//cdnjs.loli.net/ajax/libs/Han/3.3.0/han.min.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', function () {
     Han(document.body).initCond().renderJiya()

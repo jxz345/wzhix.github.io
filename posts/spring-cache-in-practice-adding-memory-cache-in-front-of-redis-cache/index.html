@@ -22,8 +22,8 @@
 
     <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
 
-        <link rel="stylesheet" href="https://fonts.loli.net/css?family=Zilla&#43;Slab:400,400i,600,600i%7cNoto&#43;Serif&#43;SC:400,700%7cBerkshire&#43;Swash%7cSen:400&amp;display=swap&amp;subset=chinese-simplified" media="print" onload="this.media='all'" />
-        <noscript><link rel="stylesheet" href="https://fonts.loli.net/css?family=Zilla&#43;Slab:400,400i,600,600i%7cNoto&#43;Serif&#43;SC:400,700%7cBerkshire&#43;Swash%7cSen:400&amp;display=swap&amp;subset=chinese-simplified" /></noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Berkshire&#43;Swash&amp;family=Noto&#43;Serif&#43;SC:wght@400;700&amp;family=Sen&amp;family=Zilla&#43;Slab:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Berkshire&#43;Swash&amp;family=Noto&#43;Serif&#43;SC:wght@400;700&amp;family=Sen&amp;family=Zilla&#43;Slab:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap" /></noscript>
 
     <meta name="author" content="zhix" />
     
@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-03-29T12:44:41+08:00",
-        "dateModified": "2020-03-30T12:22:43+08:00",
+        "dateModified": "2020-03-30T17:38:24+08:00",
         "url": "https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/",
         "headline": "在 Spring Cache 中为 Redis 添加内存缓存",
         "description": "缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。\n",
@@ -113,11 +113,12 @@
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-03-29T12:44:41+08:00" />
-    <meta property="article:modified_time" content="2020-03-30T12:22:43+08:00" />
+    <meta property="article:modified_time" content="2020-03-30T17:38:24+08:00" />
     
     <meta property="article:section" content="posts" />
 
 
+        <meta name="google-site-verification" content="WBSln2uSQt2h-Het7vXAuWTyUsaokRDR51yl95Ar0G4" />
 
     
 </head>
@@ -1051,32 +1052,6 @@ graph TD;
 
 
 
-    <script>
-    if (typeof MathJax === 'undefined') {
-        window.MathJax = {
-            loader: {
-                load: ['[tex]/mhchem']
-            },
-            
-            tex: {
-                inlineMath: {'[+]': [['$', '$']]},
-                tags: 'ams',
-                packages: {'[+]': ['mhchem']}
-            }
-        };
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js';
-            script.defer = true;
-            document.head.appendChild(script);
-        })();
-    } else {
-        MathJax.texReset();
-        MathJax.typeset();
-    }
-</script>
-
-
 
 
     <script src="https://cdn.jsdelivr.net/npm/mermaid@8.4.8/dist/mermaid.min.js"></script>
@@ -1120,7 +1095,6 @@ graph TD;
 
 
 
-<script src="//cdnjs.loli.net/ajax/libs/Han/3.3.0/han.min.js"></script>
 <script>
   window.addEventListener('DOMContentLoaded', function () {
     Han(document.body).initCond().renderJiya()
