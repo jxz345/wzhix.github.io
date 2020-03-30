@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 31 Mar 2020 00:30:51 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 31 Mar 2020 01:48:36 +0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml" />
         
@@ -40,26 +40,26 @@
                 
                     <description><![CDATA[<p>缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。</p>
 <h2 id="spring-cache-抽象">Spring Cache 抽象</h2>
-<p><a href="https://docs.spring.io/spring/docs/5.0.0.RELEASE/spring-framework-reference/integration.html#cache">Spring Cache</a> 作为 Spring Framework 最核心的模块之一，提供了开箱即用的缓存支持，应用程序只需要在任意 Configuration 类上加入注解 <code>@EnableCaching</code> 即可启用缓存：</p>
-<p>Spring Cache 的实现位于 <code>org.springframework.cache</code> 包下，如果使用 Maven 的话需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-context">spring-context</a> 模块，其中最核心的 2 个接口定义如下：</p>
+<p><a href="https://docs.spring.io/spring/docs/5.0.0.RELEASE/spring-framework-reference/integration.html#cache">Spring Cache</a> 作为 Spring 最核心的模块之一，提供了开箱即用的缓存支持，应用程序只需要在任意 <em>Configuration</em> 类上加入注解 <em>@EnableCaching</em> 即可启用缓存：</p>
+<p>Spring Cache 的实现位 <em>org.springframework.cache</em> 包下，如果使用 Maven 的话需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-context"><em>spring-context</em></a> 模块，其中最核心的 2 个接口定义如下：</p>
 <dl>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/Cache.html">Cache</a></dt>
+<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/Cache.html"><em>Cache</em></a></dt>
 <dd>代表通用缓存对象的抽象，定义了与缓存交互的接口，包含基本的读取、写入、淘汰和清空操作，管理一系列的缓存键值对，按键寻址，拥有唯一的名称。</dd>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html">CacheManager</a></dt>
-<dd>代表缓存管理器的抽象，管理一系列的 Cache 对象，按名称寻址 Cache。</dd>
+<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html"><em>CacheManager</em></a></dt>
+<dd>代表缓存管理器的抽象，管理一系列缓存对象，按名称寻址缓存。</dd>
 </dl>
-<p>一句话概括就是：Spring Framework 在 spring-context 的核心模块就包含了对缓存的支持，通过注解 <code>@EnableCaching</code> 来使用。需要被缓存的对象由 Cache 管理并按键寻址，Cache 按照名称区分彼此，统一地注册在 CacheManager 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
+<p>一句话概括就是：Spring 在 <em>spring-context</em> 的核心模块就包含了对缓存的支持，通过注 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
 <h2 id="concurrentmapcache-和-rediscache">ConcurrentMapCache 和 RedisCache</h2>
-<p>简单来说，Cache 和 CacheManager 定义了 Spring Cache 如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 Cache 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
+<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
 <dl>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html">ConcurrentMapCache</a></dt>
-<dd>基于 ConcurrentHashMap 实现的本地缓存，也是此次的内存缓存实现类；</dd>
-<dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html">RedisCache</a></dt>
-<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis">spring-data-redis</a> 依赖。</dd>
+<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html"><em>ConcurrentMapCache</em></a></dt>
+<dd>基于 <em><strong>ConcurrentHashMap</strong></em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
+<dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html"><em>RedisCache</em></a></dt>
+<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖。</dd>
 </dl>
-<p>它们对应的缓存管理器分别是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html">ConcurrentMapCacheManager</a> 和 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html">RedisCacheManager</a>。</p>
+<p>它们对应的缓存管理器分别是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html"><em>ConcurrentMapCacheManager</em></a> 和 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html"><em>RedisCacheManager</em></a>。</p>
 <h2 id="实现二级内存缓存">实现二级内存缓存</h2>
-<p>回到开头的问题，如果需要在 RedisCache 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在将取得的值回写入内存缓存中，用流程图表示为：</p>
+<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在将取得的值回写入内存缓存中，用流程图表示为：</p>
 <div class="mermaid">
 graph TD;
     Q[/Query Start/]
@@ -77,8 +77,8 @@ graph TD;
     WM -->QE
     RKP --> |N| DB[(Database)]
 </div>
-<p>虽然 Spring 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/CompositeCacheManager.html">CompositeCacheManager</a> 的实现来组合多个 CacheManager，但是 CompositeCacheManager 仅仅是在名称寻址时，迭代所管理的 CacheManager 集合，返回第一个寻址不为 null 的 Cache 对象，并不能完成上述的缓存回写的实现。</p>
-<p>我们可以用 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html">AbstractCacheManager</a> 的特性来解决这个问题，AbstractCacheManager 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html#decorateCache-org.springframework.cache.Cache-">decorateCache</a> 的保护方法来对 Cache 对象做封装，它的定义如下：</p>
+<p>虽然 Spring 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/CompositeCacheManager.html"><em>CompositeCacheManager</em></a> 的实现来组合多个 <em>CacheManager</em>，但也仅仅是在名称寻址时，迭代所管理的 <em>CacheManager</em> 集合，返回第一个寻址不为 null 的 <em>Cache</em> 对象，并不能完成上述的缓存回写的实现。</p>
+<p>我们可以用 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html"><em>AbstractCacheManager</em></a> 的特性来解决这个问题，<em>AbstractCacheManager</em> 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html#decorateCache-org.springframework.cache.Cache-"><em>decorateCache</em></a> 的保护方法来对 <em>Cache</em> 对象做封装，它的定义如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -105,12 +105,12 @@ graph TD;
  <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>decorateCache 方法的调用时机有 2 个：</p>
+</div><p><em>decorateCache</em> 方法的调用时机有 2 个：</p>
 <ol>
-<li>CacheManager 初始化缓存；</li>
-<li>向 CacheManager 请求了它所没有的缓存（<span lang="en">Missing Cache</span>），且 CacheManager 被配置成自动创建不存在的缓存时，decorateCache 会在 <span lang="en">Missing Cache</span> 被创建时被调用。<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li><em>CacheManager</em> 初始化缓存；</li>
+<li>向 <em>CacheManager</em> 请求了它所没有的缓存（<span lang="en">Missing Cache</span>），且 <em>CacheManager</em> 被配置成自动创建不存在的缓存时，<em>decorateCache</em> 会在 <span lang="en">Missing Cache</span> 被创建时被调用。<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
 </ol>
-<p>重载 decorateCache 用的是典型的 <a href="https://zh.wikipedia.org/wiki/%E4%BF%AE%E9%A5%B0%E6%A8%A1%E5%BC%8F">装饰模式</a> 的思想，在子类中重写该方法，我们可以将参数中的 Cache 对象包装成我们想要的实现，从而达到在不修改原有缓存的情况动态地下改变原缓存的行为。</p>
+<p>重载 <em>decorateCache</em> 用的是典型的 <a href="https://zh.wikipedia.org/wiki/%E4%BF%AE%E9%A5%B0%E6%A8%A1%E5%BC%8F">装饰模式</a> 的思想，在子类中重写该方法，我们可以将参数中的 <em>Cache</em> 对象包装成我们想要的实现，从而达到在不修改原有缓存的情况动态地下改变原缓存的行为。</p>
 <h3 id="缓存装饰器">缓存装饰器</h3>
 <p>首先我们展示一个缓存装饰器的简单示例，它在每次缓存读取和写入时打印一条日志：</p>
 <div class="highlight"><div class="chroma">
@@ -189,7 +189,7 @@ graph TD;
 </span><span class="c1"></span><span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>接着继承现有的 CacheManager 并重写 decorateCache 方法：</p>
+</div><p>接着继承现有的 <em>CacheManager</em> 并重写 <em>decorateCache</em> 方法：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -310,14 +310,14 @@ graph TD;
 </span><span class="c1"></span><span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>MemoryCacheDecorator 的逻辑并不复杂，仅仅是拦截了上游缓存的读取操作，其中：</p>
+</div><p><em>MemoryCacheDecorator</em> 的逻辑并不复杂，仅仅是拦截了上游缓存的读取操作，其中：</p>
 <ul>
-<li>第 8 行创建了替代上游缓存的内存缓存对象，采用 ConcurrentMapCache 实现，为了健壮起见，内存缓存的名称是上游缓存名称前加 <code>memory-</code>；</li>
+<li>第 8 行创建了替代上游缓存的内存缓存对象，采用 <em>ConcurrentMapCache</em> 实现，为了健壮起见，内存缓存的名称是上游缓存名称前加 <code>memory-</code>；</li>
 <li>第 27 ～ 35 行是真正起作用的部分：先查询内存缓存，依据结果判断是否需要进一步查询上游缓存，且保证查询上游缓存后回写内存缓存以保证一致性；</li>
 <li>同样为健壮起见，在上游缓存被修改时也需要同步到内存缓存中，如第 41 行所示。</li>
 </ul>
 <h3 id="扩展-rediscachemanager">扩展 RedisCacheManager</h3>
-<p>现在是时候让合适的 CacheManager 管理内存缓存装饰器了，由于上游缓存是 RedisCache，我们需要扩展它所对应的缓存管理器 &mdash; RedisCacheManager，并重写 decorateCache 方法，代码如下：</p>
+<p>现在是时候扩展现有的缓存管理器了，由于上游缓存是 <em>RedisCache</em>，我们需要扩展它所对应的缓存管理器 &mdash; <em>RedisCacheManager</em>，并重写 <em>decorateCache</em> 方法，代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -344,26 +344,26 @@ graph TD;
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>在任何用到 RedisCacheManager 的地方使用 MemoryRedisCacheManager 替换，保证程序中最终起作用的 CacheManager 是我们实现的 MemoryRedisCacheManager 即可。</p>
-<p>此时所有的 Cache 对象在初始化时，都会被包装成 MemoryCacheDecorator 类型，在读取和写入时会先从内存缓存中查询，这样便完成了二级缓存的实现。</p>
-<p>实际上，按照这样的方式上游缓存不一定是 RedisCache，任何可以远程缓存比如 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/ehcache/EhCacheCache.html">EhCacheCache</a> 也可以通过这样的方式来整合本地二级缓存。</p>
+</div><p>在任何用到 <em>RedisCacheManager</em> 的地方使用 <em>MemoryRedisCacheManager</em> 替换，保证程序中最终起作用的 <em>CacheManager</em> 是我们实现的 <em>MemoryRedisCacheManager</em> 即可。</p>
+<p>此时所有的 <em>Cache</em> 对象在初始化时，都会被包装成 <em>MemoryCacheDecorator</em> 类型，在读取和写入时会先从内存缓存中查询，这样便完成了二级缓存的实现。</p>
+<p>实际上，按照这样的方式上游缓存不一定是 <em>RedisCache</em>，任何可以远程缓存比如 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/ehcache/EhCacheCache.html"><em>EhCacheCache</em></a> 也可以通过这样的方式来整合本地二级缓存。</p>
 <h2 id="内存缓存的优化">内存缓存的优化</h2>
-<p>虽然通过扩展 RedisCacheManager 类和少量代码便能实现本地的内存缓存，但这也只是完成了第一步，现在的代码如果在生产环境使用仍然具有不少问题：</p>
+<p>虽然通过扩展 <em>RedisCacheManager</em> 类和少量代码便能实现本地的内存缓存，但这也只是完成了第一步，现在的代码如果在生产环境使用仍然具有不少问题：</p>
 <ol>
 <li>
-<p><strong>缓存过期</strong>：我们没有确定内存缓存何时过期，Redis 缓存的过期由 Redis 服务器的键过期能力来保证，但 ConcurrentMapCache 没有。况且实际的服务通常是集群部署，存在着多个实例负载均衡，因此各个实例之间的缓存一致性也是需要考虑的，否则可能出现用户访问的结果同时存在新旧两个版本。</p>
+<p><strong>缓存过期</strong>：我们没有确定内存缓存何时过期，Redis 缓存的过期由 Redis 服务器的键过期能力来保证，但 <em>ConcurrentMapCache</em> 没有。况且实际的服务通常是集群部署，存在着多个实例负载均衡，因此各个实例之间的缓存一致性也是需要考虑的，否则可能出现用户访问的结果同时存在新旧两个版本。</p>
 </li>
 <li>
-<p><strong>序列化与线程安全</strong>：ConcurrentMapCache 中默认保存的是缓存值本身，即多线程环境下各个线程对同一个缓存键获取的值是同一个对象实例。若其中一个线程修改了该实例，则会其他线程的读取，比如一个业务读取缓存中的配置数据，根据自己的业务逻辑修改了对象的字段，由于对象只有一份，这个修改将会被所有其他线程知晓。</p>
+<p><strong>序列化与线程安全</strong>：<em>ConcurrentMapCache</em> 中默认保存的是缓存值本身，即多线程环境下各个线程对同一个缓存键获取的值是同一个对象实例。若其中一个线程修改了该实例，则会其他线程的读取，比如一个业务读取缓存中的配置数据，根据自己的业务逻辑修改了对象的字段，由于对象只有一份，这个修改将会被所有其他线程知晓。</p>
 </li>
 <li>
-<p><strong>条件化启用</strong>：业务中的缓存可能会分为用户数据的缓存（热数据）和配置数据的缓存（冷数据）两组，不同组的缓存修改的频率不同，比如用户缓存随着用户行为的发生而被淘汰，而配置数据的更新频率往往是按周来算，因此我们一般只会对不常变化的配置数据做内存二级缓存，这就要求 CacheManager 条件化地对 Cache 进行装饰。</p>
+<p><strong>条件化启用</strong>：业务中的缓存可能会分为用户数据的缓存（热数据）和配置数据的缓存（冷数据）两组，不同组的缓存修改的频率不同，比如用户缓存随着用户行为的发生而被淘汰，而配置数据的更新频率往往是按周来算，因此我们一般只会对不常变化的配置数据做内存二级缓存，这就要求 <em>CacheManager</em> 条件化地对 <em>Cache</em> 进行装饰。</p>
 </li>
 </ol>
 <p>基于以上 3 点，我们可以对现有代码做优化。</p>
 <h3 id="缓存过期">缓存过期</h3>
 <p>内存缓存需要过期（严格来说是清空），并且最好是所有服务实例在同一时间点过期，典型的解决方案就是基于 <a href="https://www.baeldung.com/cron-expressions">Cron 表达式</a> 的定时任务。</p>
-<p>Spring 中设置 Cron 定时任务的方式非常方便，如果服务已经配置了启用定时任务的注解 <code>@EnableScheduling</code>，则可以让我们的缓存管理器简单地实现 SchedulingConfigurer 接口，如果没有配置的话，定时任务也是 Spring 的 spring-context 模块就支持的，不需要引入其他的依赖。在此之前，首先让 MemoryCacheDecorator 提供一个公共的清理内存缓存的方法：</p>
+<p>Spring 中设置 Cron 定时任务的方式非常方便，如果服务已经配置了启用定时任务的注解 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html"><em>@EnableScheduling</em></a>，则可以让我们的缓存管理器简单地实现 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/SchedulingConfigurer.html"><em>SchedulingConfigurer</em></a> 接口，如果没有配置的话，定时任务也是 Spring 的 <em>spring-context</em> 模块就支持的，不需要引入其他的依赖。在此之前，首先让 <em>MemoryCacheDecorator</em> 提供一个公共的清理内存缓存的方法：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -376,7 +376,7 @@ graph TD;
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
+<span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
 
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">()</span> <span class="o">{</span>
     <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
@@ -411,22 +411,15 @@ graph TD;
 </span><span class="lnt">22
 </span><span class="lnt">23
 </span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span>
-    <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="kd">implements</span> <span class="n">SchedulingConfigurer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span> <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="kd">implements</span> <span class="n">SchedulingConfigurer</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureTasks</span><span class="o">(</span>
-      <span class="nd">@NonNull</span> <span class="n">ScheduledTaskRegistrar</span> <span class="n">taskRegistrar</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureTasks</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">ScheduledTaskRegistrar</span> <span class="n">taskRegistrar</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 向容器注册清理缓存的 CRON 任务，若没有配置 @EnableScheduling，这里不会执行，需要手动调用 clearMemoryCache 清理
-</span><span class="c1"></span>    <span class="n">taskRegistrar</span><span class="o">.</span><span class="na">addCronTask</span><span class="o">(</span>
-        <span class="k">this</span><span class="o">::</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="s">&#34;0/30 * * * * ?&#34;</span><span class="o">);</span>
+</span><span class="c1"></span>    <span class="n">taskRegistrar</span><span class="o">.</span><span class="na">addCronTask</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
     <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
   <span class="o">}</span>
 
@@ -439,8 +432,7 @@ graph TD;
         <span class="k">continue</span><span class="o">;</span>
       <span class="o">}</span>
       <span class="c1">// 对所有 MemoryCacheDecorator 类型的缓存做清理
-</span><span class="c1"></span>      <span class="n">MemoryCacheDecorator</span> <span class="n">memoryCacheDecorator</span> <span class="o">=</span>
-          <span class="o">(</span><span class="n">MemoryCacheDecorator</span><span class="o">)</span> <span class="n">cache</span><span class="o">;</span>
+</span><span class="c1"></span>      <span class="n">MemoryCacheDecorator</span> <span class="n">memoryCacheDecorator</span> <span class="o">=</span> <span class="o">(</span><span class="n">MemoryCacheDecorator</span><span class="o">)</span> <span class="n">cache</span><span class="o">;</span>
       <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">();</span>
     <span class="o">}</span>
   <span class="o">}</span>
@@ -450,9 +442,137 @@ graph TD;
 </div><p>这样就能保证所有的服务实例，几乎在同一时间点清空内存缓存。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
 <h3 id="序列化">序列化</h3>
 <p>缓存的序列化机制通过复制对象来保证线程安全，如果每次从缓存中获取到的总是全新的对象，那么就不存在上述的多线程修改缓存对象互相影响的问题。</p>
-<p>ConcurrentMapCache 可以在 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html#ConcurrentMapCache-java.lang.String-java.util.concurrent.ConcurrentMap-boolean-org.springframework.core.serializer.support.SerializationDelegate-">构造方法</a> 中指定一个 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/support/SerializationDelegate.html">序列化实现</a>。若指定了序列化实现，则被缓存的对象会经由序列化转化成字节数组保存，否则直接保存对象引用，同时在读取的时候将字节数组反序列化成对象。。</p>
-<p>ConcurrentMapCache 序列化机制的接口定义于 Spring Core 中，Spring 自身只提供了 JDK 序列化版本的实现，即 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultSerializer.html">DefaultSerializer</a> 和 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultDeserializer.html">DefaultDeserializer</a>。其实大多数情况下这两个类足以满足要求，不过因为是 JDK 序列化，所以对于被序列化的类有诸多的要求，比如必须实现 Serializable 接口，而且众所周知，JDK 序列化的性能低于其他序列化实现。这里我们选择 JSON 序列化，并且使用 <a href="https://github.com/alibaba/fastjson">Fastjson</a> 来实现。</p>
+<p><em>ConcurrentMapCache</em> 可以在 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html#ConcurrentMapCache-java.lang.String-java.util.concurrent.ConcurrentMap-boolean-org.springframework.core.serializer.support.SerializationDelegate-">构造方法</a> 中指定一个 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/support/SerializationDelegate.html">序列化实现</a>。若指定了序列化实现，则被缓存的对象会经由序列化转化成字节数组保存，否则直接保存对象引用，同时在读取的时候将字节数组反序列化成对象。。</p>
+<p><em>ConcurrentMapCache</em> 序列化机制的接口定义于 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-core"><em>spring-core</em></a> 中，Spring 自身只提供了 JDK 序列化版本的实现<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>。其实大多数情况下这两个类足以满足要求，不过因为是 JDK 序列化，所以对于被序列化的类有诸多的要求，比如必须实现 <em>Serializable</em> 接口，而且众所周知，JDK 序列化的性能低于其他序列化实现。这里我们选择 JSON 序列化，并且使用 <a href="https://github.com/alibaba/fastjson">Fastjson</a> 来实现。</p>
 <p>得益于 Fastjson 的简单性，最终实现的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span> <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">();</span>
+
+  <span class="kd">static</span> <span class="o">{</span>
+    <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
+</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
+</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serialize</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">object</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">OutputStream</span> <span class="n">outputStream</span><span class="o">)</span>
+      <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="c1">// 这里需要带上 SerializerFeature.WriteClassName，否则 List&lt;Long&gt; 经过序列化反序列化会变成 List&lt;Integer&gt;
+</span><span class="c1"></span>    <span class="n">JSON</span><span class="o">.</span><span class="na">writeJSONString</span><span class="o">(</span><span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>需要注意的就是第 17 行的调用中需要加入 <em>WriteClassName</em> 的序列化特性，否则 <em>List&lt;Long&gt;</em> 在序列反序列化后会被解析成 <em>List&lt;Integer&gt;</em>。另外，<em>Fastjson</em> 在版本 1.2.25 之后限制了 JSON 反序列化时的类型解析功能，所以我们在第 4 行使用一个非全局的 <em>ParserConfig</em> 对象，单独对该对象启用 <em>autoType</em> 并在第 19 行使用，如果不指定的话就会使用全局的对象<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>，这样可能出现 <em>autotype is not support</em> 报错。具体的配置可以参阅官方的 <a href="https://github.com/alibaba/fastjson/wiki/security_update_20170315#2-%E5%8D%87%E7%BA%A7%E4%B9%8B%E5%90%8E%E6%8A%A5%E9%94%99autotype-is-not-support">升级公告</a> 和 <a href="https://github.com/alibaba/fastjson/wiki/enable_autotype">enable_autotype</a> 配置。</p>
+<p>接着扩展 <em>ConcurrentMapCache</em> 类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationConcurrentMapCache</span> <span class="kd">extends</span> <span class="n">ConcurrentMapCache</span> <span class="o">{</span>
+
+  <span class="cm">/** 该缓存的 FastJson 序列化实现。 */</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">FastjsonSerializationDelegate</span> <span class="n">SERIALIZATION_DELEGATE</span> <span class="o">=</span>
+      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">();</span>
+
+  <span class="kd">public</span> <span class="nf">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span>
+        <span class="n">name</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;(</span><span class="n">256</span><span class="o">),</span>
+        <span class="kc">true</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">SerializationDelegate</span><span class="o">(</span><span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最后在 <em>MemoryCacheDecorator</em> 的构造方法中替换原来的 <em>ConcurrentMapCache</em>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
+<span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ConcurrentMapCache</span> <span class="n">memoryCache</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">targetCache</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">targetCache</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// this.memoryCache = new ConcurrentMapCache(&#34;memory-&#34; + targetCache.getName());
+</span><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">memoryCache</span> <span class="o">=</span>
+        <span class="k">new</span> <span class="n">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">targetCache</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">targetCache</span> <span class="o">=</span> <span class="n">targetCache</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>缓存对象实际以 JSON 字符串的形式保存在内存中，并且带有字段的类型信息，每次访问的结果都是全新的反序列化对象，这样就实现了内存缓存的线程安全访问。</p>
+<h3 id="条件化启用">条件化启用</h3>
+<p>条件化启用应该是最好实现的一点优化了，只需要在构造方法中加入一个列表，在 <em>decorateCache</em> 方法中判断属于列表中的缓存才做包装，类似的代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -483,149 +603,22 @@ graph TD;
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span>
-    <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">();</span>
-
-  <span class="kd">static</span> <span class="o">{</span>
-    <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
-</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span>
-      <span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
-</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
-    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
-    <span class="c1">// 使用指定的 ParserConfig
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serialize</span><span class="o">(</span>
-      <span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">object</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">OutputStream</span> <span class="n">outputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="c1">// 这里需要带上 SerializerFeature.WriteClassName
-</span><span class="c1"></span>    <span class="c1">// 否则 List&lt;Long&gt; 经过序列化反序列化会变成 List&lt;Integer&gt;
-</span><span class="c1"></span>    <span class="n">JSON</span><span class="o">.</span><span class="na">writeJSONString</span><span class="o">(</span>
-        <span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>需要注意的就是第 17 行的调用中需要加入 WriteClassName 的序列化特性，否则 List&lt;Long&gt; 在序列反序列化后会被解析成 List&lt;Integer&gt;。另外，Fastjson 在版本 1.2.25 之后限制了 JSON 反序列化时的类型解析功能，所以我们在第 4 行使用一个非全局的 ParserConfig 对象，单独对该对象启用 autoType，否则 Fastjson 默认使用全局的 ParserConfig<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>，否则可能出现 autotype is not support 报错。</p>
-<p>具体的配置可以参阅官方的 <a href="https://github.com/alibaba/fastjson/wiki/security_update_20170315#2-%E5%8D%87%E7%BA%A7%E4%B9%8B%E5%90%8E%E6%8A%A5%E9%94%99autotype-is-not-support">升级公告</a> 和 <a href="https://github.com/alibaba/fastjson/wiki/enable_autotype">enable_autotype</a> 配置。</p>
-<p>然后扩展 ConcurrentMapCache 类：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationConcurrentMapCache</span>
-    <span class="kd">extends</span> <span class="n">ConcurrentMapCache</span> <span class="o">{</span>
-
-  <span class="cm">/** 该缓存的 Fastjson 序列化实现。 */</span>
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">FastjsonSerializationDelegate</span> <span class="n">SERIALIZATION_DELEGATE</span> <span class="o">=</span>
-      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">();</span>
-
-  <span class="kd">public</span> <span class="nf">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">(</span>
-        <span class="n">name</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;(</span><span class="n">256</span><span class="o">),</span>
-        <span class="kc">true</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">SerializationDelegate</span><span class="o">(</span>
-            <span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">));</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>最后在 MemoryCacheDecorator 的构造方法中替换原来的 ConcurrentMapCache：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">memory</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">source</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// this.memory = new ConcurrentMapCache(&#34;memory-&#34; + source.getName());
-</span><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span>
-        <span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>缓存对象实际以 JSON 字符串的形式保存在内存中，并且带有字段的类型信息，每次访问的结果都是全新的反序列化对象，这样就实现了内存缓存的线程安全访问。</p>
-<h3 id="条件化启用">条件化启用</h3>
-<p>条件化启用应该是最好实现的一点优化了，只需要在构造方法中加入一个 String 列表，在 decorateCache 方法中判断属于列表中的缓存才做包装，类似的代码如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span> <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="kd">implements</span> <span class="n">SchedulingConfigurer</span> <span class="o">{</span>
 
   <span class="cm">/** 只有这里配置的缓存才会加持内存缓存层。 */</span>
-  <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">decoratedCacheNameList</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">decoratedCacheNameList</span><span class="o">;</span>
 
+  <span class="cm">/**
+</span><span class="cm">   * 覆盖 {@link AbstractCacheManager} 的装饰缓存方法，若参数中的缓存包含 {@link #decoratedCacheNameList}
+</span><span class="cm">   * 中，则在将该对象包装成具有内存缓存能力的对象。
+</span><span class="cm">   *
+</span><span class="cm">   * @see AbstractCacheManager
+</span><span class="cm">   * @param cache 原缓存对象
+</span><span class="cm">   * @return 原缓存对象或具有内存缓存能力的对象
+</span><span class="cm">   */</span>
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
@@ -644,7 +637,7 @@ graph TD;
 </div>
 </div><h2 id="总结">总结</h2>
 <p>我们介绍了 Spring Cache 的 2 个核心接口，以及基于 Spring Cache 来为 Redis 缓存建立二级本地内存缓存，也讨论了如何在这个基础上做优化以便生产环境使用。</p>
-<p>实现的方法基于 AbstractCacheManager 的 decorateCache 函数，重写该方法可以将原本的 Cache 对象封装成另一个 Cache 对象，借此我们可以改变原有 Cache 的行为，最终以新增不超过 5 个类的代价，将核心逻辑内聚与 RedisCacheManager 的子类中，也易于未来的扩展，具体的详情可以参考我的 GitHub 项目 <a href="https://github.com/wzhix/memory-cache-in-redis">memory-cache-in-redis</a>。</p>
+<p>实现的方法基于 <em>AbstractCacheManager</em> 的 <em>decorateCache</em> 函数，重写该方法可以将原本的 <em>Cache</em> 对象封装成另一个 <em>Cache</em> 对象，借此我们可以改变原有缓存的行为，最终以新增不超过 5 个类的代价，将核心逻辑内聚在 <em>RedisCacheManager</em> 的子类中，也易于未来的扩展，具体的详情可以参考我的 GitHub 项目 <a href="https://github.com/wzhix/memory-cache-in-redis">memory-cache-in-redis</a>。</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
@@ -652,13 +645,16 @@ graph TD;
 <p>如何使用 Spring Cache 以及如何集成 Redis 不在本文的讨论范围内，相关的内容可以参阅 Baeldung 的 <a href="https://www.baeldung.com/spring-cache-tutorial">A Guide To Caching in Spring</a>、IBM 知识库的 <a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/index.html">注释驱动的 Spring Cache 缓存介绍</a>。Redis Cache 的相关内容可以参阅 <a href="https://docs.spring.io/spring-data/redis/docs/2.2.6.RELEASE/reference/html/#redis:support:cache-abstraction">Spring Data Redis 官方文档章节</a>。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>个人认为不应当让 CacheManager 自动创建缺失的缓存，而是在一开始就确定程序的缓存命名空间，并创建好所有类型的缓存。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>个人认为不应当让 <em>CacheManager</em> 自动创建缺失的缓存，而是在一开始就确定程序的缓存命名空间，并创建好所有类型的缓存。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
 <p>Cron 表达式依照机器本地时间执行，不同机器本地时间可能存在分钟级差异，为了追求更高的一致性，应当用外部手段保证各个机器时间戳尽量趋近，比如时间服务器。 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4" role="doc-endnote">
 <p>将对象类型的名称序列化至 JSON，在反序列化时可能存在安全问题，比如指定 JSON 反序列化后的类型为 <code>java.lang.Thread</code>，就能通过非常规方法创建线程。 <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p> 即 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultSerializer.html"><em>DefaultSerializer</em></a> 和 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultDeserializer.html"><em>DefaultDeserializer</em></a>。 <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>]]></description>
