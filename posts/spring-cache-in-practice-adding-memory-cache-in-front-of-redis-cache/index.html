@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-03-29T12:44:41+08:00",
-        "dateModified": "2020-03-30T02:22:11+08:00",
+        "dateModified": "2020-03-30T12:22:43+08:00",
         "url": "https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/",
         "headline": "在 Spring Cache 中为 Redis 添加内存缓存",
         "description": "缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。\n",
         "inLanguage" : "zh-cn",
         "articleSection": "posts",
-        "wordCount":  4505 ,
+        "wordCount":  4794 ,
         "image": "https://zhix.co/icons/avatar.png",
         "author": {
             "@type": "Person",
@@ -113,7 +113,7 @@
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-03-29T12:44:41+08:00" />
-    <meta property="article:modified_time" content="2020-03-30T02:22:11+08:00" />
+    <meta property="article:modified_time" content="2020-03-30T12:22:43+08:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -680,16 +680,38 @@ graph TD;
 </span><span class="lnt">17
 </span><span class="lnt">18
 </span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span>
     <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="o">,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
 
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+
+  <span class="kd">static</span> <span class="o">{</span>
+    <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
+</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span><span class="o">;</span>
+  <span class="o">}</span>
+
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span>
       <span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">)</span><span class="o">;</span>
+    <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
+</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[</span><span class="o">]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">)</span><span class="o">;</span>
+    <span class="c1">// 使用指定的 ParserConfig
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">)</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
@@ -703,7 +725,8 @@ graph TD;
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>唯一需要注意的就是第 17 行的调用中需要加入 WriteClassName 的序列化特性，否则 List&lt;Long&gt; 在序列反序列化后会被解析成 List&lt;Integer&gt;。</p>
+</div><p>需要注意的就是第 17 行的调用中需要加入 WriteClassName 的序列化特性，否则 List&lt;Long&gt; 在序列反序列化后会被解析成 List&lt;Integer&gt;。另外，Fastjson 在版本 1.2.25 之后限制了 JSON 反序列化时的类型解析功能，所以我们在第 4 行使用一个非全局的 ParserConfig 对象，单独对该对象启用 autoType，否则 Fastjson 默认使用全局的 ParserConfig<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">[4]</a></sup>，否则可能出现 autotype is not support 报错。</p>
+<p>具体的配置可以参阅官方的 <a href="https://github.com/alibaba/fastjson/wiki/security_update_20170315#2-%E5%8D%87%E7%BA%A7%E4%B9%8B%E5%90%8E%E6%8A%A5%E9%94%99autotype-is-not-support" target="_blank" rel="noopener">升级公告</a> 和 <a href="https://github.com/alibaba/fastjson/wiki/enable_autotype" target="_blank" rel="noopener">enable_autotype</a> 配置。</p>
 <p>然后扩展 ConcurrentMapCache 类：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -839,6 +862,9 @@ graph TD;
 </li>
 <li id="fn:3" role="doc-endnote">
 <p>Cron 表达式依照机器本地时间执行，不同机器本地时间可能存在分钟级差异，为了追求更高的一致性，应当用外部手段保证各个机器时间戳尽量趋近，比如时间服务器。 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">↩</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>将对象类型的名称序列化至 JSON，在反序列化时可能存在安全问题，比如指定 JSON 反序列化后的类型为 <code>java.lang.Thread</code>，就能通过非常规方法创建线程。 <a href="#fnref:4" class="footnote-backref" role="doc-backlink">↩</a></p>
 </li>
 </ol>
 </section></div>
