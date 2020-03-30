@@ -10,7 +10,7 @@
         <title>zhix.co</title>
         <link>https://zhix.co/</link>
         <description>MemE 是一个强大且可高度定制的 GoHugo 博客主题，专为个人博客设计。</description>
-        <generator>Hugo 0.64.1 https://gohugo.io/</generator>
+        <generator>Hugo 0.68.3 https://gohugo.io/</generator>
         
             <language>zh-cn</language>
         
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Mon, 30 Mar 2020 17:38:34 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 31 Mar 2020 00:30:51 +0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml" />
         
@@ -162,27 +162,27 @@ graph TD;
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Nullable</span>
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Get cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Get cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
     <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Put cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">delegate</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Put cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+    <span class="n">delegate</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="c1">// 所有的方法都转发到委托对象，下同
@@ -200,7 +200,7 @@ graph TD;
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
 <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleLoggingCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleLoggingCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -270,40 +270,40 @@ graph TD;
   <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">source</span><span class="o">;</span>
 
   <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
     <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Nullable</span>
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!</span><span class="o">=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
       <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!</span><span class="o">=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">valueWrapper</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">valueWrapper</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">source</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">source</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+    <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="c1">// 其他的 GET/PUT 方法省略
@@ -339,7 +339,7 @@ graph TD;
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -378,8 +378,8 @@ graph TD;
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
 
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -426,22 +426,22 @@ graph TD;
       <span class="nd">@NonNull</span> <span class="n">ScheduledTaskRegistrar</span> <span class="n">taskRegistrar</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 向容器注册清理缓存的 CRON 任务，若没有配置 @EnableScheduling，这里不会执行，需要手动调用 clearMemoryCache 清理
 </span><span class="c1"></span>    <span class="n">taskRegistrar</span><span class="o">.</span><span class="na">addCronTask</span><span class="o">(</span>
-        <span class="k">this</span><span class="o">:</span><span class="o">:</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="s">&#34;0/30 * * * * ?&#34;</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">)</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">::</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="s">&#34;0/30 * * * * ?&#34;</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="cm">/** 手动清理所有内存缓存。 */</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clearMemoryCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheNames</span> <span class="o">=</span> <span class="n">getCacheNames</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clearMemoryCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheNames</span> <span class="o">=</span> <span class="n">getCacheNames</span><span class="o">();</span>
     <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">cacheName</span> <span class="o">:</span> <span class="n">cacheNames</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">Cache</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">getCache</span><span class="o">(</span><span class="n">cacheName</span><span class="o">)</span><span class="o">;</span>
-      <span class="k">if</span> <span class="o">(</span><span class="o">!</span><span class="o">(</span><span class="n">cache</span> <span class="k">instanceof</span> <span class="n">MemoryCacheDecorator</span><span class="o">)</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Cache</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">getCache</span><span class="o">(</span><span class="n">cacheName</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(!(</span><span class="n">cache</span> <span class="k">instanceof</span> <span class="n">MemoryCacheDecorator</span><span class="o">))</span> <span class="o">{</span>
         <span class="k">continue</span><span class="o">;</span>
       <span class="o">}</span>
       <span class="c1">// 对所有 MemoryCacheDecorator 类型的缓存做清理
 </span><span class="c1"></span>      <span class="n">MemoryCacheDecorator</span> <span class="n">memoryCacheDecorator</span> <span class="o">=</span>
           <span class="o">(</span><span class="n">MemoryCacheDecorator</span><span class="o">)</span> <span class="n">cache</span><span class="o">;</span>
-      <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+      <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">();</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -488,13 +488,13 @@ graph TD;
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span>
-    <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="o">,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
 
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">();</span>
 
   <span class="kd">static</span> <span class="o">{</span>
     <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
-</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
@@ -502,10 +502,10 @@ graph TD;
   <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span>
       <span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
     <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
-</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[</span><span class="o">]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
     <span class="c1">// 使用指定的 ParserConfig
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
@@ -514,7 +514,7 @@ graph TD;
     <span class="c1">// 这里需要带上 SerializerFeature.WriteClassName
 </span><span class="c1"></span>    <span class="c1">// 否则 List&lt;Long&gt; 经过序列化反序列化会变成 List&lt;Integer&gt;
 </span><span class="c1"></span>    <span class="n">JSON</span><span class="o">.</span><span class="na">writeJSONString</span><span class="o">(</span>
-        <span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">)</span><span class="o">;</span>
+        <span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -547,15 +547,15 @@ graph TD;
 
   <span class="cm">/** 该缓存的 Fastjson 序列化实现。 */</span>
   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">FastjsonSerializationDelegate</span> <span class="n">SERIALIZATION_DELEGATE</span> <span class="o">=</span>
-      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">();</span>
 
   <span class="kd">public</span> <span class="nf">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">super</span><span class="o">(</span>
         <span class="n">name</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="o">&gt;</span><span class="o">(</span><span class="n">256</span><span class="o">)</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;(</span><span class="n">256</span><span class="o">),</span>
         <span class="kc">true</span><span class="o">,</span>
         <span class="k">new</span> <span class="n">SerializationDelegate</span><span class="o">(</span>
-            <span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+            <span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">));</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -587,7 +587,7 @@ graph TD;
   <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// this.memory = new ConcurrentMapCache(&#34;memory-&#34; + source.getName());
 </span><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span>
-        <span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+        <span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
     <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -630,11 +630,11 @@ graph TD;
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 先让基类包装一次
-</span><span class="c1"></span>    <span class="n">Cache</span> <span class="n">superCache</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">decorateCache</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="n">Cache</span> <span class="n">superCache</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">decorateCache</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
     <span class="c1">// 判断是否为该缓存配置了内存缓存
-</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">decoratedCacheNameList</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">decoratedCacheNameList</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
       <span class="c1">// 包装缓存
-</span><span class="c1"></span>      <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">superCache</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>      <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">superCache</span><span class="o">);</span>
     <span class="o">}</span>
     <span class="c1">// 不包装缓存
 </span><span class="c1"></span>    <span class="k">return</span> <span class="n">superCache</span><span class="o">;</span>
@@ -804,23 +804,23 @@ graph TD;
   <span class="c1">// 为方便示例，假定 _9527Charset 本质上就是 UTF-8 的实现
 </span><span class="c1"></span>  <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">Charset</span> <span class="n">DELEGATE</span> <span class="o">=</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">;</span>
 
-  <span class="kd">public</span> <span class="nf">_9527Charset</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">_9527Charset</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// 名称和别名集合
-</span><span class="c1"></span>    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="o">]</span> <span class="o">{</span><span class="s">&#34;mew-9527&#34;</span><span class="o">,</span> <span class="s">&#34;mew&#34;</span><span class="o">}</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span><span class="s">&#34;mew-9527&#34;</span><span class="o">,</span> <span class="s">&#34;mew&#34;</span><span class="o">});</span>
   <span class="o">}</span>
 
   <span class="c1">// 所有的方法调用一并转发
 </span><span class="c1"></span>
   <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="n">Charset</span> <span class="n">cs</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cs</span><span class="o">)</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cs</span><span class="o">);</span>
   <span class="o">}</span>
 
-  <span class="kd">public</span> <span class="n">CharsetDecoder</span> <span class="nf">newDecoder</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newDecoder</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">CharsetDecoder</span> <span class="nf">newDecoder</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newDecoder</span><span class="o">();</span>
   <span class="o">}</span>
 
-  <span class="kd">public</span> <span class="n">CharsetEncoder</span> <span class="nf">newEncoder</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newEncoder</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">CharsetEncoder</span> <span class="nf">newEncoder</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newEncoder</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -841,7 +841,7 @@ graph TD;
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="nf">AbstractCharsetProvider</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="nf">AbstractCharsetProvider</span><span class="o">()</span> <span class="o">{</span>
   <span class="n">packagePrefix</span> <span class="o">=</span> <span class="s">&#34;sun.nio.cs&#34;</span><span class="o">;</span>
 <span class="o">}</span>
 
@@ -890,25 +890,25 @@ graph TD;
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">_9527CharsetProvider</span> <span class="kd">extends</span> <span class="n">AbstractCharsetProvider</span> <span class="o">{</span>
 
   <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CANONICAL_NAME</span> <span class="o">=</span> <span class="s">&#34;9527&#34;</span><span class="o">;</span>
-  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[</span><span class="o">]</span> <span class="n">ALIASES</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="s">&#34;mew-9527&#34;</span><span class="o">}</span><span class="o">;</span>
+  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">ALIASES</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="s">&#34;mew-9527&#34;</span><span class="o">};</span>
 
   <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">initialized</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
 
-  <span class="kd">public</span> <span class="nf">_9527CharsetProvider</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;zhix.encoding.spi&#34;</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nf">_9527CharsetProvider</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;zhix.encoding.spi&#34;</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">initialized</span><span class="o">)</span> <span class="o">{</span>
       <span class="k">return</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;{} initialized.&#34;</span><span class="o">,</span> <span class="n">getClass</span><span class="o">(</span><span class="o">)</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;{} initialized.&#34;</span><span class="o">,</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
 
-    <span class="n">charset</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(</span><span class="o">)</span><span class="o">,</span> <span class="n">ALIASES</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">charset</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">ALIASES</span><span class="o">);</span>
     <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span>
-        <span class="s">&#34;Register charset {} with class {}.&#34;</span><span class="o">,</span> <span class="n">CANONICAL_NAME</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+        <span class="s">&#34;Register charset {} with class {}.&#34;</span><span class="o">,</span> <span class="n">CANONICAL_NAME</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
 
     <span class="n">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
   <span class="o">}</span>
@@ -934,13 +934,13 @@ graph TD;
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/* Declare support for the given charset
 </span><span class="cm"> */</span>
-<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">charset</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">className</span><span class="o">,</span> <span class="n">String</span><span class="o">[</span><span class="o">]</span> <span class="n">aliases</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">charset</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">className</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">aliases</span><span class="o">)</span> <span class="o">{</span>
   <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">put</span><span class="o">(</span><span class="n">classMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">className</span><span class="o">)</span><span class="o">;</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">aliases</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="o">)</span>
-      <span class="n">put</span><span class="o">(</span><span class="n">aliasMap</span><span class="o">,</span> <span class="n">aliases</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">put</span><span class="o">(</span><span class="n">aliasNameMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">aliases</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">cache</span><span class="o">.</span><span class="na">clear</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">put</span><span class="o">(</span><span class="n">classMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">className</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">aliases</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+      <span class="n">put</span><span class="o">(</span><span class="n">aliasMap</span><span class="o">,</span> <span class="n">aliases</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">name</span><span class="o">);</span>
+    <span class="n">put</span><span class="o">(</span><span class="n">aliasNameMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">aliases</span><span class="o">);</span>
+    <span class="n">cache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -1031,39 +1031,39 @@ graph TD;
   <span class="kd">private</span> <span class="n">Charset</span> <span class="n">charset</span><span class="o">;</span>
 
   <span class="nd">@Before</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// 触发 SPI 加载
-</span><span class="c1"></span>    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">);</span>
   <span class="o">}</span>
   
   <span class="c1">// 测试编解码结果一致
 </span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecoding</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecoding</span><span class="o">()</span> <span class="o">{</span>
 
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset name = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset displayName = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">displayName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset aliases = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">aliases</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset name = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset displayName = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">displayName</span><span class="o">());</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset aliases = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">aliases</span><span class="o">());</span>
 
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)));</span>
   <span class="o">}</span>
   
   <span class="c1">// 测试 _9527 和 UTF-8 一致
 </span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingCompareToUTF8</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingCompareToUTF8</span><span class="o">()</span> <span class="o">{</span>
 
     <span class="n">Charset</span> <span class="n">utf8</span> <span class="o">=</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">;</span>
-    <span class="kt">byte</span><span class="o">[</span><span class="o">]</span> <span class="n">utf8Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">utf8</span><span class="o">)</span><span class="o">;</span>
-    <span class="kt">byte</span><span class="o">[</span><span class="o">]</span> <span class="n">_9527Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)</span><span class="o">;</span>
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">utf8Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">utf8</span><span class="o">);</span>
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">_9527Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">);</span>
 
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertArrayEquals</span><span class="o">(</span><span class="n">utf8Bytes</span><span class="o">,</span> <span class="n">_9527Bytes</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">Assert</span><span class="o">.</span><span class="na">assertArrayEquals</span><span class="o">(</span><span class="n">utf8Bytes</span><span class="o">,</span> <span class="n">_9527Bytes</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="c1">// 测试使用别名查询 Charset
 </span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecodingWithAlias</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecodingWithAlias</span><span class="o">()</span> <span class="o">{</span>
 
-    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">);</span>
+    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)));</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>

@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.64.1" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.68.3" /><meta name="theme-color" content="#fff" />
 
     
 
@@ -369,27 +369,27 @@ graph TD;
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Nullable</span>
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Get cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Get cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
     <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Put cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">delegate</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Put cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+    <span class="n">delegate</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="c1">// 所有的方法都转发到委托对象，下同
@@ -407,7 +407,7 @@ graph TD;
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
 <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleLoggingCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleLoggingCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -477,40 +477,40 @@ graph TD;
   <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">source</span><span class="o">;</span>
 
   <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
     <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
   <span class="o">}</span>
 
   <span class="nd">@Nullable</span>
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!</span><span class="o">=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
       <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span><span class="o">;</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!</span><span class="o">=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">valueWrapper</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">valueWrapper</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">source</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span><span class="o">;</span>
+    <span class="n">source</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+    <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="c1">// 其他的 GET/PUT 方法省略
@@ -546,7 +546,7 @@ graph TD;
   <span class="nd">@NonNull</span>
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -585,8 +585,8 @@ graph TD;
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
 
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -633,22 +633,22 @@ graph TD;
       <span class="nd">@NonNull</span> <span class="n">ScheduledTaskRegistrar</span> <span class="n">taskRegistrar</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 向容器注册清理缓存的 CRON 任务，若没有配置 @EnableScheduling，这里不会执行，需要手动调用 clearMemoryCache 清理
 </span><span class="c1"></span>    <span class="n">taskRegistrar</span><span class="o">.</span><span class="na">addCronTask</span><span class="o">(</span>
-        <span class="k">this</span><span class="o">:</span><span class="o">:</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="s">&#34;0/30 * * * * ?&#34;</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">)</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">::</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="s">&#34;0/30 * * * * ?&#34;</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="cm">/** 手动清理所有内存缓存。 */</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clearMemoryCache</span><span class="o">(</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheNames</span> <span class="o">=</span> <span class="n">getCacheNames</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clearMemoryCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheNames</span> <span class="o">=</span> <span class="n">getCacheNames</span><span class="o">();</span>
     <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">cacheName</span> <span class="o">:</span> <span class="n">cacheNames</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">Cache</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">getCache</span><span class="o">(</span><span class="n">cacheName</span><span class="o">)</span><span class="o">;</span>
-      <span class="k">if</span> <span class="o">(</span><span class="o">!</span><span class="o">(</span><span class="n">cache</span> <span class="k">instanceof</span> <span class="n">MemoryCacheDecorator</span><span class="o">)</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Cache</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">getCache</span><span class="o">(</span><span class="n">cacheName</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(!(</span><span class="n">cache</span> <span class="k">instanceof</span> <span class="n">MemoryCacheDecorator</span><span class="o">))</span> <span class="o">{</span>
         <span class="k">continue</span><span class="o">;</span>
       <span class="o">}</span>
       <span class="c1">// 对所有 MemoryCacheDecorator 类型的缓存做清理
 </span><span class="c1"></span>      <span class="n">MemoryCacheDecorator</span> <span class="n">memoryCacheDecorator</span> <span class="o">=</span>
           <span class="o">(</span><span class="n">MemoryCacheDecorator</span><span class="o">)</span> <span class="n">cache</span><span class="o">;</span>
-      <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+      <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">();</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -695,13 +695,13 @@ graph TD;
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span>
-    <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="o">,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
 
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">();</span>
 
   <span class="kd">static</span> <span class="o">{</span>
     <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
-</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@NonNull</span>
@@ -709,10 +709,10 @@ graph TD;
   <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span>
       <span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
     <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
-</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[</span><span class="o">]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">)</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
     <span class="c1">// 使用指定的 ParserConfig
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">);</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
@@ -721,7 +721,7 @@ graph TD;
     <span class="c1">// 这里需要带上 SerializerFeature.WriteClassName
 </span><span class="c1"></span>    <span class="c1">// 否则 List&lt;Long&gt; 经过序列化反序列化会变成 List&lt;Integer&gt;
 </span><span class="c1"></span>    <span class="n">JSON</span><span class="o">.</span><span class="na">writeJSONString</span><span class="o">(</span>
-        <span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">)</span><span class="o">;</span>
+        <span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -754,15 +754,15 @@ graph TD;
 
   <span class="cm">/** 该缓存的 Fastjson 序列化实现。 */</span>
   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">FastjsonSerializationDelegate</span> <span class="n">SERIALIZATION_DELEGATE</span> <span class="o">=</span>
-      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">();</span>
 
   <span class="kd">public</span> <span class="nf">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">super</span><span class="o">(</span>
         <span class="n">name</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="o">&gt;</span><span class="o">(</span><span class="n">256</span><span class="o">)</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;(</span><span class="n">256</span><span class="o">),</span>
         <span class="kc">true</span><span class="o">,</span>
         <span class="k">new</span> <span class="n">SerializationDelegate</span><span class="o">(</span>
-            <span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+            <span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">));</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></td></tr></table>
@@ -794,7 +794,7 @@ graph TD;
   <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// this.memory = new ConcurrentMapCache(&#34;memory-&#34; + source.getName());
 </span><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span>
-        <span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">;</span>
+        <span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
     <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -837,11 +837,11 @@ graph TD;
   <span class="nd">@Override</span>
   <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 先让基类包装一次
-</span><span class="c1"></span>    <span class="n">Cache</span> <span class="n">superCache</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">decorateCache</span><span class="o">(</span><span class="n">cache</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>    <span class="n">Cache</span> <span class="n">superCache</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">decorateCache</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
     <span class="c1">// 判断是否为该缓存配置了内存缓存
-</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">decoratedCacheNameList</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="o">)</span><span class="o">)</span><span class="o">)</span> <span class="o">{</span>
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">decoratedCacheNameList</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
       <span class="c1">// 包装缓存
-</span><span class="c1"></span>      <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">superCache</span><span class="o">)</span><span class="o">;</span>
+</span><span class="c1"></span>      <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">superCache</span><span class="o">);</span>
     <span class="o">}</span>
     <span class="c1">// 不包装缓存
 </span><span class="c1"></span>    <span class="k">return</span> <span class="n">superCache</span><span class="o">;</span>
@@ -931,23 +931,6 @@ graph TD;
 
             
 
-            
-                
-                <div class="share-item qrcode">
-                    <div class="qrcode-container" title="通过「二维码」"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id="qrcode-img"></div>
-                    </div>
-                    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-
-<script>
-    var typeNumber = 0;
-    var errorCorrectionLevel = 'L';
-    var qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https:\/\/zhix.co\/posts\/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache\/');
-    qr.make();
-    document.getElementById('qrcode-img').innerHTML = qr.createImgTag();
-</script>
-
-                </div>
             
 
         </div>
@@ -1059,7 +1042,7 @@ graph TD;
     var config = {
         startOnLoad: true,
         theme: "neutral",
-        fontFamily: "'Sen', sans-serif",
+        fontFamily: "'JetBrains Mono', Menlo, Courier, monospace",
         flowchart: {
             useMaxWidth: true,
             htmlLabels: true,
