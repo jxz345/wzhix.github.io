@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Tue, 31 Mar 2020 03:45:33 +0800</lastBuildDate>
+        <lastBuildDate>Tue, 31 Mar 2020 20:16:47 +0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml" />
         
@@ -48,18 +48,17 @@
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html"><em>CacheManager</em></a></dt>
 <dd>代表缓存管理器的抽象，管理一系列缓存对象，按名称寻址缓存。</dd>
 </dl>
-<p>一句话概括就是：Spring 在 <em>spring-context</em> 的核心模块就包含了对缓存的支持，通过注 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
+<p>一句话概括就是：Spring 在核心模块 <em>spring-context</em> 就包含了对缓存的支持，通过注解 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
 <h2 id="concurrentmapcache-和-rediscache">ConcurrentMapCache 和 RedisCache</h2>
-<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
+<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，实际的方式不同实现有不同表现，一般我们用得最多的实现要数以下两种：</p>
 <dl>
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html"><em>ConcurrentMapCache</em></a></dt>
-<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
+<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类，对应的缓存管理器是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html"><em>ConcurrentMapCacheManager</em></a>；</dd>
 <dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html"><em>RedisCache</em></a></dt>
-<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖。</dd>
+<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖，对应的缓存管理器是 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html"><em>RedisCacheManager</em></a>。</dd>
 </dl>
-<p>它们对应的缓存管理器分别是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html"><em>ConcurrentMapCacheManager</em></a> 和 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html"><em>RedisCacheManager</em></a>。</p>
 <h2 id="实现二级内存缓存">实现二级内存缓存</h2>
-<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在将取得的值回写入内存缓存中，用流程图表示为：</p>
+<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在，将取得的值回写入内存缓存中，流程图表示为：</p>
 <div class="mermaid">
 graph TD;
     Q[/Query Start/]
@@ -689,7 +688,7 @@ graph TD;
                                 
                                 
                                 
-                                    <category domain="https://zhix.co/tags/java/">java</category>
+                                    <category domain="https://zhix.co/tags/java/">Java</category>
                                 
                             
                                 
@@ -755,24 +754,30 @@ graph TD;
                 
                 <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
                 
-                    <description><![CDATA[<p>自 Java 6.0 开始，JDK 提供了名为 SPI（<span lang="en">Service Provider Interface</span>）的加载机制，SPI 能够在运行时发现某个接口 / 抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、Charset 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。</p>
+                    <description><![CDATA[<p>自 Java 6.0 开始，JDK 提供了名为 SPI（<span lang="en">Service Provider Interface</span>）的加载机制，SPI 能够在运行时发现某个接口 / 抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、<em>Charset</em> 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。</p>
 <h2 id="spi-机制">SPI 机制</h2>
 <p>在 SPI 里，接口或者抽象类被称为服务（<span lang="en">Service</span>）或服务提供者接口（<span lang="en">Service Provider Interface</span>），实现类被称为服务提供者（<span lang="en">Service Provider</span>）。虽然常见的概念被赋予了不太好理解的名称，但是二者在本质上还是代表了面向对象编程中规范（<span lang="en">Specification</span>）和实现（<span lang="en">Implementation</span>）的关系。</p>
 <h3 id="服务提供者">服务提供者</h3>
 <p>在 SPI 的规范中，服务提供者的实现类应当配置在资源目录下的 <em>META-INF/services</em> 目录<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>下。该目录下，每一个服务接口对应一个单独的文本文件，文件名为服务接口的完全限定名，文件内容按行区分，每一行是服务实现类的完全限定名<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
-<p>SPI 的核心类是范型类 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>，它负责发现类路径中配置的实现类并实例化它们。ServiceLoader 维护了一个 LinkedHashMap&lt;String, T&gt; 的内部缓存来惰性实例化实现类，其中类型 T 为服务接口类。<code>ServiceLoader.load(T.class)</code> 是最常调用的方法，它返回类型 T 的 ServiceLoader 实例。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>SPI 的核心类是范型类 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"><em>ServiceLoader</em></a>，它负责发现类路径中配置的实现类并实例化它们。<em>ServiceLoader</em> 维护了一个 <em>LinkedHashMap&lt;String, T&gt;</em> 的内部缓存来惰性实例化实现类，其中类型 <em>T</em> 为服务接口类。<em>ServiceLoader.load(T.class)</em> 是最常调用的方法，它返回类型 <em>T</em> 的 <em>ServiceLoader</em> 实例。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
 <h2 id="charset-的加载方式">Charset 的加载方式</h2>
-<p>JDK 以 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/spi/CharsetProvider.html">CharsetProvider</a> 来实现字符集框架。Oracle JDK 扩展了该实现，提供了标准字符集和扩展字符集的 Provider 实现（StandardCharsets 和 ExtendedCharsets）：</p>
-<ul>
-<li>StandardCharsets：标准字符集提供者，包括 Unicode 和 ASCII 字符集的管理；</li>
-<li>ExtendedCharsets：扩展字符集提供者，包括 CJK 字符集的管理。</li>
-</ul>
+<p>JDK 以 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/spi/CharsetProvider.html"><em>CharsetProvider</em></a> 来实现字符集框架。Oracle JDK 扩展了该实现，提供了标准字符集和扩展字符集的 Provider 实现（<em>StandardCharsets</em> 和 <em>ExtendedCharsets</em>）：</p>
+<dl>
+<dt><em>StandardCharsets</em></dt>
+<dd>
+<p>标准字符集提供者，包括 Unicode 和 ASCII 字符集的管理；</p>
+</dd>
+<dt><em>ExtendedCharsets</em></dt>
+<dd>
+<p>扩展字符集提供者，包括 CJK 字符集的管理。</p>
+</dd>
+</dl>
 <p>这两个类都是在 <em>sun.nio.cs</em> 包下。</p>
-<p>在 Java 中我们通过调用 <code>Charset.forName(&quot;charset-name&quot;)</code> 来访问字符集 API，forName 方法在底层会进行一系列的 lookup 操作，按照标准字符集提供者、扩展字符集提供者和 SPI 字符集提供者的顺序查询 charset-name 对应的字符集实现类，当无法在前两个内置的字符集提供者中找到对应名称的字符集实现，SPI 字符集提供者便会起作用，SPI 字符集提供者以接口 CharsetProvider 为核心，因此我们可以为该接口插入自己的实现类。</p>
+<p>在 Java 中我们通过调用 <em>Charset.forName(&ldquo;charset-name&rdquo;)</em> 来访问字符集 API，<em>forName</em> 方法在底层会进行一系列的 lookup 操作，按照标准字符集提供者、扩展字符集提供者和 SPI 字符集提供者的顺序查询 charset-name 对应的字符集实现类，当无法在前两个内置的字符集提供者中找到对应名称的字符集实现，SPI 字符集提供者便会起作用，SPI 字符集提供者以接口 <em>CharsetProvider</em> 为核心，因此我们可以为该接口插入自己的实现类。</p>
 <h2 id="安装自定义字符集">安装自定义字符集</h2>
-<p>假设现在有一个比 UTF-8 更高效且通用的字符串编码算法，它相对于 UTF-8 可能信噪比更低、更适合压缩甚至是支持火星语编码，我们暂且叫它 9527。它的编解码算法已经公开，我们现在需要赶在 Oracle 发布新的 JDK 支持它之前将它嵌入到我们的应用程序中，并且程序只需要将使用字符集的地方替换为 <code>Charset.forName(&quot;9527&quot;)</code> 即可。</p>
+<p>假设现在有一个比 UTF-8 更高效且通用的字符串编码算法，它相对于 UTF-8 可能信噪比更低、更适合压缩甚至是支持火星语编码，我们暂且叫它 9527。它的编解码算法已经公开，我们现在需要赶在 Oracle 发布新的 JDK 支持它之前将它嵌入到我们的应用程序中，并且程序只需要将使用字符集的地方替换为 <em>Charset.forName(&ldquo;9527&rdquo;)</em> 即可。</p>
 <h3 id="定义字符集">定义字符集</h3>
-<p>首先我们需要一个实现类继承自 java.nio.charset.Charset，Charset 是所有字符集的基类。在该案例中的实现类假设叫做 <em>_9527Charset</em>，并且为方便示例，我们假定 _9527Charset 本质上就是 UTF-8 的实现，因此它会持有一个 UTF-8 的实例，对它的所有方法调用都会被转发至 UTF-8 对应的方法中：</p>
+<p>首先我们需要一个实现类继承自 <em>java.nio.charset.Charset</em>，<em>Charset</em> 是所有字符集的基类。在该案例中的实现类假设叫做 <em>_9527Charset</em>，并且为方便示例，我们假定 <em>_9527Charset</em> 本质上就是 UTF-8 的实现，因此它会持有一个 UTF-8 的实例，对它的所有方法调用都会被转发至 UTF-8 对应的方法中：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -832,10 +837,10 @@ graph TD;
 </code></pre></td></tr></table>
 </div>
 </div><p>因为字符集在 JDK 中是以命名服务实现的，所以我们同时还要设置新字符集的规则名称（<span lang="en">Canonical Name</span>）和别名（<span lang="en">Aliases</span>），这里将规则名称设置为 <em>9527</em>，将别名集合设置为 <em>mew-9527</em> 和 <em>mew</em>。规则名称在命名空间中唯一确定一个字符集，别名提供了额外的查询方式。</p>
-<p>第 15 - 25 行是 Charset 的子类需要实现的 3 个方法，包括编码器和解码器，这里直接将逻辑转发给 UTF-8 的实现，真实的情况会更加复杂，因为我们需要自行实现编解码器，并做真正的底层字节处理。</p>
+<p>第 15 - 25 行是 <em>Charset</em> 的子类需要实现的 3 个方法，包括编码器和解码器，这里直接将逻辑转发给 UTF-8 的实现，真实的情况会更加复杂，因为我们需要自行实现编解码器，并做真正的底层字节处理。</p>
 <h3 id="定义-charsetprovider">定义 CharsetProvider</h3>
-<p>接下来是实现 CharsetProvider，但通常我们只需要扩展 AbstractCharsetProvider 即可，AbstractCharsetProvider 提供了基本的字符集管理实现，包括名称管理、别名管理、缓存。</p>
-<p>构造 AbstractCharsetProvider 时还可以提供一个名为 <em>pkgPrefixName</em> 的参数，它用于指定该字符集提供者所管理的字符集从哪一个包中查找实现类，默认包前缀为 sun.nio.cs。</p>
+<p>接下来是实现 <em>CharsetProvider</em>，但通常我们只需要扩展 <em>AbstractCharsetProvider</em> 即可，<em>AbstractCharsetProvider</em> 提供了基本的字符集管理实现，包括名称管理、别名管理、缓存。</p>
+<p>构造 <em>AbstractCharsetProvider</em> 时还可以提供一个名为 <em>pkgPrefixName</em> 的参数，它用于指定该字符集提供者所管理的字符集从哪一个包中查找实现类，默认包前缀为 <em>sun.nio.cs</em>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -856,7 +861,7 @@ graph TD;
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>以下代码展示了名为 <em>_9527CharsetProvider</em> 的实现，并指定在 zhix.encoding.spi 的包中查询字符集。</p>
+</div><p>以下代码展示了名为 <em>_9527CharsetProvider</em> 的实现，并指定在 <em>zhix.encoding.spi</em> 的包中查询字符集。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -921,8 +926,8 @@ graph TD;
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>第 16 行的 init 方法会在查询 SPI 字符集时被调用，外部的逻辑可能会多次调用该方法，因此需要开发者自己来保证只初始化一次，比如这里用第 9 行定义的 initialized 变量来控制。</p>
-<p>第 23 行的 charset 方法由基类 AbstractCharsetProvider 提供，用于注册字符集的元信息描述：</p>
+</div><p>第 16 行的 init 方法会在查询 SPI 字符集时被调用，外部的逻辑可能会多次调用该方法，因此需要开发者自己来保证只初始化一次，比如这里用第 9 行定义的 <em>initialized</em> 变量来控制。</p>
+<p>第 23 行的 <em>charset</em> 方法由基类 <em>AbstractCharsetProvider</em> 提供，用于注册字符集的元信息描述：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -951,10 +956,10 @@ graph TD;
 <span class="o">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>AbstractCharsetProvider 根据参数的名称和别名，为字符集建立查询数据结构，在查询时若有匹配的字符集描述，则根据上文提到的 pkgPrefixName + 类名，通过反射创建 Charset 的实例，完成 Charset 的查询并初始化。</p>
-<p>所有的 Charset 初始化都是惰性的，并且 AbstractCharsetProvider 维护了一个缓存来避免重复初始化。因此最佳实践是在应用程序里只使用一种类型的 Charset。</p>
+</div><p><em>AbstractCharsetProvider</em> 根据参数的名称和别名，为字符集建立查询数据结构，在查询时若有匹配的字符集描述，则根据上文提到的 <em>pkgPrefixName</em> + 类名，通过反射创建 <em>Charset</em> 的实例，完成 <em>Charset</em> 的查询并初始化。</p>
+<p>所有的 <em>Charset</em> 初始化都是惰性的，并且 <em>AbstractCharsetProvider</em> 维护了一个缓存来避免重复初始化。因此最佳实践是在应用程序里只使用一种类型的 <em>Charset</em>。</p>
 <h3 id="配置-_9527charsetprovider">配置 _9527CharsetProvider</h3>
-<p>在项目的 resources/META-INF/services 目录下新建文本文件 java.nio.charset.spi.CharsetProvider，写入一个内容为 zhix.encoding.spi._9527CharsetProvider 的新行。</p>
+<p>在项目的 <em>resources/META-INF/services</em> 目录下新建文本文件 <em>java.nio.charset.spi.CharsetProvider</em>，写入一个内容为 <em>zhix.encoding.spi._9527CharsetProvider</em> 的新行。</p>
 <figure>
     <img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/configure-spi-in-meta-inf-directory.png"
          alt="配置 _9527CharsetProvider"/> <figcaption>
@@ -963,7 +968,7 @@ graph TD;
 </figure>
 
 <h3 id="单元测试">单元测试</h3>
-<p>在 test/resources 目录下创建单元测试类 _9527CharsetProviderTest：</p>
+<p>在 <em>test/resources</em> 目录下创建单元测试类 <em>_9527CharsetProviderTest</em>：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1082,10 +1087,10 @@ graph TD;
         </figcaption>
 </figure>
 
-<p>可以看到我们可以通过 <code>Charset.forName(&quot;9527&quot;)</code> 的方式获得我们自己定义的 Charset 实例，且实例的类型就是 _9527Charset。</p>
+<p>可以看到我们可以通过 <code>Charset.forName(&quot;9527&quot;)</code> 的方式获得我们自己定义的 <em>Charset</em> 实例，且实例的类型就是 <em>_9527Charset</em>。</p>
 <h2 id="spi-的延伸讨论">SPI 的延伸讨论</h2>
-<p>SPI 使用延迟加载，会扫描整个类路径下的 META-INF/services 目录，所有配置的实现类的无参构造方法都会被调用并实例化，也就是一次访问，所有候选类都会被加载。如果实际场景不需要使用所有的实现类，这些类就会白白占用 JVM 内存，其次如果实现类是一个重型类的话，更会造成严重的内存浪费。</p>
-<p>另外一个缺陷是，你只能通过 load 方法返回的迭代器来迭代访问实现类，这是一种相当底层的编程接口，意味着你无法灵活地根据参数不同获取某个的实现类。如果要实际使用方便，一种可能的最佳的实现是：封装 load 方法，根据传入的参数控制返回的实现类的查找逻辑，并且设置一个类变量缓存查找的结果。</p>
+<p>SPI 使用延迟加载，会扫描整个类路径下的 <em>META-INF/services</em> 目录，所有配置的实现类的无参构造方法都会被调用并实例化，也就是一次访问，所有候选类都会被加载。如果实际场景不需要使用所有的实现类，这些类就会白白占用 JVM 内存，其次如果实现类是一个重型类的话，更会造成严重的内存浪费。</p>
+<p>另外一个缺陷是，你只能通过 <em>load</em> 方法返回的迭代器来迭代访问实现类，这是一种相当底层的编程接口，意味着你无法灵活地根据参数不同获取某个的实现类。如果要实际使用方便，一种可能的最佳的实现是：封装 load 方法，根据传入的参数控制返回的实现类的查找逻辑，并且设置一个类变量缓存查找的结果。</p>
 <h3 id="spi-与-api">SPI 与 API</h3>
 <p>SPI 和 API 本质上都是 <span lang="en">Specification</span> 和 <span lang="en">Implementation</span> 的不同表现形式，区别在于：</p>
 <ul>
@@ -1095,16 +1100,16 @@ graph TD;
 <p>简单来说就是，对于一套编程规范，如果你使用规范提供的功能来编程，规范对你来说就是 API，如果你通过编程来满足规范的所有要求，则规范对你来说就是 SPI。</p>
 <p>也可以参考 StackOverflow 上的 <a href="https://stackoverflow.com/a/2956803">这个回答</a>。</p>
 <h2 id="结语">结语</h2>
-<p>JDK 在 6.0 的时候发布了 SPI 机制，解决了实现类在运行时如何确定的问题，有利于应用程序的扩展，对 Spring Framework 等框架也产生了重要影响，现如今看来，它的实现方式比较底层，一般需要在外层封装更抽象的控制逻辑来使用，同样 SPI 也存在内存占用的缺陷，<a href="https://cloud.tencent.com/developer/article/1121665">静态绑定</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 机制可以解决这个问题。</p>
-<p>通过 SPI，我们可以实现一些 JDK 内置功能的模块插入，比如自行实现 Charset。以上字符集加载的完整代码可以在 GitHub 项目 <a href="https://github.com/wzhix/9527-charset-encoding">9527-charset-encoding</a> 中查看，如果有任何问题和建议可以在项目里提交 Issue 给我。</p>
+<p>JDK 在 6.0 的时候发布了 SPI 机制，解决了实现类在运行时如何确定的问题，有利于应用程序的扩展，对 Spring 等框架也产生了重要影响，现如今看来，它的实现方式比较底层，一般需要在外层封装更抽象的控制逻辑来使用，同样 SPI 也存在内存占用的缺陷，<a href="https://cloud.tencent.com/developer/article/1121665">静态绑定</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 机制可以解决这个问题。</p>
+<p>通过 SPI，我们可以实现一些 JDK 内置功能的模块插入，比如自行实现 <em>Charset</em>。以上字符集加载的完整代码可以在 GitHub 项目 <a href="https://github.com/wzhix/9527-charset-encoding">9527-charset-encoding</a> 中查看，如果有任何问题和建议可以在项目里提交 Issue 给我。</p>
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>JAR 文件的规范和 META-INF 目录的详细介绍参见 Oracle 的 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html">Java SE Documentation</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>JAR 文件的规范和 <em>META-INF</em> 目录的详细介绍参见 Oracle 的 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html">Java SE Documentation</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2" role="doc-endnote">
-<p>Baeldung 中关于 <a href="https://www.baeldung.com/java-spi#3-service-provider">Service Provider</a> 的介绍 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Baeldung 中关于 <a href="https://www.baeldung.com/java-spi#3-service-provider"><em>Service Provider</em></a> 的介绍 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3" role="doc-endnote">
 <p>SPI 的详细配置规范参见 Oracle 的 <a href="https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html">The Java™ Tutorials</a> 教程 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
@@ -1131,13 +1136,21 @@ graph TD;
                         
                     
                         
+                            
+                                
+                                
+                                
+                                    <category domain="https://zhix.co/series/java-%E6%A0%B8%E5%BF%83/">Java 核心</category>
+                                
+                            
+                        
                     
                         
                             
                                 
                                 
                                 
-                                    <category domain="https://zhix.co/tags/java/">java</category>
+                                    <category domain="https://zhix.co/tags/java/">Java</category>
                                 
                             
                                 

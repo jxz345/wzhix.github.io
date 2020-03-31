@@ -57,13 +57,13 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2020-03-29T12:44:41+08:00",
-        "dateModified": "2020-03-31T02:36:11+08:00",
+        "dateModified": "2020-03-31T19:59:27+08:00",
         "url": "https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/",
         "headline": "在 Spring Cache 中为 Redis 添加内存缓存",
         "description": "缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。\n",
         "inLanguage" : "zh-cn",
         "articleSection": "posts",
-        "wordCount":  4863 ,
+        "wordCount":  4897 ,
         "image": "https://zhix.co/icons/avatar.png",
         "author": {
             "@type": "Person",
@@ -105,7 +105,7 @@
 <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="https://zhix.co/icons/avatar.png" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2020-03-29T12:44:41+08:00" />
-    <meta property="article:modified_time" content="2020-03-31T02:36:11+08:00" />
+    <meta property="article:modified_time" content="2020-03-31T19:59:27+08:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -252,18 +252,17 @@
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html" target="_blank" rel="noopener"><em>CacheManager</em></a></dt>
 <dd>代表缓存管理器的抽象，管理一系列缓存对象，按名称寻址缓存。</dd>
 </dl>
-<p>一句话概括就是：Spring 在 <em>spring-context</em> 的核心模块就包含了对缓存的支持，通过注 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>。</p>
+<p>一句话概括就是：Spring 在核心模块 <em>spring-context</em> 就包含了对缓存的支持，通过注解 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">[1]</a></sup>。</p>
 <h2 id="concurrentmapcache-和-rediscache"><span class="anchor-link">§</span><a href="#contents:concurrentmapcache-和-rediscache" class="headings">ConcurrentMapCache 和 RedisCache</a></h2>
-<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，不同的 实现效果不同，通常我们用的最多的实现要数以下两种：</p>
+<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，实际的方式不同实现有不同表现，一般我们用得最多的实现要数以下两种：</p>
 <dl>
 <dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html" target="_blank" rel="noopener"><em>ConcurrentMapCache</em></a></dt>
-<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类；</dd>
+<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类，对应的缓存管理器是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html" target="_blank" rel="noopener"><em>ConcurrentMapCacheManager</em></a>；</dd>
 <dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html" target="_blank" rel="noopener"><em>RedisCache</em></a></dt>
-<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis" target="_blank" rel="noopener"><em>spring-data-redis</em></a> 依赖。</dd>
+<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis" target="_blank" rel="noopener"><em>spring-data-redis</em></a> 依赖，对应的缓存管理器是 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html" target="_blank" rel="noopener"><em>RedisCacheManager</em></a>。</dd>
 </dl>
-<p>它们对应的缓存管理器分别是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html" target="_blank" rel="noopener"><em>ConcurrentMapCacheManager</em></a> 和 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html" target="_blank" rel="noopener"><em>RedisCacheManager</em></a>。</p>
 <h2 id="实现二级内存缓存"><span class="anchor-link">§</span><a href="#contents:实现二级内存缓存" class="headings">实现二级内存缓存</a></h2>
-<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在将取得的值回写入内存缓存中，用流程图表示为：</p>
+<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在，将取得的值回写入内存缓存中，流程图表示为：</p>
 <div class="mermaid">
 graph TD;
     Q[/Query Start/]
@@ -871,7 +870,7 @@ graph TD;
 
 
         
-    <div class="updated-badge-container"><div title="最后更新于 2020-03-31 02:36:11 CST" style="cursor:help;display:inline-block">
+    <div class="updated-badge-container"><div title="最后更新于 2020-03-31 19:59:27 CST" style="cursor:help;display:inline-block">
 
 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2020-03-31</text><text x="915" y="140" textLength="650" transform="scale(.1)">2020-03-31</text></g></svg></div></div>
 
