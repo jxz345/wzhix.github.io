@@ -1,701 +1,639 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>zhix</title><link>https://zhix.co/</link><description>zhix 的精神避难所。</description><generator>Hugo 0.69.0 https://gohugo.io/</generator><language>zh</language><managingEditor>zhixuan@zhix.co (zhix)</managingEditor><webMaster>zhixuan@zhix.co (zhix)</webMaster><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><lastBuildDate>Tue, 21 Apr 2020 16:39:48 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml"/><item><title>谈谈技术博客的排版</title><link>https://zhix.co/posts/talking-typesetting/</link><guid isPermaLink="true">https://zhix.co/posts/talking-typesetting/</guid><pubDate>Tue, 31 Mar 2020 22:01:33 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description><![CDATA[<h2 id="概述">概述</h2>
-<p>相比于国内已有的内容平台，比如豆瓣、知乎、公众号，独立博客在搭建、配置和维护上会花费额外的精力，也需要一定动手能力才能持续运作，但是相对地，独立博客能更加灵活地控制内容产出，更加自由地挥洒笔墨，对排版样式更可以进行像素级的控制。</p>
-<p>排版简单来说就是考虑如何组织文本，让文章对读者更加友好 &mdash; 这涉及到字体、字型、段落等元素的样式平衡。排版定义了网站的整体基调，引导读者阅读，决定用户体验，正如 <a href="https://github.com/sparanoid/chinese-copywriting-guidelines/">中文文案排版指北</a> 所说，一致的排版能够降低团队成员之间的沟通成本，增强网站气质，整齐划一的排版也是我写博客所追求的目标。</p>
-<p>接下来我想谈谈博客在样式上的配置，包括相关 CSS 特性的讨论，以及我对技术博客排版的个人理解。文章组成博客，段落组成文章，段落的排版决定了博客的排版，段落的排版又以字体、行距、对齐最为关键。</p>
-<h2 id="两端对齐">两端对齐</h2>
-<p>正文段落 <a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E4%B8%A4%E7%AB%AF%E5%B0%8D%E9%BD%8A/">两端对齐</a>（<em><span lang="en">justify</span></em>），与 Web 中常规的 <a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E9%9D%A0%E5%B7%A6%E5%B0%8D%E9%BD%8A/">左对齐</a>（
-<em><span lang="en">Left justify</span></em>）相比，两端对齐保持各行左右边距的基线一致，视觉上更加整齐，适合中文这样单个字符构成的语言。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182842.png#border" alt="两端对齐（上）与左对齐（下）的效果对比" title="两端对齐（上）与左对齐（下）的效果对比"></p>
-<p>左对齐时，字符之间的间隙均等，行尾超过容器宽度的长单词折行显示；两端对齐时，字符之间的间隙不等，行尾的长单词同样会折行，但是会相应调整上一行的字符间隙来填充空白。</p>
-<p>在 Web 中实现两端对齐，完整且保证兼容性的 CSS 写法为：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="nt">p</span> <span class="p">{</span>
-  <span class="k">text-align</span><span class="p">:</span> <span class="kc">justify</span><span class="p">;</span> <span class="c">/* 文本两端对齐 */</span>
-  <span class="k">text-justify</span><span class="p">:</span> <span class="n">inter-ideograph</span><span class="p">;</span> <span class="c">/* 调整表意文字间距以保持两端对齐 */</span>
-<span class="p">}</span>
-</code></pre></div><p>其中 <code>text-align: justify</code> 对应文本两端对齐，<code>text-justify</code> 表示在保持两端对齐的情况下如何处理间距，中文段落一般选择 <code>inter-ideograph</code>，它表示调整 CJK 表意文字字符和单词的间距来适应布局，也可以用 <code>distribute</code> 代替：</p>
-<p>不过主流浏览器对 <code>text-justify</code> 的支持不佳，截至本文完成，只有 Firefox 有 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-justify/">较好的支持</a>。</p>
-<p>除了段落 &lt;p&gt; 之外，以下可能存在折行内容的标签也建议使用两端对齐：</p>
-<ul>
-<li>列表项（<em>&lt;li&gt;</em>）</li>
-<li>定义列表项（<em>&lt;dd&gt;</em>）</li>
-</ul>
-<h3 id="两端对齐的不足">两端对齐的不足</h3>
-<p>两端对齐的不足主要在于中西文混排时的行间疏密参差不齐，这一点在移动设备上更为明显，下图中的单词 <em>RedisCache</em> 显得过于松散，是因为浏览器为了保持对齐而做了字符间距补偿：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406002400.png#mobile-screenshot" alt="width-360" title="iPhone 8 上的显示效果"></p>
-<p>目前这种情况没有一劳永逸的解决方案，只能等未来 CSS 标准和浏览器实现能支持更加智能的折行，临时方案要么使用左对齐，要么尽量在文本中少用西文单词。</p>
-<h3 id="折行">折行</h3>
-<p>提到对齐方式不得不说折行，折行规定了文本过长时容器的处理方式。不同语言的书写系统对折行有不同要求，东亚语言（中文、日文、韩文等）用「音节」而不是「空格」区分单词，这些语言的文本几乎可以在任何字符之间折行<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。建议的配置如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="nt">p</span> <span class="p">{</span>
-  <span class="k">line-break</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
-  <span class="k">word-break</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
-  <span class="k">overflow-wrap</span><span class="p">:</span> <span class="kc">break-word</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>其中 <code>word-break</code> 控制断字符，<code>overflow-wrap</code> 控制断词，这几个 CSS 属性很容易混淆，上述的配置已经适用于大部分中英混排的场景。</p>
-<h2 id="段落">段落</h2>
-<p>内容按段落划分，段落标题应当从 <em>&lt;h2&gt;</em> 开始，为什么不是 <em>&lt;h1&gt;</em> 呢？因为 <em>&lt;h1&gt;</em> 一般作为网页标题而特殊存在，一个页面建议只有一个 <em>&lt;h1&gt;</em> 标签，即 <em>&lt;h1&gt;</em> 是单例的。</p>
-<blockquote>
-  <p>当被加载到浏览器中的时候，元素 <em>&lt;h1&gt;</em> 会出现在页面中 —— 通常它应该在一个页面中只被使用一次，它被用来标记你的页面内容的标题（故事的标题，新闻标题或者任何适当的方式）。</p>
-  
-  <footer>
-    —— <cite>MDN·HTML 介绍</cite>
-  </footer>
-  
-</blockquote>
-<p>行高一般设置在 1.5~2 之间即可，本博客是 1.75，用 CSS 表示为：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="nt">p</span> <span class="p">{</span>
-  <span class="k">line-height</span><span class="p">:</span> <span class="mf">1.75</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="西文段落">西文段落</h3>
-<p>纯西文段落更加适合左对齐，应当在 CSS 用伪选择器为其单独设置语言属性。举例来说，假设 HTML 文档的语言为中文，即 <code>&lt;html lang=&quot;zh&quot;&gt;</code> 时，有段落如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>朝辞白帝彩云间，千里江陵一日还。<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-</code></pre></div><p>此时标签 <em>&lt;p&gt;</em> 没有显式设置 <em>&lt;lang&gt;</em> 属性，将使用当前 HTML 的语言属性 <em>zh</em>，而对西文段落，例如：</p>
-<p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
-<p>为了追求更好的排版效果，我们添加 <em>lang=&quot;en&rdquo;</em> 属性，并单独设置行高的对齐：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="nt">p</span><span class="p">:</span><span class="nd">lang</span><span class="o">(</span><span class="nt">en</span><span class="o">)</span> <span class="p">{</span>
-  <span class="k">line-height</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">;</span> <span class="c">/* 西文字母较小，行距从 1.75 减小至 1.5 */</span>
-  <span class="k">text-align</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span> <span class="c">/* 西文文本左对齐 */</span>
-<span class="p">}</span>
-</code></pre></div><p>此外，可以进一步设置基于浏览器词典的自动断词：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="nt">p</span><span class="p">:</span><span class="nd">lang</span><span class="o">(</span><span class="nt">en</span><span class="o">)</span> <span class="p">{</span>
-  <span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span> <span class="c">/* 西文自动断词，包括以下两个 -&lt;vendor&gt;-hyphens 的兼容性选项 */</span>
-  <span class="kp">-webkit-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
-  <span class="kp">-moz-</span><span class="k">hyphens</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>对比下以下两种排版效果，第一段是是默认的 1.75 行距两端对齐段落，第二段是 1.5 行距左对齐段落：</p>
-<p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
-<p lang="en">Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
-<!-- ![不同 lang 属性下的段落显示效果](https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001130.png#border "不同 lang 属性下的段落显示效果") -->
-<p>相较于上面第一段的默认效果，用 <em>lang=&quot;en&rdquo;</em> 描述的段落的 <em>1.5</em> 倍行距更加紧凑，文本左对齐和自动断词达到了更加贴近英文印刷品的排版效果，如果你的浏览器宽度恰好，甚至能看到行尾的 “<span lang="en">a new nation</span>” 进行了连字符折断。</p>
-<h2 id="字体与字号">字体与字号</h2>
-<p>中西文字体分别使用 <a href="https://fonts.google.com/specimen/Noto+Serif+SC/">思源宋体</a> 和 <a href="https://fonts.google.com/specimen/Zilla+SLab/">Zilla Slab</a>，从 <a href="https://fonts.google.com/">Google Fonts</a> 加载，字号为 16px，确定字体大小后保证每行字数在 38～42，CSS 的配置为：</p>
-<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="p">@</span><span class="k">import</span> <span class="nt">url</span><span class="o">(</span><span class="s1">&#39;https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;family=Zilla+Slab:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap&#39;</span><span class="o">)</span><span class="p">;</span>
-<span class="nt">body</span> <span class="p">{</span>
-  <span class="k">font-size</span><span class="p">:</span> <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
-  <span class="k">font-family</span><span class="p">:</span> <span class="s1">&#39;Zilla Slab&#39;</span><span class="p">,</span> <span class="s1">&#39;Noto Serif SC&#39;</span><span class="p">,</span> <span class="kc">serif</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>统一的字体是为了各平台下的显示效果完全一致，给读者连续的阅读体验，代价是在读者本地没有安装对应字体的情况下，页面有字体请求的网络开销。</p>
-<h3 id="思源系列字体">思源系列字体</h3>
-<p>思源系列字体是 Google 和 Adobe 联合开发的开源免费字体集（Google 称作 Noto 系列，Adode 称作 Source 系列），特点是设计优雅，可读性高，对 CJK 书写系统的支持很好，任何人都可免费下载和几乎在任何地方使用，宋体相对于黑体增加的笔锋更加接近于书本的效果，更具文字美感。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182812.png#border" alt="思源宋体：开源的泛 CJK 字体"></p>
-<p>基于以上诸多优点，我建议每个人的电脑里都应该安装思源系列字体。</p>
-<h3 id="衬线体与无衬线体">衬线体与无衬线体</h3>
-<p>另一个问题是，正文选用衬线体还是无衬线体？即选用宋体还是黑体。</p>
-<p>如果是五年前，无笔锋的黑体更适合，黑体在中低分辨率屏幕的可读性更好，尤其是各平台默认黑体几乎是最安全的选择。现在则凭个人喜好，一方面开源的衬线体比如思源宋体获取门槛降低，另一方面随着 Web 技术和显示器分辨率的进步，使用衬线体的效果渐渐不再逊色于无衬线体，甚至能呈现更逼真的纸张模拟。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182754.png#border" alt="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比" title="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比"></p>
-<p>另外，正文中的无衬线字体应当降低颜色对比度，让文本整体更加偏灰以减少攻击性和视觉冲击，比如下图中 <a href="https://sspai.com/">少数派</a> 页面的正文效果：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405183037.png#border" alt="少数派的正文字体颜色偏灰" title="少数派的正文字体颜色偏灰"></p>
-<h2 id="hancss">Han.css</h2>
-<p><a href="https://github.com/ethantw/Han/">Han.css</a> 是一套用于 Web 的汉字排版解决方案，作为已有 CSS 的补充为网页提供了丰富地用于汉字书写系统的特性，尤其针对那些已有 CSS 属性无法支持的排版特性比如：</p>
-<ul>
-<li>中西文间混排 <em>.25em</em> 间隙，即所谓的盘古之白</li>
-<li>标点挤压</li>
-<li>标点悬挂</li>
-<li>其他样式等</li>
-</ul>
-<p>Han.css 可对页面整体使用，也可对某个子元素使用，甚至是只开启部分功能。出于摸索阶段的谨慎，我只开启了标点挤压功能。</p>
-<p>标点挤压是指：汉字排版连续使用多个符号时，字与字间将出现一个汉字宽度的空隙，不甚美观，而用额外的 JavaScript 脚本缩减连续标点及行首／行尾标点的多余空间。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182709.png#border" alt="博客中使用了标点挤压模式 B" title="博客中使用了标点挤压模式 B（图来自 The Type）"></p>
-<h3 id="启用标点挤压">启用标点挤压</h3>
-<p>在头部引入 Han.css 的脚本和样式：</p>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">media</span><span class="o">=</span><span class="s">&#34;all&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;//cdnjs.cloudflare.com/ajax/libs/Han/3.3.0/han.min.css&#34;</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdnjs.cloudflare.com/ajax/libs/Han/3.3.0/han.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-</code></pre></div><p>引入 Han.css 相关的 JavaScript 依赖后，在网页中插入以下脚本即可开启 <em>&lt;body&gt;</em> 元素下的标点挤压：</p>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
-  <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Han</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">initCond</span><span class="p">()</span>   <span class="c1">// 初始化脚本
-</span><span class="c1"></span>      <span class="p">.</span><span class="nx">renderJiya</span><span class="p">()</span> <span class="c1">// 渲染标点挤压
-</span><span class="c1"></span>  <span class="p">})</span>
-<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-</code></pre></div><p>开启前后的效果对比如下图所示，注意第二行的右括号和逗号的处理：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001103.png#border" alt="" title="启用标点挤压（上）和无标点挤压（下）的效果对比"></p>
-<p>因为目前的 CSS 标准并没有覆盖到该特性，所以这项技术的本质是依赖外部样式和脚本做后置渲染。</p>
-<h2 id="其他">其他</h2>
-<h3 id="首行缩进">首行缩进</h3>
-<p>MemE 主题的正文的分段样式有两种选择，<span lang="en">margin</span> 和 <span lang="en">indent</span>，前者就是一般的依靠 CSS 上下外边距分隔段落，后者是类似书本的首行缩进，这里的选用凭个人喜好，具体见 MemE 主题的 <a href="https://github.com/reuixiy/hugo-theme-meme/blob/a323e45d5ece0afb741fe90b495a723698600b8c/config-examples/zh-cn/config.toml#L916/">配置文件</a>。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001535.png#border" alt="margin 和 indent 的区别" title="margin 和 indent 的区别"></p>
-<h3 id="何时使用-italic">何时使用 italic</h3>
-<p>另外就是，技术文章中大量用到的「类型名」、「函数名」、「变量名」。严格意义上应当使用 <em>&lt;var&gt;</em> 标签标记，但考虑到 Markdown 里面没有类似的语法，所以我参照 <a href="https://www.baeldung.com/">Baeldung</a> 的样式，使用 <em>&lt;em&gt;</em> 标签标记，比如下图中的 <em>SearchCriteria</em> 作为类型名称被渲染成了斜体。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200401205159.jpg#border" alt="Bealdung 网站的文本使用  标签描述类型名" title="Bealdung 网站的文本使用 &lt;em&gt; 标签描述类型名"></p>
-<h2 id="总结">总结</h2>
-<p>在「够看」的情况下继续深入优化排版，像对待印刷品一样对待 Web 页面，是一种工匠精神的体现，但另一方面我们又不得不面对一个尴尬的现实：文中所提到的那些高阶排版技巧，除了已经纳入 CSS 标准的特性外，有些需要微调页面元素，有些需要 JavaScript 脚本参与，有些则要求打字者一一手动校对，而 Web 网页作为「快速消费品」，大多数用户根本不会注意到这些额外的排版特性带来的效果增益，所以浏览器也没有足够的理由为支持这些特性而投入成本。</p>
-<p>就像《死亡搁浅》中场景里的某朵小花，它会在你送快递的时候于视野中一闪而过，构成你对游戏整体体验的一部分，但是如果没有它，也不影响你继续游戏过程，更不会降低你对《死亡搁浅》的评价。</p>
-<p>但是，这不能成为我们对 Web 排版满足现状的理由，因为排版的意义在于让人类更加舒适地阅读文字 &mdash; 每纠正一个标点符号，每对齐一行文本，每划分一个段落，都是对艺术和美的追求。</p>
-<p>最后，技术总是在进步，我们在 HTML 页面上对美学的要求总会随着标准草案的迭代和 Web 基础能力的支持而不断向前。可以肯定的是，Web 页面的质量将会无限趋近甚至超越纸质印刷品，现有的标准也会逐渐覆盖人类所有的语言和书写系统，甚至是这些系统里的冷门而小众的特性。</p>
-<h2 id="延伸阅读">延伸阅读</h2>
-<ul>
-<li><a href="https://w3c.github.io/clreq/">中文排版需求·W3C</a></li>
-<li><a href="https://github.com/sparanoid/chinese-copywriting-guidelines/">中文文案排版指北·GitHub</a></li>
-<li><a href="https://hanzi.pro/">漢字標準格式 &mdash; 印刷品般的汉字排版框架</a></li>
-<li><a href="https://www.thetype.com/2015/04/9171/">从《中文排版需求》开始·The Type</a></li>
-<li><a href="https://learnku.com/docs/writing-docs/">社区文档撰写指南·LearnKu 产品论坛</a></li>
-<li><a href="https://www.thetype.com/2018/04/14734/">针对 Adobe InDesign 标点挤压中文默认设置的反馈·The Type</a></li>
-<li><a href="https://zzao.im/blog/post/left-or-justify.html">排版左对齐（left）与两端对齐（justify）的思考·Hungl Zzz&rsquo;s Blog</a></li>
-<li><a href="https://www.codesandnotes.com/front-end/word-breaking-in-east-asian-languages/"><span lang="en" class="latin">Word breaking online in East Asian languages·Code &amp; Notes</span></a></li>
-</ul>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>摘录自 <a href="https://www.codesandnotes.com/front-end/word-breaking-in-east-asian-languages/">Code &amp; Notes</a>，原文为：</p>
-<blockquote>
-<p lang="en">
-    Latin and other Western language systems use spaces and punctuation to separate words. East Asian Languages as Japanese, Chinese and sometimes also Korean however do not. Instead they rely on syllable boundaries. In these systems a line can break anywhere except between certain character combinations.
-    </p>
-</blockquote>
- <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></li>
-</ol>
-</section>
-]]></description><category domain="https://zhix.co/categories/%E8%AE%BE%E8%AE%A1/">设计</category><category domain="https://zhix.co/series/%E6%8E%92%E7%89%88%E5%AD%A6/">排版学</category><category domain="https://zhix.co/tags/%E5%8D%9A%E5%AE%A2/">博客</category><category domain="https://zhix.co/tags/%E8%AE%BE%E8%AE%A1/">设计</category><category domain="https://zhix.co/tags/%E6%8E%92%E7%89%88/">排版</category><category domain="https://zhix.co/tags/%E5%AD%97%E4%BD%93/">字体</category><category domain="https://zhix.co/tags/css/">css</category><category domain="https://zhix.co/tags/baeldung/">baeldung</category><category domain="https://zhix.co/tags/markdown/">markdown</category><category domain="https://zhix.co/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/">公众号</category></item><item><title>在 Spring Cache 中为 Redis 添加内存缓存</title><link>https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</link><guid isPermaLink="true">https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</guid><pubDate>Sun, 29 Mar 2020 12:44:41 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description><![CDATA[<p>缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。</p>
-<h2 id="spring-cache-抽象">Spring Cache 抽象</h2>
-<p><a href="https://docs.spring.io/spring/docs/5.0.0.RELEASE/spring-framework-reference/integration.html#cache">Spring Cache</a> 作为 Spring 最核心的模块之一，提供了开箱即用的缓存支持，应用程序只需要在任意 <em>Configuration</em> 类上加入注解 <em>@EnableCaching</em> 即可启用缓存：</p>
-<p>Spring Cache 的实现位 <em>org.springframework.cache</em> 包下，如果使用 Maven 的话需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-context"><em>spring-context</em></a> 模块，其中最核心的 2 个接口定义如下：</p>
-<dl>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/Cache.html"><em>Cache</em></a></dt>
-<dd>代表通用缓存对象的抽象，定义了与缓存交互的接口，包含基本的读取、写入、淘汰和清空操作，管理一系列的缓存键值对，按键寻址，拥有唯一的名称。</dd>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html"><em>CacheManager</em></a></dt>
-<dd>代表缓存管理器的抽象，管理一系列缓存对象，按名称寻址缓存。</dd>
-</dl>
-<p>一句话概括就是：Spring 在核心模块 <em>spring-context</em> 就包含了对缓存的支持，通过注解 <em>@EnableCaching</em> 来使用。需要被缓存的对象由 <em>Cache</em> 管理并按键寻址，<em>Cache</em> 按照名称区分彼此，统一地注册在 <em>CacheManager</em> 中<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
-<h2 id="concurrentmapcache-和-rediscache">ConcurrentMapCache 和 RedisCache</h2>
-<p>简单来说，<em>Cache</em> 和 <em>CacheManager</em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，实际的方式不同实现有不同表现，一般我们用得最多的实现要数以下两种：</p>
-<dl>
-<dt><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html"><em>ConcurrentMapCache</em></a></dt>
-<dd>基于 <em>ConcurrentHashMap</em> 实现的本地缓存，也是此次的内存缓存实现类，对应的缓存管理器是 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html"><em>ConcurrentMapCacheManager</em></a>；</dd>
-<dt><a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html"><em>RedisCache</em></a></dt>
-<dd>基于 Redis 实现的分布式缓存，使用时需要引入 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis"><em>spring-data-redis</em></a> 依赖，对应的缓存管理器是 <a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html"><em>RedisCacheManager</em></a>。</dd>
-</dl>
-<h2 id="实现二级内存缓存">实现二级内存缓存</h2>
-<p>回到开头的问题，如果需要在 <em>RedisCache</em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在，将取得的值回写入内存缓存中，流程图表示为：</p>
-<div class="mermaid">
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>zhix</title><link>https://zhix.co/</link><description>zhix 的精神避难所。</description><generator>Hugo 0.74.3 https://gohugo.io/</generator><language>zh</language><managingEditor>zhixuan@zhix.co (zhix)</managingEditor><webMaster>zhixuan@zhix.co (zhix)</webMaster><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><lastBuildDate>Tue, 08 Sep 2020 23:51:34 +0800</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml"/><item><title>谈谈技术博客的排版</title><link>https://zhix.co/posts/talking-typesetting/</link><guid isPermaLink="true">https://zhix.co/posts/talking-typesetting/</guid><pubDate>Tue, 31 Mar 2020 22:01:33 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description>&lt;h2 id="概述">概述&lt;/h2>
+&lt;p>相比于国内已有的内容平台，比如豆瓣、知乎、公众号，独立博客在搭建、配置和维护上会花费额外的精力，也需要一定动手能力才能持续运作，但是相对地，独立博客能更加灵活地控制内容产出，更加自由地挥洒笔墨，对排版样式更可以进行像素级的控制。&lt;/p>
+&lt;p>排版简单来说就是考虑如何组织文本，让文章对读者更加友好 &amp;mdash; 这涉及到字体、字型、段落等元素的样式平衡。排版定义了网站的整体基调，引导读者阅读，决定用户体验，正如 &lt;a href="https://github.com/sparanoid/chinese-copywriting-guidelines/">中文文案排版指北&lt;/a> 所说，一致的排版能够降低团队成员之间的沟通成本，增强网站气质，整齐划一的排版也是我写博客所追求的目标。&lt;/p>
+&lt;p>接下来我想谈谈博客在样式上的配置，包括相关 CSS 特性的讨论，以及我对技术博客排版的个人理解。文章组成博客，段落组成文章，段落的排版决定了博客的排版，段落的排版又以字体、行距、对齐最为关键。&lt;/p>
+&lt;h2 id="两端对齐">两端对齐&lt;/h2>
+&lt;p>正文段落 &lt;a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E4%B8%A4%E7%AB%AF%E5%B0%8D%E9%BD%8A/">两端对齐&lt;/a>（&lt;em>&lt;span lang="en">justify&lt;/span>&lt;/em>），与 Web 中常规的 &lt;a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E9%9D%A0%E5%B7%A6%E5%B0%8D%E9%BD%8A/">左对齐&lt;/a>（&lt;em>&lt;span lang="en">Left justify&lt;/span>&lt;/em>）相比，两端对齐保持各行左右边距的基线一致，视觉上更加整齐，适合中文这样单个字符构成的语言。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182842.png#border" alt="两端对齐（上）与左对齐（下）的效果对比" title="两端对齐（上）与左对齐（下）的效果对比">&lt;/p>
+&lt;p>左对齐时，字符之间的间隙均等，行尾超过容器宽度的长单词折行显示；两端对齐时，字符之间的间隙不等，行尾的长单词同样会折行，但是会相应调整上一行的字符间隙来填充空白。&lt;/p>
+&lt;p>在 Web 中实现两端对齐，完整且保证兼容性的 CSS 写法为：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">text-align&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">justify&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">/* 文本两端对齐 */&lt;/span>
+&lt;span class="k">text-justify&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">inter-ideograph&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">/* 调整表意文字间距以保持两端对齐 */&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中 &lt;code>text-align: justify&lt;/code> 对应文本两端对齐，&lt;code>text-justify&lt;/code> 表示在保持两端对齐的情况下如何处理间距，中文段落一般选择 &lt;code>inter-ideograph&lt;/code>，它表示调整 CJK 表意文字字符和单词的间距来适应布局，也可以用 &lt;code>distribute&lt;/code> 代替：&lt;/p>
+&lt;p>不过主流浏览器对 &lt;code>text-justify&lt;/code> 的支持不佳，截至本文完成，只有 Firefox 有 &lt;a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-justify/">较好的支持&lt;/a>。&lt;/p>
+&lt;p>除了段落 &amp;lt;p&amp;gt; 之外，以下可能存在折行内容的标签也建议使用两端对齐：&lt;/p>
+&lt;ul>
+&lt;li>列表项（&lt;em>&amp;lt;li&amp;gt;&lt;/em>）&lt;/li>
+&lt;li>定义列表项（&lt;em>&amp;lt;dd&amp;gt;&lt;/em>）&lt;/li>
+&lt;/ul>
+&lt;h3 id="两端对齐的不足">两端对齐的不足&lt;/h3>
+&lt;p>两端对齐的不足主要在于中西文混排时的行间疏密参差不齐，这一点在移动设备上更为明显，下图中的单词 &lt;em>RedisCache&lt;/em> 显得过于松散，是因为浏览器为了保持对齐而做了字符间距补偿：&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406002400.png#mobile-screenshot" alt="width-360" title="iPhone 8 上的显示效果">&lt;/p>
+&lt;p>目前这种情况没有一劳永逸的解决方案，只能等未来 CSS 标准和浏览器实现能支持更加智能的折行，临时方案要么使用左对齐，要么尽量在文本中少用西文单词。&lt;/p>
+&lt;h3 id="折行">折行&lt;/h3>
+&lt;p>提到对齐方式不得不说折行，折行规定了文本过长时容器的处理方式。不同语言的书写系统对折行有不同要求，东亚语言（中文、日文、韩文等）用「音节」而不是「空格」区分单词，这些语言的文本几乎可以在任何字符之间折行&lt;sup id="fnref:1">&lt;a href="https://zhix.co/posts/talking-typesetting/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。建议的配置如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">line-break&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">auto&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">word-break&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">break-word&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">overflow-wrap&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">break-word&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中 &lt;code>word-break&lt;/code> 控制断字符，&lt;code>overflow-wrap&lt;/code> 控制断词，这几个 CSS 属性很容易混淆，上述的配置已经适用于大部分中英混排的场景。&lt;/p>
+&lt;h2 id="段落">段落&lt;/h2>
+&lt;p>内容按段落划分，段落标题应当从 &lt;em>&amp;lt;h2&amp;gt;&lt;/em> 开始，为什么不是 &lt;em>&amp;lt;h1&amp;gt;&lt;/em> 呢？因为 &lt;em>&amp;lt;h1&amp;gt;&lt;/em> 一般作为网页标题而特殊存在，一个页面建议只有一个 &lt;em>&amp;lt;h1&amp;gt;&lt;/em> 标签，即 &lt;em>&amp;lt;h1&amp;gt;&lt;/em> 是单例的。&lt;/p>
+&lt;blockquote>
+&lt;p>当被加载到浏览器中的时候，元素 &lt;em>&amp;lt;h1&amp;gt;&lt;/em> 会出现在页面中 —— 通常它应该在一个页面中只被使用一次，它被用来标记你的页面内容的标题（故事的标题，新闻标题或者任何适当的方式）。&lt;/p>
+&lt;footer>
+—— &lt;cite>MDN·HTML 介绍&lt;/cite>
+&lt;/footer>
+&lt;/blockquote>
+&lt;p>行高一般设置在 1.5~2 之间即可，本博客是 1.75，用 CSS 表示为：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">line-height&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mf">1.75&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="西文段落">西文段落&lt;/h3>
+&lt;p>纯西文段落更加适合左对齐，应当在 CSS 用伪选择器为其单独设置语言属性。举例来说，假设 HTML 文档的语言为中文，即 &lt;code>&amp;lt;html lang=&amp;quot;zh&amp;quot;&amp;gt;&lt;/code> 时，有段落如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>朝辞白帝彩云间，千里江陵一日还。&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>此时标签 &lt;em>&amp;lt;p&amp;gt;&lt;/em> 没有显式设置 &lt;em>&amp;lt;lang&amp;gt;&lt;/em> 属性，将使用当前 HTML 的语言属性 &lt;em>zh&lt;/em>，而对西文段落，例如：&lt;/p>
+&lt;p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.&lt;/p>
+&lt;p>为了追求更好的排版效果，我们添加 &lt;em>lang=&amp;quot;en&amp;rdquo;&lt;/em> 属性，并单独设置行高的对齐：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nd">lang&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nt">en&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">line-height&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mf">1.5&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">/* 西文字母较小，行距从 1.75 减小至 1.5 */&lt;/span>
+&lt;span class="k">text-align&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">left&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">/* 西文文本左对齐 */&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>此外，可以进一步设置基于浏览器词典的自动断词：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nd">lang&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nt">en&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">hyphens&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">auto&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">/* 西文自动断词，包括以下两个 -&amp;lt;vendor&amp;gt;-hyphens 的兼容性选项 */&lt;/span>
+&lt;span class="kp">-webkit-&lt;/span>&lt;span class="k">hyphens&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">auto&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="kp">-moz-&lt;/span>&lt;span class="k">hyphens&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">auto&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>对比下以下两种排版效果，第一段是是默认的 1.75 行距两端对齐段落，第二段是 1.5 行距左对齐段落：&lt;/p>
+&lt;p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.&lt;/p>
+&lt;p lang="en">Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.&lt;/p>
+&lt;!-- ![不同 lang 属性下的段落显示效果](https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001130.png#border "不同 lang 属性下的段落显示效果") -->
+&lt;p>相较于上面第一段的默认效果，用 &lt;em>lang=&amp;quot;en&amp;rdquo;&lt;/em> 描述的段落的 &lt;em>1.5&lt;/em> 倍行距更加紧凑，文本左对齐和自动断词达到了更加贴近英文印刷品的排版效果，如果你的浏览器宽度恰好，甚至能看到行尾的 “&lt;span lang="en">a new nation&lt;/span>” 进行了连字符折断。&lt;/p>
+&lt;h2 id="字体与字号">字体与字号&lt;/h2>
+&lt;p>中西文字体分别使用 &lt;a href="https://fonts.google.com/specimen/Noto+Serif+SC/">思源宋体&lt;/a> 和 &lt;a href="https://fonts.google.com/specimen/Zilla+SLab/">Zilla Slab&lt;/a>，从 &lt;a href="https://fonts.google.com/">Google Fonts&lt;/a> 加载，字号为 16px，确定字体大小后保证每行字数在 38～42，CSS 的配置为：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="p">@&lt;/span>&lt;span class="k">import&lt;/span> &lt;span class="nt">url&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s1">&amp;#39;https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;amp;family=Zilla+Slab:ital,wght@0,400;0,600;1,400;1,600&amp;amp;display=swap&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="nt">body&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">font-size&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">16&lt;/span>&lt;span class="kt">px&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="k">font-family&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;Zilla Slab&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s1">&amp;#39;Noto Serif SC&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">serif&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>统一的字体是为了各平台下的显示效果完全一致，给读者连续的阅读体验，代价是在读者本地没有安装对应字体的情况下，页面有字体请求的网络开销。&lt;/p>
+&lt;h3 id="思源系列字体">思源系列字体&lt;/h3>
+&lt;p>思源系列字体是 Google 和 Adobe 联合开发的开源免费字体集（Google 称作 Noto 系列，Adode 称作 Source 系列），特点是设计优雅，可读性高，对 CJK 书写系统的支持很好，任何人都可免费下载和几乎在任何地方使用，宋体相对于黑体增加的笔锋更加接近于书本的效果，更具文字美感。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182812.png#border" alt="思源宋体：开源的泛 CJK 字体">&lt;/p>
+&lt;p>基于以上诸多优点，我建议每个人的电脑里都应该安装思源系列字体。&lt;/p>
+&lt;h3 id="衬线体与无衬线体">衬线体与无衬线体&lt;/h3>
+&lt;p>另一个问题是，正文选用衬线体还是无衬线体？即选用宋体还是黑体。&lt;/p>
+&lt;p>如果是五年前，无笔锋的黑体更适合，黑体在中低分辨率屏幕的可读性更好，尤其是各平台默认黑体几乎是最安全的选择。现在则凭个人喜好，一方面开源的衬线体比如思源宋体获取门槛降低，另一方面随着 Web 技术和显示器分辨率的进步，使用衬线体的效果渐渐不再逊色于无衬线体，甚至能呈现更逼真的纸张模拟。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182754.png#border" alt="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比" title="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比">&lt;/p>
+&lt;p>另外，正文中的无衬线字体应当降低颜色对比度，让文本整体更加偏灰以减少攻击性和视觉冲击，比如下图中 &lt;a href="https://sspai.com/">少数派&lt;/a> 页面的正文效果：&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405183037.png#border" alt="少数派的正文字体颜色偏灰" title="少数派的正文字体颜色偏灰">&lt;/p>
+&lt;h2 id="hancss">Han.css&lt;/h2>
+&lt;p>&lt;a href="https://github.com/ethantw/Han/">Han.css&lt;/a> 是一套用于 Web 的汉字排版解决方案，作为已有 CSS 的补充为网页提供了丰富地用于汉字书写系统的特性，尤其针对那些已有 CSS 属性无法支持的排版特性比如：&lt;/p>
+&lt;ul>
+&lt;li>中西文间混排 &lt;em>.25em&lt;/em> 间隙，即所谓的盘古之白&lt;/li>
+&lt;li>标点挤压&lt;/li>
+&lt;li>标点悬挂&lt;/li>
+&lt;li>其他样式等&lt;/li>
+&lt;/ul>
+&lt;p>Han.css 可对页面整体使用，也可对某个子元素使用，甚至是只开启部分功能。出于摸索阶段的谨慎，我只开启了标点挤压功能。&lt;/p>
+&lt;p>标点挤压是指：汉字排版连续使用多个符号时，字与字间将出现一个汉字宽度的空隙，不甚美观，而用额外的 JavaScript 脚本缩减连续标点及行首／行尾标点的多余空间。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182709.png#border" alt="博客中使用了标点挤压模式 B" title="博客中使用了标点挤压模式 B（图来自 The Type）">&lt;/p>
+&lt;h3 id="启用标点挤压">启用标点挤压&lt;/h3>
+&lt;p>在头部引入 Han.css 的脚本和样式：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">link&lt;/span> &lt;span class="na">rel&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span class="na">media&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;all&amp;#34;&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;//cdnjs.cloudflare.com/ajax/libs/Han/3.3.0/han.min.css&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">script&lt;/span> &lt;span class="na">src&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;//cdnjs.cloudflare.com/ajax/libs/Han/3.3.0/han.min.js&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>引入 Han.css 相关的 JavaScript 依赖后，在网页中插入以下脚本即可开启 &lt;em>&amp;lt;body&amp;gt;&lt;/em> 元素下的标点挤压：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;span class="nb">window&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">addEventListener&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;DOMContentLoaded&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">Han&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">document&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">.&lt;/span>&lt;span class="nx">initCond&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 初始化脚本
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">.&lt;/span>&lt;span class="nx">renderJiya&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 渲染标点挤压
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>开启前后的效果对比如下图所示，注意第二行的右括号和逗号的处理：&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001103.png#border" alt="" title="启用标点挤压（上）和无标点挤压（下）的效果对比">&lt;/p>
+&lt;p>因为目前的 CSS 标准并没有覆盖到该特性，所以这项技术的本质是依赖外部样式和脚本做后置渲染。&lt;/p>
+&lt;h2 id="其他">其他&lt;/h2>
+&lt;h3 id="首行缩进">首行缩进&lt;/h3>
+&lt;p>MemE 主题的正文的分段样式有两种选择，&lt;span lang="en">margin&lt;/span> 和 &lt;span lang="en">indent&lt;/span>，前者就是一般的依靠 CSS 上下外边距分隔段落，后者是类似书本的首行缩进，这里的选用凭个人喜好，具体见 MemE 主题的 &lt;a href="https://github.com/reuixiy/hugo-theme-meme/blob/a323e45d5ece0afb741fe90b495a723698600b8c/config-examples/zh-cn/config.toml#L916/">配置文件&lt;/a>。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001535.png#border" alt="margin 和 indent 的区别" title="margin 和 indent 的区别">&lt;/p>
+&lt;h3 id="何时使用-italic">何时使用 italic&lt;/h3>
+&lt;p>另外就是，技术文章中大量用到的「类型名」、「函数名」、「变量名」。严格意义上应当使用 &lt;em>&amp;lt;var&amp;gt;&lt;/em> 标签标记，但考虑到 Markdown 里面没有类似的语法，所以我参照 &lt;a href="https://www.baeldung.com/">Baeldung&lt;/a> 的样式，使用 &lt;em>&amp;lt;em&amp;gt;&lt;/em> 标签标记，比如下图中的 &lt;em>SearchCriteria&lt;/em> 作为类型名称被渲染成了斜体。&lt;/p>
+&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200401205159.jpg#border" alt="Bealdung 网站的文本使用 标签描述类型名" title="Bealdung 网站的文本使用 &amp;lt;em&amp;gt; 标签描述类型名">&lt;/p>
+&lt;h2 id="总结">总结&lt;/h2>
+&lt;p>在「够看」的情况下继续深入优化排版，像对待印刷品一样对待 Web 页面，是一种工匠精神的体现，但另一方面我们又不得不面对一个尴尬的现实：文中所提到的那些高阶排版技巧，除了已经纳入 CSS 标准的特性外，有些需要微调页面元素，有些需要 JavaScript 脚本参与，有些则要求打字者一一手动校对，而 Web 网页作为「快速消费品」，大多数用户根本不会注意到这些额外的排版特性带来的效果增益，所以浏览器也没有足够的理由为支持这些特性而投入成本。&lt;/p>
+&lt;p>就像《死亡搁浅》中场景里的某朵小花，它会在你送快递的时候于视野中一闪而过，构成你对游戏整体体验的一部分，但是如果没有它，也不影响你继续游戏过程，更不会降低你对《死亡搁浅》的评价。&lt;/p>
+&lt;p>但是，这不能成为我们对 Web 排版满足现状的理由，因为排版的意义在于让人类更加舒适地阅读文字 &amp;mdash; 每纠正一个标点符号，每对齐一行文本，每划分一个段落，都是对艺术和美的追求。&lt;/p>
+&lt;p>最后，技术总是在进步，我们在 HTML 页面上对美学的要求总会随着标准草案的迭代和 Web 基础能力的支持而不断向前。可以肯定的是，Web 页面的质量将会无限趋近甚至超越纸质印刷品，现有的标准也会逐渐覆盖人类所有的语言和书写系统，甚至是这些系统里的冷门而小众的特性。&lt;/p>
+&lt;h2 id="延伸阅读">延伸阅读&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://w3c.github.io/clreq/">中文排版需求·W3C&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/sparanoid/chinese-copywriting-guidelines/">中文文案排版指北·GitHub&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://hanzi.pro/">漢字標準格式 &amp;mdash; 印刷品般的汉字排版框架&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.thetype.com/2015/04/9171/">从《中文排版需求》开始·The Type&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://learnku.com/docs/writing-docs/">社区文档撰写指南·LearnKu 产品论坛&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.thetype.com/2018/04/14734/">针对 Adobe InDesign 标点挤压中文默认设置的反馈·The Type&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://zzao.im/blog/post/left-or-justify.html">排版左对齐（left）与两端对齐（justify）的思考·Hungl Zzz&amp;rsquo;s Blog&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.codesandnotes.com/front-end/word-breaking-in-east-asian-languages/">&lt;span lang="en" class="latin">Word breaking online in East Asian languages·Code &amp;amp; Notes&lt;/span>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>摘录自 &lt;a href="https://www.codesandnotes.com/front-end/word-breaking-in-east-asian-languages/">Code &amp;amp; Notes&lt;/a>，原文为：&lt;/p>
+&lt;blockquote>
+&lt;p lang="en">
+Latin and other Western language systems use spaces and punctuation to separate words. East Asian Languages as Japanese, Chinese and sometimes also Korean however do not. Instead they rely on syllable boundaries. In these systems a line can break anywhere except between certain character combinations.
+&lt;/p>
+&lt;/blockquote>
+&lt;a href="https://zhix.co/posts/talking-typesetting/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/section></description><category domain="https://zhix.co/categories/%E8%AE%BE%E8%AE%A1/">设计</category><category domain="https://zhix.co/series/%E6%8E%92%E7%89%88%E5%AD%A6/">排版学</category><category domain="https://zhix.co/tags/%E5%8D%9A%E5%AE%A2/">博客</category><category domain="https://zhix.co/tags/%E8%AE%BE%E8%AE%A1/">设计</category><category domain="https://zhix.co/tags/%E6%8E%92%E7%89%88/">排版</category><category domain="https://zhix.co/tags/%E5%AD%97%E4%BD%93/">字体</category><category domain="https://zhix.co/tags/css/">css</category><category domain="https://zhix.co/tags/baeldung/">baeldung</category><category domain="https://zhix.co/tags/markdown/">markdown</category><category domain="https://zhix.co/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/">公众号</category></item><item><title>在 Spring Cache 中为 Redis 添加内存缓存</title><link>https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</link><guid isPermaLink="true">https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</guid><pubDate>Sun, 29 Mar 2020 12:44:41 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description>&lt;p>缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。&lt;/p>
+&lt;h2 id="spring-cache-抽象">Spring Cache 抽象&lt;/h2>
+&lt;p>&lt;a href="https://docs.spring.io/spring/docs/5.0.0.RELEASE/spring-framework-reference/integration.html#cache">Spring Cache&lt;/a> 作为 Spring 最核心的模块之一，提供了开箱即用的缓存支持，应用程序只需要在任意 &lt;em>Configuration&lt;/em> 类上加入注解 &lt;em>@EnableCaching&lt;/em> 即可启用缓存：&lt;/p>
+&lt;p>Spring Cache 的实现位 &lt;em>org.springframework.cache&lt;/em> 包下，如果使用 Maven 的话需要引入 &lt;a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-context">&lt;em>spring-context&lt;/em>&lt;/a> 模块，其中最核心的 2 个接口定义如下：&lt;/p>
+&lt;dl>
+&lt;dt>&lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/Cache.html">&lt;em>Cache&lt;/em>&lt;/a>&lt;/dt>
+&lt;dd>代表通用缓存对象的抽象，定义了与缓存交互的接口，包含基本的读取、写入、淘汰和清空操作，管理一系列的缓存键值对，按键寻址，拥有唯一的名称。&lt;/dd>
+&lt;dt>&lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/CacheManager.html">&lt;em>CacheManager&lt;/em>&lt;/a>&lt;/dt>
+&lt;dd>代表缓存管理器的抽象，管理一系列缓存对象，按名称寻址缓存。&lt;/dd>
+&lt;/dl>
+&lt;p>一句话概括就是：Spring 在核心模块 &lt;em>spring-context&lt;/em> 就包含了对缓存的支持，通过注解 &lt;em>@EnableCaching&lt;/em> 来使用。需要被缓存的对象由 &lt;em>Cache&lt;/em> 管理并按键寻址，&lt;em>Cache&lt;/em> 按照名称区分彼此，统一地注册在 &lt;em>CacheManager&lt;/em> 中&lt;sup id="fnref:1">&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h2 id="concurrentmapcache-和-rediscache">ConcurrentMapCache 和 RedisCache&lt;/h2>
+&lt;p>简单来说，&lt;em>Cache&lt;/em> 和 &lt;em>CacheManager&lt;/em> 定义了如何存储具体的缓存对象，是存储在本地还是远程服务器，实际的方式不同实现有不同表现，一般我们用得最多的实现要数以下两种：&lt;/p>
+&lt;dl>
+&lt;dt>&lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html">&lt;em>ConcurrentMapCache&lt;/em>&lt;/a>&lt;/dt>
+&lt;dd>基于 &lt;em>ConcurrentHashMap&lt;/em> 实现的本地缓存，也是此次的内存缓存实现类，对应的缓存管理器是 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCacheManager.html">&lt;em>ConcurrentMapCacheManager&lt;/em>&lt;/a>；&lt;/dd>
+&lt;dt>&lt;a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCache.html">&lt;em>RedisCache&lt;/em>&lt;/a>&lt;/dt>
+&lt;dd>基于 Redis 实现的分布式缓存，使用时需要引入 &lt;a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-data-redis">&lt;em>spring-data-redis&lt;/em>&lt;/a> 依赖，对应的缓存管理器是 &lt;a href="https://docs.spring.io/spring-data/data-redis/docs/current/api/org/springframework/data/redis/cache/RedisCacheManager.html">&lt;em>RedisCacheManager&lt;/em>&lt;/a>。&lt;/dd>
+&lt;/dl>
+&lt;h2 id="实现二级内存缓存">实现二级内存缓存&lt;/h2>
+&lt;p>回到开头的问题，如果需要在 &lt;em>RedisCache&lt;/em> 存在的情况下，为应用程序加入内存二级缓存的支持，要如何做呢？典型的场景是，对于某个缓存键，若在本地内存缓存中存在，则使用内存缓存的值，否则查询 Redis 缓存，若存在，将取得的值回写入内存缓存中，流程图表示为：&lt;/p>
+&lt;div class="mermaid">
 graph TD;
-    Q[/Query Start/]
-    QE[/Query End/]
-    M([Memory])
-    R([Redis])
-    Q -->|KEY| M
-    M --> KP{Memory KEY exists?}
-    KP -->|Y| RMV[Return memory value]
-    RMV -->QE
-    KP -->|N| QR[Query Redis]
-    QR -->R
-    R --> RKP{Redis KEY exists?}
-    RKP --> |Y| WM[Write memory]
-    WM -->QE
-    RKP --> |N| DB[(Database)]
-</div>
-<p>虽然 Spring 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/CompositeCacheManager.html"><em>CompositeCacheManager</em></a> 的实现来组合多个 <em>CacheManager</em>，但也仅仅是在名称寻址时，迭代所管理的 <em>CacheManager</em> 集合，返回第一个寻址不为 null 的 <em>Cache</em> 对象，并不能完成上述的缓存回写的实现。</p>
-<p>我们可以用 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html"><em>AbstractCacheManager</em></a> 的特性来解决这个问题，<em>AbstractCacheManager</em> 提供了名为 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html#decorateCache-org.springframework.cache.Cache-"><em>decorateCache</em></a> 的保护方法来对 <em>Cache</em> 对象做封装，它的定义如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
-</span><span class="cm"> * Decorate the given Cache object if necessary.
-</span><span class="cm"> *
-</span><span class="cm"> * @param cache the Cache object to be added to this CacheManager
-</span><span class="cm"> * @return the decorated Cache object to be used instead,
-</span><span class="cm"> * or simply the passed-in Cache object by default
-</span><span class="cm"> */</span>
- <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-   <span class="k">return</span> <span class="n">cache</span><span class="o">;</span>
- <span class="o">}</span>
-</code></pre></div><p><em>decorateCache</em> 方法的调用时机有 2 个：</p>
-<ol>
-<li><em>CacheManager</em> 初始化缓存；</li>
-<li>向 <em>CacheManager</em> 请求了它所没有的缓存（<span lang="en">Missing Cache</span>），且 <em>CacheManager</em> 被配置成自动创建不存在的缓存时，<em>decorateCache</em> 会在 <span lang="en">Missing Cache</span> 被创建时被调用。<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
-</ol>
-<p>重载 <em>decorateCache</em> 用的是典型的 <a href="https://zh.wikipedia.org/wiki/%E4%BF%AE%E9%A5%B0%E6%A8%A1%E5%BC%8F">装饰模式</a> 的思想，在子类中重写该方法，我们可以将参数中的 <em>Cache</em> 对象包装成我们想要的实现，从而达到在不修改原有缓存的情况动态地下改变原缓存的行为。</p>
-<h3 id="缓存装饰器">缓存装饰器</h3>
-<p>首先我们展示一个缓存装饰器的简单示例，它在每次缓存读取和写入时打印一条日志：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleLoggingCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">delegate</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">LoggingCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">delegate</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">delegate</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">delegate</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Nullable</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">delegate</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Get cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
-    <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Put cache value, key = {}&#34;</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
-    <span class="n">delegate</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="c1">// 所有的方法都转发到委托对象，下同
-</span><span class="c1"></span><span class="o">}</span>
-</code></pre></div><p>接着继承现有的 <em>CacheManager</em> 并重写 <em>decorateCache</em> 方法：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
-<span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleLoggingCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>这样我们就实现了在日志中捕捉缓存的方法调用，可以看出，通过装饰器模式，我们能够无侵入地修改原对象的行为，这也为我们后续进一步 hack 缓存提供了设计基础。</p>
-<h3 id="内存缓存装饰器">内存缓存装饰器</h3>
-<p>接下来我们沿用上一节的设计，尝试实现一个内存缓存的装饰器（<span lang="en">Memory Cache Decorator</span>），它的作用是按照上述流程图所描述的逻辑来改变已有 Redis 缓存的行为。</p>
-<p>不难分析出，这个装饰器会具有如下特征：</p>
-<ol>
-<li>持有一个上游缓存的引用，并管理一个内存缓存；</li>
-<li>修改上游缓存读取方法的行为，在方法返回 null 时转而查询本地的内存缓存，依据查询的结果判断是否需要回写本地缓存；</li>
-<li>修改上游缓存写入方法的行为，在方法执行的同时也同步到到本地的内存缓存。</li>
-</ol>
-<p>以下是它的部分代码实现：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">memory</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">source</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="n">Cache</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
-  <span class="o">}</span>
-
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">getNativeCache</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">source</span><span class="o">.</span><span class="na">getNativeCache</span><span class="o">();</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Nullable</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">ValueWrapper</span> <span class="nf">get</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ValueWrapper</span> <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="n">valueWrapper</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">valueWrapper</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">valueWrapper</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">valueWrapper</span><span class="o">;</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">key</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">source</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
-    <span class="n">memory</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="c1">// 其他的 GET/PUT 方法省略
-</span><span class="c1"></span><span class="o">}</span>
-</code></pre></div><p><em>MemoryCacheDecorator</em> 的逻辑并不复杂，仅仅是拦截了上游缓存的读取操作，其中：</p>
-<ul>
-<li>第 8 行创建了替代上游缓存的内存缓存对象，采用 <em>ConcurrentMapCache</em> 实现，为了健壮起见，内存缓存的名称是上游缓存名称前加 <code>memory-</code>；</li>
-<li>第 27 ～ 35 行是真正起作用的部分：先查询内存缓存，依据结果判断是否需要进一步查询上游缓存，且保证查询上游缓存后回写内存缓存以保证一致性；</li>
-<li>同样为健壮起见，在上游缓存被修改时也需要同步到内存缓存中，如第 41 行所示。</li>
-</ul>
-<h3 id="扩展-rediscachemanager">扩展 RedisCacheManager</h3>
-<p>现在是时候扩展现有的缓存管理器了，由于上游缓存是 <em>RedisCache</em>，我们需要扩展它所对应的缓存管理器 &mdash; <em>RedisCacheManager</em>，并重写 <em>decorateCache</em> 方法，代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span> <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="o">{</span>
-
-  <span class="c1">// 构造方法省略
-</span><span class="c1"></span>
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>在任何用到 <em>RedisCacheManager</em> 的地方使用 <em>MemoryRedisCacheManager</em> 替换，保证程序中最终起作用的 <em>CacheManager</em> 是我们实现的 <em>MemoryRedisCacheManager</em> 即可。</p>
-<p>此时所有的 <em>Cache</em> 对象在初始化时，都会被包装成 <em>MemoryCacheDecorator</em> 类型，在读取和写入时会先从内存缓存中查询，这样便完成了二级缓存的实现。</p>
-<p>实际上，按照这样的方式上游缓存不一定是 <em>RedisCache</em>，任何可以远程缓存比如 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/ehcache/EhCacheCache.html"><em>EhCacheCache</em></a> 也可以通过这样的方式来整合本地二级缓存。</p>
-<h2 id="内存缓存的优化">内存缓存的优化</h2>
-<p>虽然通过扩展 <em>RedisCacheManager</em> 类和少量代码便能实现本地的内存缓存，但这也只是完成了第一步，现在的代码如果在生产环境使用仍然具有不少问题：</p>
-<ol>
-<li>
-<p><strong>缓存过期</strong>：我们没有确定内存缓存何时过期，Redis 缓存的过期由 Redis 服务器的键过期能力来保证，但 <em>ConcurrentMapCache</em> 没有。况且实际的服务通常是集群部署，存在着多个实例负载均衡，因此各个实例之间的缓存一致性也是需要考虑的，否则可能出现用户访问的结果同时存在新旧两个版本。</p>
-</li>
-<li>
-<p><strong>序列化与线程安全</strong>：<em>ConcurrentMapCache</em> 中默认保存的是缓存值本身，即多线程环境下各个线程对同一个缓存键获取的值是同一个对象实例。若其中一个线程修改了该实例，则会其他线程的读取，比如一个业务读取缓存中的配置数据，根据自己的业务逻辑修改了对象的字段，由于对象只有一份，这个修改将会被所有其他线程知晓。</p>
-</li>
-<li>
-<p><strong>条件化启用</strong>：业务中的缓存可能会分为用户数据的缓存（热数据）和配置数据的缓存（冷数据）两组，不同组的缓存修改的频率不同，比如用户缓存随着用户行为的发生而被淘汰，而配置数据的更新频率往往是按周来算，因此我们一般只会对不常变化的配置数据做内存二级缓存，这就要求 <em>CacheManager</em> 条件化地对 <em>Cache</em> 进行装饰。</p>
-</li>
-</ol>
-<p>基于以上 3 点，我们可以对现有代码做优化。</p>
-<h3 id="缓存过期">缓存过期</h3>
-<p>内存缓存需要过期（严格来说是清空），并且最好是所有服务实例在同一时间点过期，典型的解决方案就是基于 <a href="https://www.baeldung.com/cron-expressions">Cron 表达式</a> 的定时任务。</p>
-<p>Spring 中设置 Cron 定时任务的方式非常方便，如果服务已经配置了启用定时任务的注解 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html"><em>@EnableScheduling</em></a>，则可以让我们的缓存管理器简单地实现 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/SchedulingConfigurer.html"><em>SchedulingConfigurer</em></a> 接口，如果没有配置的话，定时任务也是 Spring 的 <em>spring-context</em> 模块就支持的，不需要引入其他的依赖。在此之前，首先让 <em>MemoryCacheDecorator</em> 提供一个公共的清理内存缓存的方法：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
-
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanMemoryCache</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">memoryCache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>再让缓存管理器注册 Cron 定时任务，比如按每分钟的第 30 秒执行清空：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span> <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="kd">implements</span> <span class="n">SchedulingConfigurer</span> <span class="o">{</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureTasks</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">ScheduledTaskRegistrar</span> <span class="n">taskRegistrar</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 向容器注册清理缓存的 CRON 任务，若没有配置 @EnableScheduling，这里不会执行，需要手动调用 clearMemoryCache 清理
-</span><span class="c1"></span>    <span class="n">taskRegistrar</span><span class="o">.</span><span class="na">addCronTask</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">clearMemoryCache</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Register cron task for clear memory cache, cron = {}&#34;</span><span class="o">,</span> <span class="n">clearCacheCronExpression</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="cm">/** 手动清理所有内存缓存。 */</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clearMemoryCache</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cacheNames</span> <span class="o">=</span> <span class="n">getCacheNames</span><span class="o">();</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">cacheName</span> <span class="o">:</span> <span class="n">cacheNames</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">Cache</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">getCache</span><span class="o">(</span><span class="n">cacheName</span><span class="o">);</span>
-      <span class="k">if</span> <span class="o">(!(</span><span class="n">cache</span> <span class="k">instanceof</span> <span class="n">MemoryCacheDecorator</span><span class="o">))</span> <span class="o">{</span>
-        <span class="k">continue</span><span class="o">;</span>
-      <span class="o">}</span>
-      <span class="c1">// 对所有 MemoryCacheDecorator 类型的缓存做清理
-</span><span class="c1"></span>      <span class="n">MemoryCacheDecorator</span> <span class="n">memoryCacheDecorator</span> <span class="o">=</span> <span class="o">(</span><span class="n">MemoryCacheDecorator</span><span class="o">)</span> <span class="n">cache</span><span class="o">;</span>
-      <span class="n">memoryCacheDecorator</span><span class="o">.</span><span class="na">cleanMemoryCache</span><span class="o">();</span>
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>这样就能保证所有的服务实例，几乎在同一时间点清空内存缓存。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
-<h3 id="序列化">序列化</h3>
-<p>缓存的序列化机制通过复制对象来保证线程安全，如果每次从缓存中获取到的总是全新的对象，那么就不存在上述的多线程修改缓存对象互相影响的问题。</p>
-<p><em>ConcurrentMapCache</em> 可以在 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html#ConcurrentMapCache-java.lang.String-java.util.concurrent.ConcurrentMap-boolean-org.springframework.core.serializer.support.SerializationDelegate-">构造方法</a> 中指定一个 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/support/SerializationDelegate.html">序列化实现</a>。若指定了序列化实现，则被缓存的对象会经由序列化转化成字节数组保存，否则直接保存对象引用，同时在读取的时候将字节数组反序列化成对象。。</p>
-<p><em>ConcurrentMapCache</em> 序列化机制的接口定义于 <a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-core"><em>spring-core</em></a> 中，Spring 自身只提供了 JDK 序列化版本的实现<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>。其实大多数情况下这两个类足以满足要求，不过因为是 JDK 序列化，所以对于被序列化的类有诸多的要求，比如必须实现 <em>Serializable</em> 接口，而且众所周知，JDK 序列化的性能低于其他序列化实现。这里我们选择 JSON 序列化，并且使用 <a href="https://github.com/alibaba/fastjson">Fastjson</a> 来实现。</p>
-<p>得益于 Fastjson 的简单性，最终实现的代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationDelegate</span> <span class="kd">implements</span> <span class="n">Serializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Deserializer</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ParserConfig</span> <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParserConfig</span><span class="o">();</span>
-
-  <span class="kd">static</span> <span class="o">{</span>
-    <span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
-</span><span class="c1"></span>    <span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG</span><span class="o">.</span><span class="na">setAutoTypeSupport</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">deserialize</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
-</span><span class="c1"></span>    <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
-    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
-    <span class="k">return</span> <span class="n">JSON</span><span class="o">.</span><span class="na">parseObject</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serialize</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Object</span> <span class="n">object</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="n">OutputStream</span> <span class="n">outputStream</span><span class="o">)</span>
-      <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="c1">// 这里需要带上 SerializerFeature.WriteClassName，否则 List&lt;Long&gt; 经过序列化反序列化会变成 List&lt;Integer&gt;
-</span><span class="c1"></span>    <span class="n">JSON</span><span class="o">.</span><span class="na">writeJSONString</span><span class="o">(</span><span class="n">outputStream</span><span class="o">,</span> <span class="n">object</span><span class="o">,</span> <span class="n">SerializerFeature</span><span class="o">.</span><span class="na">WriteClassName</span><span class="o">);</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>需要注意的就是第 17 行的调用中需要加入 <em>WriteClassName</em> 的序列化特性，否则 <em>List&lt;Long&gt;</em> 在序列反序列化后会被解析成 <em>List&lt;Integer&gt;</em>。另外，<em>Fastjson</em> 在版本 1.2.25 之后限制了 JSON 反序列化时的类型解析功能，所以我们在第 4 行使用一个非全局的 <em>ParserConfig</em> 对象，单独对该对象启用 <em>autoType</em> 并在第 19 行使用，如果不指定的话就会使用全局的对象<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>，这样可能出现 <em>autotype is not support</em> 报错。具体的配置可以参阅官方的 <a href="https://github.com/alibaba/fastjson/wiki/security_update_20170315#2-%E5%8D%87%E7%BA%A7%E4%B9%8B%E5%90%8E%E6%8A%A5%E9%94%99autotype-is-not-support">升级公告</a> 和 <a href="https://github.com/alibaba/fastjson/wiki/enable_autotype">enable_autotype</a> 配置。</p>
-<p>接着扩展 <em>ConcurrentMapCache</em> 类：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kd">class</span> <span class="nc">FastjsonSerializationConcurrentMapCache</span> <span class="kd">extends</span> <span class="n">ConcurrentMapCache</span> <span class="o">{</span>
-
-  <span class="cm">/** 该缓存的 FastJson 序列化实现。 */</span>
-  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">FastjsonSerializationDelegate</span> <span class="n">SERIALIZATION_DELEGATE</span> <span class="o">=</span>
-      <span class="k">new</span> <span class="n">FastjsonSerializationDelegate</span><span class="o">();</span>
-
-  <span class="kd">public</span> <span class="nf">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">(</span>
-        <span class="n">name</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;(</span><span class="n">256</span><span class="o">),</span>
-        <span class="kc">true</span><span class="o">,</span>
-        <span class="k">new</span> <span class="n">SerializationDelegate</span><span class="o">(</span><span class="n">SERIALIZATION_DELEGATE</span><span class="o">,</span> <span class="n">SERIALIZATION_DELEGATE</span><span class="o">));</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>最后在 <em>MemoryCacheDecorator</em> 的构造方法中替换原来的 <em>ConcurrentMapCache</em>：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">class</span> <span class="nc">MemoryCacheDecorator</span> <span class="kd">implements</span> <span class="n">Cache</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ConcurrentMapCache</span> <span class="n">memoryCache</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">Cache</span> <span class="n">targetCache</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">MemoryCacheDecorator</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">targetCache</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// this.memoryCache = new ConcurrentMapCache(&#34;memory-&#34; + targetCache.getName());
-</span><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">memoryCache</span> <span class="o">=</span>
-        <span class="k">new</span> <span class="n">FastjsonSerializationConcurrentMapCache</span><span class="o">(</span><span class="s">&#34;memory-&#34;</span> <span class="o">+</span> <span class="n">targetCache</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">targetCache</span> <span class="o">=</span> <span class="n">targetCache</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>缓存对象实际以 JSON 字符串的形式保存在内存中，并且带有字段的类型信息，每次访问的结果都是全新的反序列化对象，这样就实现了内存缓存的线程安全访问。</p>
-<h3 id="条件化启用">条件化启用</h3>
-<p>条件化启用应该是最好实现的一点优化了，只需要在构造方法中加入一个列表，在 <em>decorateCache</em> 方法中判断属于列表中的缓存才做包装，类似的代码如下：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MemoryRedisCacheManager</span> <span class="kd">extends</span> <span class="n">RedisCacheManager</span> <span class="kd">implements</span> <span class="n">SchedulingConfigurer</span> <span class="o">{</span>
-
-  <span class="cm">/** 只有这里配置的缓存才会加持内存缓存层。 */</span>
-  <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">decoratedCacheNameList</span><span class="o">;</span>
-
-  <span class="cm">/**
-</span><span class="cm">   * 覆盖 {@link AbstractCacheManager} 的装饰缓存方法，若参数中的缓存包含 {@link #decoratedCacheNameList}
-</span><span class="cm">   * 中，则在将该对象包装成具有内存缓存能力的对象。
-</span><span class="cm">   *
-</span><span class="cm">   * @see AbstractCacheManager
-</span><span class="cm">   * @param cache 原缓存对象
-</span><span class="cm">   * @return 原缓存对象或具有内存缓存能力的对象
-</span><span class="cm">   */</span>
-  <span class="nd">@NonNull</span>
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">Cache</span> <span class="nf">decorateCache</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Cache</span> <span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// 先让基类包装一次
-</span><span class="c1"></span>    <span class="n">Cache</span> <span class="n">superCache</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">decorateCache</span><span class="o">(</span><span class="n">cache</span><span class="o">);</span>
-    <span class="c1">// 判断是否为该缓存配置了内存缓存
-</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">decoratedCacheNameList</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">()))</span> <span class="o">{</span>
-      <span class="c1">// 包装缓存
-</span><span class="c1"></span>      <span class="k">return</span> <span class="k">new</span> <span class="n">MemoryCacheDecorator</span><span class="o">(</span><span class="n">superCache</span><span class="o">);</span>
-    <span class="o">}</span>
-    <span class="c1">// 不包装缓存
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">superCache</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="总结">总结</h2>
-<p>我们介绍了 Spring Cache 的 2 个核心接口，以及基于 Spring Cache 来为 Redis 缓存建立二级本地内存缓存，也讨论了如何在这个基础上做优化以便生产环境使用。</p>
-<p>实现的方法基于 <em>AbstractCacheManager</em> 的 <em>decorateCache</em> 函数，重写该方法可以将原本的 <em>Cache</em> 对象封装成另一个 <em>Cache</em> 对象，借此我们可以改变原有缓存的行为，最终以新增不超过 5 个类的代价，将核心逻辑内聚在 <em>RedisCacheManager</em> 的子类中，也易于未来的扩展，具体的详情可以参考我的 GitHub 项目 <a href="https://github.com/wzhix/memory-cache-in-redis">memory-cache-in-redis</a>。</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>如何使用 Spring Cache 以及如何集成 Redis 不在本文的讨论范围内，相关的内容可以参阅 Baeldung 的 <a href="https://www.baeldung.com/spring-cache-tutorial">A Guide To Caching in Spring</a>、IBM 知识库的 <a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/index.html">注释驱动的 Spring Cache 缓存介绍</a>。Redis Cache 的相关内容可以参阅 <a href="https://docs.spring.io/spring-data/redis/docs/2.2.6.RELEASE/reference/html/#redis:support:cache-abstraction">Spring Data Redis 官方文档章节</a>。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2" role="doc-endnote">
-<p>个人认为不应当让 <em>CacheManager</em> 自动创建缺失的缓存，而是在一开始就确定程序的缓存命名空间，并创建好所有类型的缓存。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3" role="doc-endnote">
-<p>Cron 表达式依照机器本地时间执行，不同机器本地时间可能存在分钟级差异，为了追求更高的一致性，应当用外部手段保证各个机器时间戳尽量趋近，比如时间服务器。 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:4" role="doc-endnote">
-<p>将对象类型的名称序列化至 JSON，在反序列化时可能存在安全问题，比如指定 JSON 反序列化后的类型为 <code>java.lang.Thread</code>，就能通过非常规方法创建线程。 <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:5" role="doc-endnote">
-<p> 即 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultSerializer.html"><em>DefaultSerializer</em></a> 和 <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultDeserializer.html"><em>DefaultDeserializer</em></a>。 <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
-]]></description><category domain="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/">技术</category><category domain="https://zhix.co/series/spring-framework/">Spring Framework</category><category domain="https://zhix.co/tags/java/">Java</category><category domain="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/">编程</category><category domain="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</category><category domain="https://zhix.co/tags/%E7%BC%93%E5%AD%98/">缓存</category><category domain="https://zhix.co/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</category><category domain="https://zhix.co/tags/cache/">cache</category><category domain="https://zhix.co/tags/spring-framework/">spring framework</category><category domain="https://zhix.co/tags/spring-cache/">spring cache</category><category domain="https://zhix.co/tags/redis/">redis</category></item><item><title>谈谈 Java SPI：以字符集举例</title><link>https://zhix.co/posts/talking-spi-in-java/</link><guid isPermaLink="true">https://zhix.co/posts/talking-spi-in-java/</guid><pubDate>Wed, 11 Mar 2020 20:12:51 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description><![CDATA[<p>自 Java 6.0 开始，JDK 提供了名为 SPI（<span lang="en">Service Provider Interface</span>）的加载机制，SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、<em>Charset</em> 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。</p>
-<h2 id="spi-机制">SPI 机制</h2>
-<p>在 SPI 里，接口或者抽象类被称为服务（<span lang="en">Service</span>）或服务提供者接口（<span lang="en">Service Provider Interface</span>），实现类被称为服务提供者（<span lang="en">Service Provider</span>）。虽然常见的概念被赋予了不太好理解的名称，但是二者在本质上还是代表了面向对象编程中规范（<span lang="en">Specification</span>）和实现（<span lang="en">Implementation</span>）的关系。</p>
-<h3 id="服务提供者">服务提供者</h3>
-<p>在 SPI 的规范中，服务提供者的实现类应当配置在资源目录下的 <em>META-INF/services</em> 目录<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>下。该目录下，每一个服务接口对应一个单独的文本文件，文件名为服务接口的完全限定名，文件内容按行区分，每一行是服务实现类的完全限定名<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
-<p>SPI 的核心类是范型类 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"><em>ServiceLoader</em></a>，它负责发现类路径中配置的实现类并实例化它们。<em>ServiceLoader</em> 维护了一个 <em>LinkedHashMap&lt;String, T&gt;</em> 的内部缓存来惰性实例化实现类，其中类型 <em>T</em> 为服务接口类。<em>ServiceLoader.load(T.class)</em> 是最常调用的方法，它返回类型 <em>T</em> 的 <em>ServiceLoader</em> 实例。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
-<h2 id="charset-的加载方式">Charset 的加载方式</h2>
-<p>JDK 以 <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/spi/CharsetProvider.html"><em>CharsetProvider</em></a> 来实现字符集框架。Oracle JDK 扩展了该实现，提供了标准字符集和扩展字符集的 Provider 实现（<em>StandardCharsets</em> 和 <em>ExtendedCharsets</em>）：</p>
-<dl>
-<dt><em>StandardCharsets</em></dt>
-<dd>
-<p>标准字符集提供者，包括 Unicode 和 ASCII 字符集的管理；</p>
-</dd>
-<dt><em>ExtendedCharsets</em></dt>
-<dd>
-<p>扩展字符集提供者，包括 CJK 字符集的管理。</p>
-</dd>
-</dl>
-<p>这两个类都是在 <em>sun.nio.cs</em> 包下。</p>
-<p>在 Java 中我们通过调用 <em>Charset.forName(&ldquo;charset-name&rdquo;)</em> 来访问字符集 API，<em>forName</em> 方法在底层会进行一系列的 lookup 操作，按照标准字符集提供者、扩展字符集提供者和 SPI 字符集提供者的顺序查询 charset-name 对应的字符集实现类，当无法在前两个内置的字符集提供者中找到对应名称的字符集实现，SPI 字符集提供者便会起作用，SPI 字符集提供者以接口 <em>CharsetProvider</em> 为核心，因此我们可以为该接口插入自己的实现类。</p>
-<h2 id="安装自定义字符集">安装自定义字符集</h2>
-<p>假设现在有一个比 UTF-8 更高效且通用的字符串编码算法，它相对于 UTF-8 可能信噪比更低、更适合压缩甚至是支持火星语编码，我们暂且叫它 9527。它的编解码算法已经公开，我们现在需要赶在 Oracle 发布新的 JDK 支持它之前将它嵌入到我们的应用程序中，并且程序只需要将使用字符集的地方替换为 <em>Charset.forName(&ldquo;9527&rdquo;)</em> 即可。</p>
-<h3 id="定义字符集">定义字符集</h3>
-<p>首先我们需要一个实现类继承自 <em>java.nio.charset.Charset</em>，<em>Charset</em> 是所有字符集的基类。在该案例中的实现类假设叫做 <em>_9527Charset</em>，并且为方便示例，我们假定 <em>_9527Charset</em> 本质上就是 UTF-8 的实现，因此它会持有一个 UTF-8 的实例，对它的所有方法调用都会被转发至 UTF-8 对应的方法中：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">zhix.encoding.spi</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">_9527Charset</span> <span class="kd">extends</span> <span class="n">Charset</span> <span class="o">{</span>
-
-  <span class="c1">// 为方便示例，假定 _9527Charset 本质上就是 UTF-8 的实现
-</span><span class="c1"></span>  <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">Charset</span> <span class="n">DELEGATE</span> <span class="o">=</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">_9527Charset</span><span class="o">()</span> <span class="o">{</span>
-    <span class="c1">// 名称和别名集合
-</span><span class="c1"></span>    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span><span class="s">&#34;mew-9527&#34;</span><span class="o">,</span> <span class="s">&#34;mew&#34;</span><span class="o">});</span>
-  <span class="o">}</span>
-
-  <span class="c1">// 所有的方法调用一并转发
-</span><span class="c1"></span>
-  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="n">Charset</span> <span class="n">cs</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">cs</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="n">CharsetDecoder</span> <span class="nf">newDecoder</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newDecoder</span><span class="o">();</span>
-  <span class="o">}</span>
-
-  <span class="kd">public</span> <span class="n">CharsetEncoder</span> <span class="nf">newEncoder</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">DELEGATE</span><span class="o">.</span><span class="na">newEncoder</span><span class="o">();</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>因为字符集在 JDK 中是以命名服务实现的，所以我们同时还要设置新字符集的规则名称（<span lang="en">Canonical Name</span>）和别名（<span lang="en">Aliases</span>），这里将规则名称设置为 <em>9527</em>，将别名集合设置为 <em>mew-9527</em> 和 <em>mew</em>。规则名称在命名空间中唯一确定一个字符集，别名提供了额外的查询方式。</p>
-<p>第 15 - 25 行是 <em>Charset</em> 的子类需要实现的 3 个方法，包括编码器和解码器，这里直接将逻辑转发给 UTF-8 的实现，真实的情况会更加复杂，因为我们需要自行实现编解码器，并做真正的底层字节处理。</p>
-<h3 id="定义-charsetprovider">定义 CharsetProvider</h3>
-<p>接下来是实现 <em>CharsetProvider</em>，但通常我们只需要扩展 <em>AbstractCharsetProvider</em> 即可，<em>AbstractCharsetProvider</em> 提供了基本的字符集管理实现，包括名称管理、别名管理、缓存。</p>
-<p>构造 <em>AbstractCharsetProvider</em> 时还可以提供一个名为 <em>pkgPrefixName</em> 的参数，它用于指定该字符集提供者所管理的字符集从哪一个包中查找实现类，默认包前缀为 <em>sun.nio.cs</em>。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">protected</span> <span class="nf">AbstractCharsetProvider</span><span class="o">()</span> <span class="o">{</span>
-  <span class="n">packagePrefix</span> <span class="o">=</span> <span class="s">&#34;sun.nio.cs&#34;</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="kd">protected</span> <span class="nf">AbstractCharsetProvider</span><span class="o">(</span><span class="n">String</span> <span class="n">pkgPrefixName</span><span class="o">)</span> <span class="o">{</span>
-  <span class="n">packagePrefix</span> <span class="o">=</span> <span class="n">pkgPrefixName</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>以下代码展示了名为 <em>_9527CharsetProvider</em> 的实现，并指定在 <em>zhix.encoding.spi</em> 的包中查询字符集。</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">zhix.encoding.spi</span><span class="o">;</span>
-
-<span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">_9527CharsetProvider</span> <span class="kd">extends</span> <span class="n">AbstractCharsetProvider</span> <span class="o">{</span>
-
-  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">CANONICAL_NAME</span> <span class="o">=</span> <span class="s">&#34;9527&#34;</span><span class="o">;</span>
-  <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">ALIASES</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="s">&#34;mew-9527&#34;</span><span class="o">};</span>
-
-  <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">initialized</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-
-  <span class="kd">public</span> <span class="nf">_9527CharsetProvider</span><span class="o">()</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">(</span><span class="s">&#34;zhix.encoding.spi&#34;</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">initialized</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">return</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;{} initialized.&#34;</span><span class="o">,</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
-
-    <span class="n">charset</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">(),</span> <span class="n">ALIASES</span><span class="o">);</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span>
-        <span class="s">&#34;Register charset {} with class {}.&#34;</span><span class="o">,</span> <span class="n">CANONICAL_NAME</span><span class="o">,</span> <span class="n">_9527Charset</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
-
-    <span class="n">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>第 16 行的 init 方法会在查询 SPI 字符集时被调用，外部的逻辑可能会多次调用该方法，因此需要开发者自己来保证只初始化一次，比如这里用第 9 行定义的 <em>initialized</em> 变量来控制。</p>
-<p>第 23 行的 <em>charset</em> 方法由基类 <em>AbstractCharsetProvider</em> 提供，用于注册字符集的元信息描述：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/* Declare support for the given charset
-</span><span class="cm"> */</span>
-<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">charset</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">className</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">aliases</span><span class="o">)</span> <span class="o">{</span>
-  <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">put</span><span class="o">(</span><span class="n">classMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">className</span><span class="o">);</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">aliases</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
-      <span class="n">put</span><span class="o">(</span><span class="n">aliasMap</span><span class="o">,</span> <span class="n">aliases</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">name</span><span class="o">);</span>
-    <span class="n">put</span><span class="o">(</span><span class="n">aliasNameMap</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">aliases</span><span class="o">);</span>
-    <span class="n">cache</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p><em>AbstractCharsetProvider</em> 根据参数的名称和别名，为字符集建立查询数据结构，在查询时若有匹配的字符集描述，则根据上文提到的 <em>pkgPrefixName</em> + 类名，通过反射创建 <em>Charset</em> 的实例，完成 <em>Charset</em> 的查询并初始化。</p>
-<p>所有的 <em>Charset</em> 初始化都是惰性的，并且 <em>AbstractCharsetProvider</em> 维护了一个缓存来避免重复初始化。因此最佳实践是在应用程序里只使用一种类型的 <em>Charset</em>。</p>
-<h3 id="配置-_9527charsetprovider">配置 _9527CharsetProvider</h3>
-<p>在项目的 <em>resources/META-INF/services</em> 目录下新建文本文件</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">java.nio.charset.spi.CharsetProvider
-</code></pre></div><p>写入一个内容为</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">zhix.encoding.spi._9527CharsetProvider
-</code></pre></div><p>的新行。</p>
-<figure>
-    <img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/configure-spi-in-meta-inf-directory.png"
-         alt="配置 _9527CharsetProvider"/> <figcaption>
-            <p>配置 _9527CharsetProvider</p>
-        </figcaption>
-</figure>
-
-<h3 id="单元测试">单元测试</h3>
-<p>在 <em>test/resources</em> 目录下创建单元测试类 <em>_9527CharsetProviderTest</em>：</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">zhix.encoding</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.nio.charset.Charset</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.nio.charset.StandardCharsets</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Assert</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
-
-<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&#34;InjectedReferences&#34;</span><span class="o">)</span>
-<span class="nd">@Slf4j</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">_9527CharsetProviderTest</span> <span class="o">{</span>
-
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="s">&#34;我能吞下玻璃而不伤身体&#34;</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">Charset</span> <span class="n">charset</span><span class="o">;</span>
-
-  <span class="nd">@Before</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
-    <span class="c1">// 触发 SPI 加载
-</span><span class="c1"></span>    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;9527&#34;</span><span class="o">);</span>
-  <span class="o">}</span>
-  
-  <span class="c1">// 测试编解码结果一致
-</span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecoding</span><span class="o">()</span> <span class="o">{</span>
-
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset name = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset displayName = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">displayName</span><span class="o">());</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Charset aliases = {}&#34;</span><span class="o">,</span> <span class="n">charset</span><span class="o">.</span><span class="na">aliases</span><span class="o">());</span>
-
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)));</span>
-  <span class="o">}</span>
-  
-  <span class="c1">// 测试 _9527 和 UTF-8 一致
-</span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingCompareToUTF8</span><span class="o">()</span> <span class="o">{</span>
-
-    <span class="n">Charset</span> <span class="n">utf8</span> <span class="o">=</span> <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">;</span>
-    <span class="kt">byte</span><span class="o">[]</span> <span class="n">utf8Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">utf8</span><span class="o">);</span>
-    <span class="kt">byte</span><span class="o">[]</span> <span class="n">_9527Bytes</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">);</span>
-
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertArrayEquals</span><span class="o">(</span><span class="n">utf8Bytes</span><span class="o">,</span> <span class="n">_9527Bytes</span><span class="o">);</span>
-  <span class="o">}</span>
-
-  <span class="c1">// 测试使用别名查询 Charset
-</span><span class="c1"></span>  <span class="nd">@Test</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEncodingAndDecodingWithAlias</span><span class="o">()</span> <span class="o">{</span>
-
-    <span class="n">charset</span> <span class="o">=</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;mew&#34;</span><span class="o">);</span>
-    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">text</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">charset</span><span class="o">)));</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>运行单元测试的结果如下：</p>
-<figure>
-    <img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20.3.16-unit-test-result-of-_9527-charset-provider.png"
-         alt="_9527CharsetProvider 单元测试结果"/> <figcaption>
-            <p>_9527CharsetProvider 单元测试结果</p>
-        </figcaption>
-</figure>
-
-<p>可以看到我们可以通过 <code>Charset.forName(&quot;9527&quot;)</code> 的方式获得我们自己定义的 <em>Charset</em> 实例，且实例的类型就是 <em>_9527Charset</em>。</p>
-<h2 id="spi-的延伸讨论">SPI 的延伸讨论</h2>
-<p>SPI 使用延迟加载，会扫描整个类路径下的 <em>META-INF/services</em> 目录，所有配置的实现类的无参构造方法都会被调用并实例化，也就是一次访问，所有候选类都会被加载。如果实际场景不需要使用所有的实现类，这些类就会白白占用 JVM 内存，其次如果实现类是一个重型类的话，更会造成严重的内存浪费。</p>
-<p>另外一个缺陷是，你只能通过 <em>load</em> 方法返回的迭代器来迭代访问实现类，这是一种相当底层的编程接口，意味着你无法灵活地根据参数不同获取某个的实现类。如果要实际使用方便，一种可能的最佳的实现是：封装 load 方法，根据传入的参数控制返回的实现类的查找逻辑，并且设置一个类变量缓存查找的结果。</p>
-<h3 id="spi-与-api">SPI 与 API</h3>
-<p>SPI 和 API 本质上都是 <span lang="en">Specification</span> 和 <span lang="en">Implementation</span> 的不同表现形式，区别在于：</p>
-<ul>
-<li>API 的使用者不关心规范的具体实现细节，只关心 API 的使用规范，开发者通过组织 API 提供的功能来实现目标。</li>
-<li>SPI 的开发者按照规范实现接口，通过满足规范的规约来实现目标。</li>
-</ul>
-<p>简单来说就是，对于一套编程规范，如果你使用规范提供的功能来编程，规范对你来说就是 API，如果你通过编程来满足规范的所有要求，则规范对你来说就是 SPI。</p>
-<p>也可以参考 StackOverflow 上的 <a href="https://stackoverflow.com/a/2956803">这个回答</a>。</p>
-<h2 id="结语">结语</h2>
-<p>JDK 在 6.0 的时候发布了 SPI 机制，解决了实现类在运行时如何确定的问题，有利于应用程序的扩展，对 Spring 等框架也产生了重要影响，现如今看来，它的实现方式比较底层，一般需要在外层封装更抽象的控制逻辑来使用，同样 SPI 也存在内存占用的缺陷，<a href="https://cloud.tencent.com/developer/article/1121665">静态绑定</a><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 机制可以解决这个问题。</p>
-<p>通过 SPI，我们可以实现一些 JDK 内置功能的模块插入，比如自行实现 <em>Charset</em>。以上字符集加载的完整代码可以在 GitHub 项目 <a href="https://github.com/wzhix/9527-charset-encoding">9527-charset-encoding</a> 中查看，如果有任何问题和建议可以在项目里提交 Issue 给我。</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p>JAR 文件的规范和 <em>META-INF</em> 目录的详细介绍参见 Oracle 的 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html">Java SE Documentation</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2" role="doc-endnote">
-<p>Baeldung 中关于 <a href="https://www.baeldung.com/java-spi#3-service-provider"><em>Service Provider</em></a> 的介绍 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3" role="doc-endnote">
-<p>SPI 的详细配置规范参见 Oracle 的 <a href="https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html">The Java™ Tutorials</a> 教程 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:4" role="doc-endnote">
-<p>静态绑定的典型应用是 <a href="http://www.slf4j.org/">Slf4J</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
-]]></description><category domain="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/">技术</category><category domain="https://zhix.co/series/java-%E6%A0%B8%E5%BF%83/">Java 核心</category><category domain="https://zhix.co/tags/java/">Java</category><category domain="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/">编程</category><category domain="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</category><category domain="https://zhix.co/tags/utf-8/">UTF-8</category><category domain="https://zhix.co/tags/unicode/">Unicode</category><category domain="https://zhix.co/tags/jdk/">JDK</category><category domain="https://zhix.co/tags/spi/">SPI</category><category domain="https://zhix.co/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</category></item></channel></rss>
+Q[/Query Start/]
+QE[/Query End/]
+M([Memory])
+R([Redis])
+Q -->|KEY| M
+M --> KP{Memory KEY exists?}
+KP -->|Y| RMV[Return memory value]
+RMV -->QE
+KP -->|N| QR[Query Redis]
+QR -->R
+R --> RKP{Redis KEY exists?}
+RKP --> |Y| WM[Write memory]
+WM -->QE
+RKP --> |N| DB[(Database)]
+&lt;/div>
+&lt;p>虽然 Spring 提供了名为 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/CompositeCacheManager.html">&lt;em>CompositeCacheManager&lt;/em>&lt;/a> 的实现来组合多个 &lt;em>CacheManager&lt;/em>，但也仅仅是在名称寻址时，迭代所管理的 &lt;em>CacheManager&lt;/em> 集合，返回第一个寻址不为 null 的 &lt;em>Cache&lt;/em> 对象，并不能完成上述的缓存回写的实现。&lt;/p>
+&lt;p>我们可以用 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html">&lt;em>AbstractCacheManager&lt;/em>&lt;/a> 的特性来解决这个问题，&lt;em>AbstractCacheManager&lt;/em> 提供了名为 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/support/AbstractCacheManager.html#decorateCache-org.springframework.cache.Cache-">&lt;em>decorateCache&lt;/em>&lt;/a> 的保护方法来对 &lt;em>Cache&lt;/em> 对象做封装，它的定义如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="cm">/**
+&lt;/span>&lt;span class="cm"> * Decorate the given Cache object if necessary.
+&lt;/span>&lt;span class="cm"> *
+&lt;/span>&lt;span class="cm"> * @param cache the Cache object to be added to this CacheManager
+&lt;/span>&lt;span class="cm"> * @return the decorated Cache object to be used instead,
+&lt;/span>&lt;span class="cm"> * or simply the passed-in Cache object by default
+&lt;/span>&lt;span class="cm"> */&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="nf">decorateCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Cache&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>decorateCache&lt;/em> 方法的调用时机有 2 个：&lt;/p>
+&lt;ol>
+&lt;li>&lt;em>CacheManager&lt;/em> 初始化缓存；&lt;/li>
+&lt;li>向 &lt;em>CacheManager&lt;/em> 请求了它所没有的缓存（&lt;span lang="en">Missing Cache&lt;/span>），且 &lt;em>CacheManager&lt;/em> 被配置成自动创建不存在的缓存时，&lt;em>decorateCache&lt;/em> 会在 &lt;span lang="en">Missing Cache&lt;/span> 被创建时被调用。&lt;sup id="fnref:2">&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/li>
+&lt;/ol>
+&lt;p>重载 &lt;em>decorateCache&lt;/em> 用的是典型的 &lt;a href="https://zh.wikipedia.org/wiki/%E4%BF%AE%E9%A5%B0%E6%A8%A1%E5%BC%8F">装饰模式&lt;/a> 的思想，在子类中重写该方法，我们可以将参数中的 &lt;em>Cache&lt;/em> 对象包装成我们想要的实现，从而达到在不修改原有缓存的情况动态地下改变原缓存的行为。&lt;/p>
+&lt;h3 id="缓存装饰器">缓存装饰器&lt;/h3>
+&lt;p>首先我们展示一个缓存装饰器的简单示例，它在每次缓存读取和写入时打印一条日志：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">SimpleLoggingCacheDecorator&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">LoggingCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Cache&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">delegate&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="nf">getName&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="nf">getNativeCache&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getNativeCache&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Nullable&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">ValueWrapper&lt;/span> &lt;span class="nf">get&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Object&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">ValueWrapper&lt;/span> &lt;span class="n">valueWrapper&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">delegate&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">debug&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Get cache value, key = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">valueWrapper&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Object&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nd">@Nullable&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="n">value&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">debug&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Put cache value, key = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">delegate&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">value&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 所有的方法都转发到委托对象，下同
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>接着继承现有的 &lt;em>CacheManager&lt;/em> 并重写 &lt;em>decorateCache&lt;/em> 方法：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="nf">decorateCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Cache&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">SimpleLoggingCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cache&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样我们就实现了在日志中捕捉缓存的方法调用，可以看出，通过装饰器模式，我们能够无侵入地修改原对象的行为，这也为我们后续进一步 hack 缓存提供了设计基础。&lt;/p>
+&lt;h3 id="内存缓存装饰器">内存缓存装饰器&lt;/h3>
+&lt;p>接下来我们沿用上一节的设计，尝试实现一个内存缓存的装饰器（&lt;span lang="en">Memory Cache Decorator&lt;/span>），它的作用是按照上述流程图所描述的逻辑来改变已有 Redis 缓存的行为。&lt;/p>
+&lt;p>不难分析出，这个装饰器会具有如下特征：&lt;/p>
+&lt;ol>
+&lt;li>持有一个上游缓存的引用，并管理一个内存缓存；&lt;/li>
+&lt;li>修改上游缓存读取方法的行为，在方法返回 null 时转而查询本地的内存缓存，依据查询的结果判断是否需要回写本地缓存；&lt;/li>
+&lt;li>修改上游缓存写入方法的行为，在方法执行的同时也同步到到本地的内存缓存。&lt;/li>
+&lt;/ol>
+&lt;p>以下是它的部分代码实现：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryCacheDecorator&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">memory&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">MemoryCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Cache&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">memory&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">ConcurrentMapCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;memory-&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">source&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@NonNull&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="nf">getName&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@NonNull&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="nf">getNativeCache&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getNativeCache&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Nullable&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">ValueWrapper&lt;/span> &lt;span class="nf">get&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">ValueWrapper&lt;/span> &lt;span class="n">valueWrapper&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">memory&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">valueWrapper&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">valueWrapper&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="n">valueWrapper&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">source&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">valueWrapper&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">memory&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">valueWrapper&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">valueWrapper&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nd">@Nullable&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="n">value&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">source&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">value&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">memory&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">value&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 其他的 GET/PUT 方法省略
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>MemoryCacheDecorator&lt;/em> 的逻辑并不复杂，仅仅是拦截了上游缓存的读取操作，其中：&lt;/p>
+&lt;ul>
+&lt;li>第 8 行创建了替代上游缓存的内存缓存对象，采用 &lt;em>ConcurrentMapCache&lt;/em> 实现，为了健壮起见，内存缓存的名称是上游缓存名称前加 &lt;code>memory-&lt;/code>；&lt;/li>
+&lt;li>第 27 ～ 35 行是真正起作用的部分：先查询内存缓存，依据结果判断是否需要进一步查询上游缓存，且保证查询上游缓存后回写内存缓存以保证一致性；&lt;/li>
+&lt;li>同样为健壮起见，在上游缓存被修改时也需要同步到内存缓存中，如第 41 行所示。&lt;/li>
+&lt;/ul>
+&lt;h3 id="扩展-rediscachemanager">扩展 RedisCacheManager&lt;/h3>
+&lt;p>现在是时候扩展现有的缓存管理器了，由于上游缓存是 &lt;em>RedisCache&lt;/em>，我们需要扩展它所对应的缓存管理器 &amp;mdash; &lt;em>RedisCacheManager&lt;/em>，并重写 &lt;em>decorateCache&lt;/em> 方法，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryRedisCacheManager&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">RedisCacheManager&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 构造方法省略
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="nd">@NonNull&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="nf">decorateCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">MemoryCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cache&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在任何用到 &lt;em>RedisCacheManager&lt;/em> 的地方使用 &lt;em>MemoryRedisCacheManager&lt;/em> 替换，保证程序中最终起作用的 &lt;em>CacheManager&lt;/em> 是我们实现的 &lt;em>MemoryRedisCacheManager&lt;/em> 即可。&lt;/p>
+&lt;p>此时所有的 &lt;em>Cache&lt;/em> 对象在初始化时，都会被包装成 &lt;em>MemoryCacheDecorator&lt;/em> 类型，在读取和写入时会先从内存缓存中查询，这样便完成了二级缓存的实现。&lt;/p>
+&lt;p>实际上，按照这样的方式上游缓存不一定是 &lt;em>RedisCache&lt;/em>，任何可以远程缓存比如 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/ehcache/EhCacheCache.html">&lt;em>EhCacheCache&lt;/em>&lt;/a> 也可以通过这样的方式来整合本地二级缓存。&lt;/p>
+&lt;h2 id="内存缓存的优化">内存缓存的优化&lt;/h2>
+&lt;p>虽然通过扩展 &lt;em>RedisCacheManager&lt;/em> 类和少量代码便能实现本地的内存缓存，但这也只是完成了第一步，现在的代码如果在生产环境使用仍然具有不少问题：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>缓存过期&lt;/strong>：我们没有确定内存缓存何时过期，Redis 缓存的过期由 Redis 服务器的键过期能力来保证，但 &lt;em>ConcurrentMapCache&lt;/em> 没有。况且实际的服务通常是集群部署，存在着多个实例负载均衡，因此各个实例之间的缓存一致性也是需要考虑的，否则可能出现用户访问的结果同时存在新旧两个版本。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>序列化与线程安全&lt;/strong>：&lt;em>ConcurrentMapCache&lt;/em> 中默认保存的是缓存值本身，即多线程环境下各个线程对同一个缓存键获取的值是同一个对象实例。若其中一个线程修改了该实例，则会其他线程的读取，比如一个业务读取缓存中的配置数据，根据自己的业务逻辑修改了对象的字段，由于对象只有一份，这个修改将会被所有其他线程知晓。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>条件化启用&lt;/strong>：业务中的缓存可能会分为用户数据的缓存（热数据）和配置数据的缓存（冷数据）两组，不同组的缓存修改的频率不同，比如用户缓存随着用户行为的发生而被淘汰，而配置数据的更新频率往往是按周来算，因此我们一般只会对不常变化的配置数据做内存二级缓存，这就要求 &lt;em>CacheManager&lt;/em> 条件化地对 &lt;em>Cache&lt;/em> 进行装饰。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>基于以上 3 点，我们可以对现有代码做优化。&lt;/p>
+&lt;h3 id="缓存过期">缓存过期&lt;/h3>
+&lt;p>内存缓存需要过期（严格来说是清空），并且最好是所有服务实例在同一时间点过期，典型的解决方案就是基于 &lt;a href="https://www.baeldung.com/cron-expressions">Cron 表达式&lt;/a> 的定时任务。&lt;/p>
+&lt;p>Spring 中设置 Cron 定时任务的方式非常方便，如果服务已经配置了启用定时任务的注解 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableScheduling.html">&lt;em>@EnableScheduling&lt;/em>&lt;/a>，则可以让我们的缓存管理器简单地实现 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/SchedulingConfigurer.html">&lt;em>SchedulingConfigurer&lt;/em>&lt;/a> 接口，如果没有配置的话，定时任务也是 Spring 的 &lt;em>spring-context&lt;/em> 模块就支持的，不需要引入其他的依赖。在此之前，首先让 &lt;em>MemoryCacheDecorator&lt;/em> 提供一个公共的清理内存缓存的方法：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryCacheDecorator&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">cleanMemoryCache&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">memoryCache&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">clear&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>再让缓存管理器注册 Cron 定时任务，比如按每分钟的第 30 秒执行清空：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryRedisCacheManager&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">RedisCacheManager&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">SchedulingConfigurer&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">configureTasks&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">ScheduledTaskRegistrar&lt;/span> &lt;span class="n">taskRegistrar&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 向容器注册清理缓存的 CRON 任务，若没有配置 @EnableScheduling，这里不会执行，需要手动调用 clearMemoryCache 清理
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">taskRegistrar&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">addCronTask&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">clearMemoryCache&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">clearCacheCronExpression&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Register cron task for clear memory cache, cron = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">clearCacheCronExpression&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="cm">/** 手动清理所有内存缓存。 */&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">clearMemoryCache&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">Collection&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">cacheNames&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">getCacheNames&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">String&lt;/span> &lt;span class="n">cacheName&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">cacheNames&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">Cache&lt;/span> &lt;span class="n">cache&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">getCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cacheName&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">(!(&lt;/span>&lt;span class="n">cache&lt;/span> &lt;span class="k">instanceof&lt;/span> &lt;span class="n">MemoryCacheDecorator&lt;/span>&lt;span class="o">))&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">continue&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 对所有 MemoryCacheDecorator 类型的缓存做清理
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">MemoryCacheDecorator&lt;/span> &lt;span class="n">memoryCacheDecorator&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">MemoryCacheDecorator&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="n">memoryCacheDecorator&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">cleanMemoryCache&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样就能保证所有的服务实例，几乎在同一时间点清空内存缓存。&lt;sup id="fnref:3">&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/p>
+&lt;h3 id="序列化">序列化&lt;/h3>
+&lt;p>缓存的序列化机制通过复制对象来保证线程安全，如果每次从缓存中获取到的总是全新的对象，那么就不存在上述的多线程修改缓存对象互相影响的问题。&lt;/p>
+&lt;p>&lt;em>ConcurrentMapCache&lt;/em> 可以在 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/concurrent/ConcurrentMapCache.html#ConcurrentMapCache-java.lang.String-java.util.concurrent.ConcurrentMap-boolean-org.springframework.core.serializer.support.SerializationDelegate-">构造方法&lt;/a> 中指定一个 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/support/SerializationDelegate.html">序列化实现&lt;/a>。若指定了序列化实现，则被缓存的对象会经由序列化转化成字节数组保存，否则直接保存对象引用，同时在读取的时候将字节数组反序列化成对象。。&lt;/p>
+&lt;p>&lt;em>ConcurrentMapCache&lt;/em> 序列化机制的接口定义于 &lt;a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-core">&lt;em>spring-core&lt;/em>&lt;/a> 中，Spring 自身只提供了 JDK 序列化版本的实现&lt;sup id="fnref:4">&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>。其实大多数情况下这两个类足以满足要求，不过因为是 JDK 序列化，所以对于被序列化的类有诸多的要求，比如必须实现 &lt;em>Serializable&lt;/em> 接口，而且众所周知，JDK 序列化的性能低于其他序列化实现。这里我们选择 JSON 序列化，并且使用 &lt;a href="https://github.com/alibaba/fastjson">Fastjson&lt;/a> 来实现。&lt;/p>
+&lt;p>得益于 Fastjson 的简单性，最终实现的代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kd">final&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">FastjsonSerializationDelegate&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">Serializer&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="o">&amp;gt;,&lt;/span> &lt;span class="n">Deserializer&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">ParserConfig&lt;/span> &lt;span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">ParserConfig&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="kd">static&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 使用非全局的 ParserConfig 并设置支持 autoType
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">ENABLE_AUTO_TYPE_PARSER_CONFIG&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">setAutoTypeSupport&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@NonNull&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="nf">deserialize&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">InputStream&lt;/span> &lt;span class="n">inputStream&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="kd">throws&lt;/span> &lt;span class="n">IOException&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 读取所有 inputStream 中的数据至字节数组中，很多库的 I/O 工具类都能做到
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kt">byte&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">bytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">IOUtils&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">toByteArray&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">inputStream&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">String&lt;/span> &lt;span class="n">input&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">bytes&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">StandardCharsets&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">UTF_8&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">JSON&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">parseObject&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">inputStream&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">Object&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">serialize&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="n">object&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">OutputStream&lt;/span> &lt;span class="n">outputStream&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;span class="kd">throws&lt;/span> &lt;span class="n">IOException&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 这里需要带上 SerializerFeature.WriteClassName，否则 List&amp;lt;Long&amp;gt; 经过序列化反序列化会变成 List&amp;lt;Integer&amp;gt;
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">JSON&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">writeJSONString&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">outputStream&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">object&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">SerializerFeature&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">WriteClassName&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要注意的就是第 17 行的调用中需要加入 &lt;em>WriteClassName&lt;/em> 的序列化特性，否则 &lt;em>List&amp;lt;Long&amp;gt;&lt;/em> 在序列反序列化后会被解析成 &lt;em>List&amp;lt;Integer&amp;gt;&lt;/em>。另外，&lt;em>Fastjson&lt;/em> 在版本 1.2.25 之后限制了 JSON 反序列化时的类型解析功能，所以我们在第 4 行使用一个非全局的 &lt;em>ParserConfig&lt;/em> 对象，单独对该对象启用 &lt;em>autoType&lt;/em> 并在第 19 行使用，如果不指定的话就会使用全局的对象&lt;sup id="fnref:5">&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>，这样可能出现 &lt;em>autotype is not support&lt;/em> 报错。具体的配置可以参阅官方的 &lt;a href="https://github.com/alibaba/fastjson/wiki/security_update_20170315#2-%E5%8D%87%E7%BA%A7%E4%B9%8B%E5%90%8E%E6%8A%A5%E9%94%99autotype-is-not-support">升级公告&lt;/a> 和 &lt;a href="https://github.com/alibaba/fastjson/wiki/enable_autotype">enable_autotype&lt;/a> 配置。&lt;/p>
+&lt;p>接着扩展 &lt;em>ConcurrentMapCache&lt;/em> 类：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kd">final&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">FastjsonSerializationConcurrentMapCache&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">ConcurrentMapCache&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="cm">/** 该缓存的 FastJson 序列化实现。 */&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">FastjsonSerializationDelegate&lt;/span> &lt;span class="n">SERIALIZATION_DELEGATE&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;span class="k">new&lt;/span> &lt;span class="n">FastjsonSerializationDelegate&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">FastjsonSerializationConcurrentMapCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">super&lt;/span>&lt;span class="o">(&lt;/span>
+&lt;span class="n">name&lt;/span>&lt;span class="o">,&lt;/span>
+&lt;span class="k">new&lt;/span> &lt;span class="n">ConcurrentHashMap&lt;/span>&lt;span class="o">&amp;lt;&amp;gt;(&lt;/span>&lt;span class="n">256&lt;/span>&lt;span class="o">),&lt;/span>
+&lt;span class="kc">true&lt;/span>&lt;span class="o">,&lt;/span>
+&lt;span class="k">new&lt;/span> &lt;span class="n">SerializationDelegate&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">SERIALIZATION_DELEGATE&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">SERIALIZATION_DELEGATE&lt;/span>&lt;span class="o">));&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>最后在 &lt;em>MemoryCacheDecorator&lt;/em> 的构造方法中替换原来的 &lt;em>ConcurrentMapCache&lt;/em>：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryCacheDecorator&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">ConcurrentMapCache&lt;/span> &lt;span class="n">memoryCache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">targetCache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">MemoryCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">targetCache&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// this.memoryCache = new ConcurrentMapCache(&amp;#34;memory-&amp;#34; + targetCache.getName());
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">this&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">memoryCache&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;span class="k">new&lt;/span> &lt;span class="n">FastjsonSerializationConcurrentMapCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;memory-&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">targetCache&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="k">this&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">targetCache&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">targetCache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>缓存对象实际以 JSON 字符串的形式保存在内存中，并且带有字段的类型信息，每次访问的结果都是全新的反序列化对象，这样就实现了内存缓存的线程安全访问。&lt;/p>
+&lt;h3 id="条件化启用">条件化启用&lt;/h3>
+&lt;p>条件化启用应该是最好实现的一点优化了，只需要在构造方法中加入一个列表，在 &lt;em>decorateCache&lt;/em> 方法中判断属于列表中的缓存才做包装，类似的代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">MemoryRedisCacheManager&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">RedisCacheManager&lt;/span> &lt;span class="kd">implements&lt;/span> &lt;span class="n">SchedulingConfigurer&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="cm">/** 只有这里配置的缓存才会加持内存缓存层。 */&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">List&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">decoratedCacheNameList&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="cm">/**
+&lt;/span>&lt;span class="cm"> * 覆盖 {@link AbstractCacheManager} 的装饰缓存方法，若参数中的缓存包含 {@link #decoratedCacheNameList}
+&lt;/span>&lt;span class="cm"> * 中，则在将该对象包装成具有内存缓存能力的对象。
+&lt;/span>&lt;span class="cm"> *
+&lt;/span>&lt;span class="cm"> * @see AbstractCacheManager
+&lt;/span>&lt;span class="cm"> * @param cache 原缓存对象
+&lt;/span>&lt;span class="cm"> * @return 原缓存对象或具有内存缓存能力的对象
+&lt;/span>&lt;span class="cm"> */&lt;/span>
+&lt;span class="nd">@NonNull&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="nf">decorateCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nd">@NonNull&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">cache&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 先让基类包装一次
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">Cache&lt;/span> &lt;span class="n">superCache&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kd">super&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">decorateCache&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cache&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="c1">// 判断是否为该缓存配置了内存缓存
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">decoratedCacheNameList&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">contains&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cache&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">()))&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 包装缓存
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">MemoryCacheDecorator&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">superCache&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 不包装缓存
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">superCache&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="总结">总结&lt;/h2>
+&lt;p>我们介绍了 Spring Cache 的 2 个核心接口，以及基于 Spring Cache 来为 Redis 缓存建立二级本地内存缓存，也讨论了如何在这个基础上做优化以便生产环境使用。&lt;/p>
+&lt;p>实现的方法基于 &lt;em>AbstractCacheManager&lt;/em> 的 &lt;em>decorateCache&lt;/em> 函数，重写该方法可以将原本的 &lt;em>Cache&lt;/em> 对象封装成另一个 &lt;em>Cache&lt;/em> 对象，借此我们可以改变原有缓存的行为，最终以新增不超过 5 个类的代价，将核心逻辑内聚在 &lt;em>RedisCacheManager&lt;/em> 的子类中，也易于未来的扩展，具体的详情可以参考我的 GitHub 项目 &lt;a href="https://github.com/wzhix/memory-cache-in-redis">memory-cache-in-redis&lt;/a>。&lt;/p>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>如何使用 Spring Cache 以及如何集成 Redis 不在本文的讨论范围内，相关的内容可以参阅 Baeldung 的 &lt;a href="https://www.baeldung.com/spring-cache-tutorial">A Guide To Caching in Spring&lt;/a>、IBM 知识库的 &lt;a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-cache/index.html">注释驱动的 Spring Cache 缓存介绍&lt;/a>。Redis Cache 的相关内容可以参阅 &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.2.6.RELEASE/reference/html/#redis:support:cache-abstraction">Spring Data Redis 官方文档章节&lt;/a>。 &lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2" role="doc-endnote">
+&lt;p>个人认为不应当让 &lt;em>CacheManager&lt;/em> 自动创建缺失的缓存，而是在一开始就确定程序的缓存命名空间，并创建好所有类型的缓存。 &lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3" role="doc-endnote">
+&lt;p>Cron 表达式依照机器本地时间执行，不同机器本地时间可能存在分钟级差异，为了追求更高的一致性，应当用外部手段保证各个机器时间戳尽量趋近，比如时间服务器。 &lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4" role="doc-endnote">
+&lt;p>将对象类型的名称序列化至 JSON，在反序列化时可能存在安全问题，比如指定 JSON 反序列化后的类型为 &lt;code>java.lang.Thread&lt;/code>，就能通过非常规方法创建线程。 &lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5" role="doc-endnote">
+&lt;p> 即 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultSerializer.html">&lt;em>DefaultSerializer&lt;/em>&lt;/a> 和 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultDeserializer.html">&lt;em>DefaultDeserializer&lt;/em>&lt;/a>。 &lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></description><category domain="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/">技术</category><category domain="https://zhix.co/series/spring-framework/">Spring Framework</category><category domain="https://zhix.co/tags/java/">Java</category><category domain="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/">编程</category><category domain="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</category><category domain="https://zhix.co/tags/%E7%BC%93%E5%AD%98/">缓存</category><category domain="https://zhix.co/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</category><category domain="https://zhix.co/tags/cache/">cache</category><category domain="https://zhix.co/tags/spring-framework/">spring framework</category><category domain="https://zhix.co/tags/spring-cache/">spring cache</category><category domain="https://zhix.co/tags/redis/">redis</category></item><item><title>谈谈 Java SPI：以字符集举例</title><link>https://zhix.co/posts/talking-spi-in-java/</link><guid isPermaLink="true">https://zhix.co/posts/talking-spi-in-java/</guid><pubDate>Wed, 11 Mar 2020 20:12:51 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description>&lt;p>自 Java 6.0 开始，JDK 提供了名为 SPI（&lt;span lang="en">Service Provider Interface&lt;/span>）的加载机制，SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、&lt;em>Charset&lt;/em> 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。&lt;/p>
+&lt;h2 id="spi-机制">SPI 机制&lt;/h2>
+&lt;p>在 SPI 里，接口或者抽象类被称为服务（&lt;span lang="en">Service&lt;/span>）或服务提供者接口（&lt;span lang="en">Service Provider Interface&lt;/span>），实现类被称为服务提供者（&lt;span lang="en">Service Provider&lt;/span>）。虽然常见的概念被赋予了不太好理解的名称，但是二者在本质上还是代表了面向对象编程中规范（&lt;span lang="en">Specification&lt;/span>）和实现（&lt;span lang="en">Implementation&lt;/span>）的关系。&lt;/p>
+&lt;h3 id="服务提供者">服务提供者&lt;/h3>
+&lt;p>在 SPI 的规范中，服务提供者的实现类应当配置在资源目录下的 &lt;em>META-INF/services&lt;/em> 目录&lt;sup id="fnref:1">&lt;a href="https://zhix.co/posts/talking-spi-in-java/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>下。该目录下，每一个服务接口对应一个单独的文本文件，文件名为服务接口的完全限定名，文件内容按行区分，每一行是服务实现类的完全限定名&lt;sup id="fnref:2">&lt;a href="https://zhix.co/posts/talking-spi-in-java/#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>SPI 的核心类是范型类 &lt;a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">&lt;em>ServiceLoader&lt;/em>&lt;/a>，它负责发现类路径中配置的实现类并实例化它们。&lt;em>ServiceLoader&lt;/em> 维护了一个 &lt;em>LinkedHashMap&amp;lt;String, T&amp;gt;&lt;/em> 的内部缓存来惰性实例化实现类，其中类型 &lt;em>T&lt;/em> 为服务接口类。&lt;em>ServiceLoader.load(T.class)&lt;/em> 是最常调用的方法，它返回类型 &lt;em>T&lt;/em> 的 &lt;em>ServiceLoader&lt;/em> 实例。&lt;sup id="fnref:3">&lt;a href="https://zhix.co/posts/talking-spi-in-java/#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>&lt;/p>
+&lt;h2 id="charset-的加载方式">Charset 的加载方式&lt;/h2>
+&lt;p>JDK 以 &lt;a href="https://docs.oracle.com/javase/8/docs/api/java/nio/charset/spi/CharsetProvider.html">&lt;em>CharsetProvider&lt;/em>&lt;/a> 来实现字符集框架。Oracle JDK 扩展了该实现，提供了标准字符集和扩展字符集的 Provider 实现（&lt;em>StandardCharsets&lt;/em> 和 &lt;em>ExtendedCharsets&lt;/em>）：&lt;/p>
+&lt;dl>
+&lt;dt>&lt;em>StandardCharsets&lt;/em>&lt;/dt>
+&lt;dd>
+&lt;p>标准字符集提供者，包括 Unicode 和 ASCII 字符集的管理；&lt;/p>
+&lt;/dd>
+&lt;dt>&lt;em>ExtendedCharsets&lt;/em>&lt;/dt>
+&lt;dd>
+&lt;p>扩展字符集提供者，包括 CJK 字符集的管理。&lt;/p>
+&lt;/dd>
+&lt;/dl>
+&lt;p>这两个类都是在 &lt;em>sun.nio.cs&lt;/em> 包下。&lt;/p>
+&lt;p>在 Java 中我们通过调用 &lt;em>Charset.forName(&amp;ldquo;charset-name&amp;rdquo;)&lt;/em> 来访问字符集 API，&lt;em>forName&lt;/em> 方法在底层会进行一系列的 lookup 操作，按照标准字符集提供者、扩展字符集提供者和 SPI 字符集提供者的顺序查询 charset-name 对应的字符集实现类，当无法在前两个内置的字符集提供者中找到对应名称的字符集实现，SPI 字符集提供者便会起作用，SPI 字符集提供者以接口 &lt;em>CharsetProvider&lt;/em> 为核心，因此我们可以为该接口插入自己的实现类。&lt;/p>
+&lt;h2 id="安装自定义字符集">安装自定义字符集&lt;/h2>
+&lt;p>假设现在有一个比 UTF-8 更高效且通用的字符串编码算法，它相对于 UTF-8 可能信噪比更低、更适合压缩甚至是支持火星语编码，我们暂且叫它 9527。它的编解码算法已经公开，我们现在需要赶在 Oracle 发布新的 JDK 支持它之前将它嵌入到我们的应用程序中，并且程序只需要将使用字符集的地方替换为 &lt;em>Charset.forName(&amp;ldquo;9527&amp;rdquo;)&lt;/em> 即可。&lt;/p>
+&lt;h3 id="定义字符集">定义字符集&lt;/h3>
+&lt;p>首先我们需要一个实现类继承自 &lt;em>java.nio.charset.Charset&lt;/em>，&lt;em>Charset&lt;/em> 是所有字符集的基类。在该案例中的实现类假设叫做 &lt;em>_9527Charset&lt;/em>，并且为方便示例，我们假定 &lt;em>_9527Charset&lt;/em> 本质上就是 UTF-8 的实现，因此它会持有一个 UTF-8 的实例，对它的所有方法调用都会被转发至 UTF-8 对应的方法中：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kn">package&lt;/span> &lt;span class="nn">zhix.encoding.spi&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">_9527Charset&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">Charset&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 为方便示例，假定 _9527Charset 本质上就是 UTF-8 的实现
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kd">private&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="n">Charset&lt;/span> &lt;span class="n">DELEGATE&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">StandardCharsets&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">UTF_8&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">_9527Charset&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 名称和别名集合
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="kd">super&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;9527&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="o">{&lt;/span>&lt;span class="s">&amp;#34;mew-9527&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="s">&amp;#34;mew&amp;#34;&lt;/span>&lt;span class="o">});&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 所有的方法调用一并转发
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">boolean&lt;/span> &lt;span class="nf">contains&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Charset&lt;/span> &lt;span class="n">cs&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">DELEGATE&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">contains&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">cs&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">CharsetDecoder&lt;/span> &lt;span class="nf">newDecoder&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">DELEGATE&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">newDecoder&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="n">CharsetEncoder&lt;/span> &lt;span class="nf">newEncoder&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="n">DELEGATE&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">newEncoder&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>因为字符集在 JDK 中是以命名服务实现的，所以我们同时还要设置新字符集的规则名称（&lt;span lang="en">Canonical Name&lt;/span>）和别名（&lt;span lang="en">Aliases&lt;/span>），这里将规则名称设置为 &lt;em>9527&lt;/em>，将别名集合设置为 &lt;em>mew-9527&lt;/em> 和 &lt;em>mew&lt;/em>。规则名称在命名空间中唯一确定一个字符集，别名提供了额外的查询方式。&lt;/p>
+&lt;p>第 15 - 25 行是 &lt;em>Charset&lt;/em> 的子类需要实现的 3 个方法，包括编码器和解码器，这里直接将逻辑转发给 UTF-8 的实现，真实的情况会更加复杂，因为我们需要自行实现编解码器，并做真正的底层字节处理。&lt;/p>
+&lt;h3 id="定义-charsetprovider">定义 CharsetProvider&lt;/h3>
+&lt;p>接下来是实现 &lt;em>CharsetProvider&lt;/em>，但通常我们只需要扩展 &lt;em>AbstractCharsetProvider&lt;/em> 即可，&lt;em>AbstractCharsetProvider&lt;/em> 提供了基本的字符集管理实现，包括名称管理、别名管理、缓存。&lt;/p>
+&lt;p>构造 &lt;em>AbstractCharsetProvider&lt;/em> 时还可以提供一个名为 &lt;em>pkgPrefixName&lt;/em> 的参数，它用于指定该字符集提供者所管理的字符集从哪一个包中查找实现类，默认包前缀为 &lt;em>sun.nio.cs&lt;/em>。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kd">protected&lt;/span> &lt;span class="nf">AbstractCharsetProvider&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">packagePrefix&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;sun.nio.cs&amp;#34;&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="nf">AbstractCharsetProvider&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">String&lt;/span> &lt;span class="n">pkgPrefixName&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">packagePrefix&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pkgPrefixName&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>以下代码展示了名为 &lt;em>_9527CharsetProvider&lt;/em> 的实现，并指定在 &lt;em>zhix.encoding.spi&lt;/em> 的包中查询字符集。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kn">package&lt;/span> &lt;span class="nn">zhix.encoding.spi&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">_9527CharsetProvider&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">AbstractCharsetProvider&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">static&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">CANONICAL_NAME&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;9527&amp;#34;&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">static&lt;/span> &lt;span class="kd">final&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">ALIASES&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">{&lt;/span>&lt;span class="s">&amp;#34;mew&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="s">&amp;#34;mew-9527&amp;#34;&lt;/span>&lt;span class="o">};&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="kt">boolean&lt;/span> &lt;span class="n">initialized&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="nf">_9527CharsetProvider&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">super&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;zhix.encoding.spi&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">init&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">initialized&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="k">return&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">super&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">init&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;{} initialized.&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">getClass&lt;/span>&lt;span class="o">().&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="n">charset&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;mew&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">_9527Charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getSimpleName&lt;/span>&lt;span class="o">(),&lt;/span> &lt;span class="n">ALIASES&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>
+&lt;span class="s">&amp;#34;Register charset {} with class {}.&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">CANONICAL_NAME&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">_9527Charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">class&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="n">initialized&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>第 16 行的 init 方法会在查询 SPI 字符集时被调用，外部的逻辑可能会多次调用该方法，因此需要开发者自己来保证只初始化一次，比如这里用第 9 行定义的 &lt;em>initialized&lt;/em> 变量来控制。&lt;/p>
+&lt;p>第 23 行的 &lt;em>charset&lt;/em> 方法由基类 &lt;em>AbstractCharsetProvider&lt;/em> 提供，用于注册字符集的元信息描述：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="cm">/* Declare support for the given charset
+&lt;/span>&lt;span class="cm"> */&lt;/span>
+&lt;span class="kd">protected&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">charset&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">String&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">className&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">aliases&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">synchronized&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">classMap&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">className&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">0&lt;/span>&lt;span class="o">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">aliases&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">length&lt;/span>&lt;span class="o">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="o">++)&lt;/span>
+&lt;span class="n">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">aliasMap&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">aliases&lt;/span>&lt;span class="o">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="o">],&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">put&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">aliasNameMap&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">aliases&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">cache&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">clear&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>AbstractCharsetProvider&lt;/em> 根据参数的名称和别名，为字符集建立查询数据结构，在查询时若有匹配的字符集描述，则根据上文提到的 &lt;em>pkgPrefixName&lt;/em> + 类名，通过反射创建 &lt;em>Charset&lt;/em> 的实例，完成 &lt;em>Charset&lt;/em> 的查询并初始化。&lt;/p>
+&lt;p>所有的 &lt;em>Charset&lt;/em> 初始化都是惰性的，并且 &lt;em>AbstractCharsetProvider&lt;/em> 维护了一个缓存来避免重复初始化。因此最佳实践是在应用程序里只使用一种类型的 &lt;em>Charset&lt;/em>。&lt;/p>
+&lt;h3 id="配置-_9527charsetprovider">配置 _9527CharsetProvider&lt;/h3>
+&lt;p>在项目的 &lt;em>resources/META-INF/services&lt;/em> 目录下新建文本文件&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">java.nio.charset.spi.CharsetProvider
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>写入一个内容为&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">zhix.encoding.spi._9527CharsetProvider
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>的新行。&lt;/p>
+&lt;figure>
+&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/configure-spi-in-meta-inf-directory.png"
+alt="配置 _9527CharsetProvider"/> &lt;figcaption>
+&lt;p>配置 _9527CharsetProvider&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="单元测试">单元测试&lt;/h3>
+&lt;p>在 &lt;em>test/resources&lt;/em> 目录下创建单元测试类 &lt;em>_9527CharsetProviderTest&lt;/em>：&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kn">package&lt;/span> &lt;span class="nn">zhix.encoding&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">java.nio.charset.Charset&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">java.nio.charset.StandardCharsets&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">lombok.extern.slf4j.Slf4j&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">org.junit.Assert&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">org.junit.Before&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="nn">org.junit.Test&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="nd">@SuppressWarnings&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;InjectedReferences&amp;#34;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;span class="nd">@Slf4j&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">_9527CharsetProviderTest&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="n">String&lt;/span> &lt;span class="n">text&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;我能吞下玻璃而不伤身体&amp;#34;&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kd">private&lt;/span> &lt;span class="n">Charset&lt;/span> &lt;span class="n">charset&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="nd">@Before&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">setUp&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="c1">// 触发 SPI 加载
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="n">charset&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">forName&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;9527&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 测试编解码结果一致
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nd">@Test&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">testEncodingAndDecoding&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Charset name = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">name&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Charset displayName = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">displayName&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="n">log&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">info&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;Charset aliases = {}&amp;#34;&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">aliases&lt;/span>&lt;span class="o">());&lt;/span>
+&lt;span class="n">Assert&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">assertEquals&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getBytes&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">charset&lt;/span>&lt;span class="o">)));&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 测试 _9527 和 UTF-8 一致
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nd">@Test&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">testEncodingCompareToUTF8&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">Charset&lt;/span> &lt;span class="n">utf8&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">StandardCharsets&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">UTF_8&lt;/span>&lt;span class="o">;&lt;/span>
+&lt;span class="kt">byte&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">utf8Bytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">text&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getBytes&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">utf8&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="kt">byte&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">_9527Bytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">text&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getBytes&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">charset&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">Assert&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">assertArrayEquals&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">utf8Bytes&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="n">_9527Bytes&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 测试使用别名查询 Charset
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nd">@Test&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">testEncodingAndDecodingWithAlias&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">charset&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Charset&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">forName&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;mew&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">Assert&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">assertEquals&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="o">,&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">String&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">text&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">getBytes&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">charset&lt;/span>&lt;span class="o">)));&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行单元测试的结果如下：&lt;/p>
+&lt;figure>
+&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20.3.16-unit-test-result-of-_9527-charset-provider.png"
+alt="_9527CharsetProvider 单元测试结果"/> &lt;figcaption>
+&lt;p>_9527CharsetProvider 单元测试结果&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>可以看到我们可以通过 &lt;code>Charset.forName(&amp;quot;9527&amp;quot;)&lt;/code> 的方式获得我们自己定义的 &lt;em>Charset&lt;/em> 实例，且实例的类型就是 &lt;em>_9527Charset&lt;/em>。&lt;/p>
+&lt;h2 id="spi-的延伸讨论">SPI 的延伸讨论&lt;/h2>
+&lt;p>SPI 使用延迟加载，会扫描整个类路径下的 &lt;em>META-INF/services&lt;/em> 目录，所有配置的实现类的无参构造方法都会被调用并实例化，也就是一次访问，所有候选类都会被加载。如果实际场景不需要使用所有的实现类，这些类就会白白占用 JVM 内存，其次如果实现类是一个重型类的话，更会造成严重的内存浪费。&lt;/p>
+&lt;p>另外一个缺陷是，你只能通过 &lt;em>load&lt;/em> 方法返回的迭代器来迭代访问实现类，这是一种相当底层的编程接口，意味着你无法灵活地根据参数不同获取某个的实现类。如果要实际使用方便，一种可能的最佳的实现是：封装 load 方法，根据传入的参数控制返回的实现类的查找逻辑，并且设置一个类变量缓存查找的结果。&lt;/p>
+&lt;h3 id="spi-与-api">SPI 与 API&lt;/h3>
+&lt;p>SPI 和 API 本质上都是 &lt;span lang="en">Specification&lt;/span> 和 &lt;span lang="en">Implementation&lt;/span> 的不同表现形式，区别在于：&lt;/p>
+&lt;ul>
+&lt;li>API 的使用者不关心规范的具体实现细节，只关心 API 的使用规范，开发者通过组织 API 提供的功能来实现目标。&lt;/li>
+&lt;li>SPI 的开发者按照规范实现接口，通过满足规范的规约来实现目标。&lt;/li>
+&lt;/ul>
+&lt;p>简单来说就是，对于一套编程规范，如果你使用规范提供的功能来编程，规范对你来说就是 API，如果你通过编程来满足规范的所有要求，则规范对你来说就是 SPI。&lt;/p>
+&lt;p>也可以参考 StackOverflow 上的 &lt;a href="https://stackoverflow.com/a/2956803">这个回答&lt;/a>。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>JDK 在 6.0 的时候发布了 SPI 机制，解决了实现类在运行时如何确定的问题，有利于应用程序的扩展，对 Spring 等框架也产生了重要影响，现如今看来，它的实现方式比较底层，一般需要在外层封装更抽象的控制逻辑来使用，同样 SPI 也存在内存占用的缺陷，&lt;a href="https://cloud.tencent.com/developer/article/1121665">静态绑定&lt;/a>&lt;sup id="fnref:4">&lt;a href="https://zhix.co/posts/talking-spi-in-java/#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup> 机制可以解决这个问题。&lt;/p>
+&lt;p>通过 SPI，我们可以实现一些 JDK 内置功能的模块插入，比如自行实现 &lt;em>Charset&lt;/em>。以上字符集加载的完整代码可以在 GitHub 项目 &lt;a href="https://github.com/wzhix/9527-charset-encoding">9527-charset-encoding&lt;/a> 中查看，如果有任何问题和建议可以在项目里提交 Issue 给我。&lt;/p>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>JAR 文件的规范和 &lt;em>META-INF&lt;/em> 目录的详细介绍参见 Oracle 的 &lt;a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html">Java SE Documentation&lt;/a> &lt;a href="https://zhix.co/posts/talking-spi-in-java/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2" role="doc-endnote">
+&lt;p>Baeldung 中关于 &lt;a href="https://www.baeldung.com/java-spi#3-service-provider">&lt;em>Service Provider&lt;/em>&lt;/a> 的介绍 &lt;a href="https://zhix.co/posts/talking-spi-in-java/#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3" role="doc-endnote">
+&lt;p>SPI 的详细配置规范参见 Oracle 的 &lt;a href="https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html">The Java™ Tutorials&lt;/a> 教程 &lt;a href="https://zhix.co/posts/talking-spi-in-java/#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4" role="doc-endnote">
+&lt;p>静态绑定的典型应用是 &lt;a href="http://www.slf4j.org/">Slf4J&lt;/a> &lt;a href="https://zhix.co/posts/talking-spi-in-java/#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></description><category domain="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/">技术</category><category domain="https://zhix.co/series/java-%E6%A0%B8%E5%BF%83/">Java 核心</category><category domain="https://zhix.co/tags/java/">Java</category><category domain="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/">编程</category><category domain="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</category><category domain="https://zhix.co/tags/utf-8/">UTF-8</category><category domain="https://zhix.co/tags/unicode/">Unicode</category><category domain="https://zhix.co/tags/jdk/">JDK</category><category domain="https://zhix.co/tags/spi/">SPI</category><category domain="https://zhix.co/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/">字符集</category></item></channel></rss>
