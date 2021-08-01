@@ -1,0 +1,197 @@
+@mixin hover-valine-color {
+  &:hover {
+    color: #1abc9c;
+    background-color: var(--color-bg);
+    border: 1px solid #1abc9c;
+  }
+}
+
+#load-comments {
+  border-radius: 0;
+  color: var(--color-primary);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-primary);
+
+  &:active, &:hover {
+    background-color: var(--color-bg);
+    text-decoration: none;
+    color: alpha(var(--color-primary), 0.75);
+    border: 1px solid alpha(var(--color-primary), 0.75);
+    transition: all .4s;
+  }
+}
+
+
+
+#vcomments {
+
+  * {
+    line-height: 1.75;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--color-contrast-low);
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--color-contrast-low);
+  }
+
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--color-contrast-low);
+  }
+
+  line-height: 1.75;
+
+  code, pre {
+    font-family: $fontFamilyCode;
+  }
+
+  .vwrap {
+    font-family: $fontFamilyBody;
+    border: var(--color-contrast-low) 1px solid;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .vheader {
+      line-height: 1.75;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+
+      .vnick, .vmail, .vlink {
+        flex: 1;
+        padding: 1em;
+      }
+
+      .vinput {
+        &:focus {
+          border-bottom-color: var(--color-primary);
+        }
+      }
+    }
+
+    .vedit {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+
+      .veditor {
+        padding: 12.4px;
+        line-height: 1.75;
+        font-family: $fontFamilyBody;
+        flex: 1;
+        resize: none;
+      }
+
+      .vctrl {
+        span {
+          padding: 0;
+          margin: 0 1em;
+        }
+      }
+
+      .vemojis, .vpreview {
+        box-shadow: none;
+        margin: .25em 0;
+        border-top: 1px dashed var(--color-contrast-lower);
+        border-bottom: 1px dashed var(--color-contrast-lower);
+      }
+
+      .vemojis {
+        padding: 12.4px;
+      }
+    }
+
+    .vcontrol {
+      padding: 12.4px;
+      div[title='Markdown is supported'] {
+        line-height: 0;
+        vertical-align: bottom;
+      }
+      a {
+        line-height: 0;
+        &:before {
+          bottom: -3px;
+        }
+      }
+      .markdown {
+        line-height: 0;
+      }
+    }
+
+    .vsubmit {
+      font-family: 'Noto Serif', 'Noto Serif CJK SC', 'Noto Serif CJK', 'Noto Serif SC', 'Source Han Serif SC', 'Source Han Serif CN', 'Source Han Serif', 'source-han-serif-sc', 'STSong', 'SimSun', serif;
+      border-radius: 0;
+      @include hover-valine-color;
+    }
+
+    .vpreview {
+      padding: 12.4px;
+    }
+  }
+
+  .vinfo {
+    padding: 0;
+    .vcount {
+      margin: 1em 0;
+    }
+  }
+
+  .vlist {
+    .vat {
+      color: var(--color-primary);
+      &:after {
+        content: ' ↩';
+      }
+    }
+    .vcard {
+      .vh {
+        border-bottom: 1px dashed var(--color-contrast-lower);
+      }
+      .vimg {
+        width: 2.5em;
+        height: 2.5em;
+        border: var(--color-contrast-medium) solid 0.5px;
+        padding: 0;
+        margin-right: 1em;
+      }
+      .vhead {
+        .vnick {
+          &:hover {
+            color: var(--color-primary);
+          }
+        }
+      }
+      .vcontent {
+        word-break: break-word;
+        p[lang='en'] {
+          line-height: 1.5;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  .vinput {
+    font-family: $fontFamilyBody;
+  }
+
+  .vsys {
+    display: none;
+  }
+
+  .vmore {
+    font-family: 'Noto Serif', 'Noto Serif CJK SC', 'Noto Serif CJK', 'Noto Serif SC', 'Source Han Serif SC', 'Source Han Serif CN', 'Source Han Serif', 'source-han-serif-sc', 'STSong', 'SimSun', serif;
+    border-radius: 0;
+    @include hover-valine-color;
+    margin: 4em 0;
+  }
+}

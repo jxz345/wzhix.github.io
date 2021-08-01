@@ -1,0 +1,12 @@
+{{- $name := .Get "name" -}}
+{{- $lang := .Get "lang" -}}
+{{- $style := .Get "style" -}}
+<input name="tabs" type="radio" id="tab-{{ $name }}" checked="checked" class="input"/>
+<label for="tab-{{ $name }}" class="label">{{ $name }}</label>
+{{ if $lang }}
+<div class="panel" lang="{{ $lang }}" style="{{ $style }}">
+{{ else }}
+<div class="panel" style="{{ $style }}">
+{{ end }}
+  {{ .Inner }}
+</div>

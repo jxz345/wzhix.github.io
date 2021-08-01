@@ -1,0 +1,27 @@
+.menu {
+  line-height: 2;
+  font-size: 1.2em;
+}
+
+.menu-item {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  width: 210px;
+  justify-content: space-between;
+}
+
+@media (max-width: $maxWidth) {
+  @if ($headerLayoutFlex) {
+    @if ($enableNavToggle) {
+      .menu {
+        display: grid;
+        width: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.post-body {
+  table {
+    width: 100%;
+    vertical-align: middle !important;
+    border-collapse: collapse;
+
+    thead {
+      tr {
+        border-bottom: 2px solid var(--color-contrast-medium);
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px dotted var(--color-contrast-medium);
+      }
+    }
+
+    th, td {
+      padding: .75em;
+      border: none;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.fof {
+
+  &:before {
+    display: none;
+  }
+
+  .main-inner {
+    position: inherit;
+    background: var(--color-bg)
+  }
+
+  h1 {
+    color: var(--color-contrast-high);
+  }
+
+  .fof-footer {
+    font-size: 1em;
+    letter-spacing: 2px;
+  }
+
+  a {
+    color: var(--color-contrast-high);
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
