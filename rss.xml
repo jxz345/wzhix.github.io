@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>zhix</title><link>https://zhix.co/</link><description>zhix 的精神避难所。</description><generator>Hugo 0.86.0 https://gohugo.io/</generator><language>zh-CN</language><managingEditor>zhixuan@zhix.co (zhix)</managingEditor><webMaster>zhixuan@zhix.co (zhix)</webMaster><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><lastBuildDate>Tue, 03 Aug 2021 04:22:05 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml"/><item><title>在 Buddy 上持续部署 Hugo</title><link>https://zhix.co/posts/setup-continuous-build-to-hugo-with-buddy/</link><guid isPermaLink="true">https://zhix.co/posts/setup-continuous-build-to-hugo-with-buddy/</guid><pubDate>Sun, 12 Apr 2020 15:52:13 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description>&lt;h2 id="概述">概述&lt;/h2>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>今天的天空差了点</title><link>https://zhix.co/</link><description>zhix 的精神避难所。</description><generator>Hugo 0.86.0 https://gohugo.io/</generator><language>zh-CN</language><managingEditor>zhixuan@zhix.co (zhix)</managingEditor><webMaster>zhixuan@zhix.co (zhix)</webMaster><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><lastBuildDate>Tue, 03 Aug 2021 11:36:27 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://zhix.co/rss.xml"/><item><title>在 Buddy 上持续部署 Hugo</title><link>https://zhix.co/posts/setup-continuous-build-to-hugo-with-buddy/</link><guid isPermaLink="true">https://zhix.co/posts/setup-continuous-build-to-hugo-with-buddy/</guid><pubDate>Sun, 12 Apr 2020 15:52:13 +0800</pubDate><author>zhixuan@zhix.co (zhix)</author><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright><description>&lt;h2 id="概述">概述&lt;/h2>
 &lt;p>写博客的已经一个月了，我也逐渐适应了平日收集灵感，周末码字的习惯，Hugo 作为 SSG 工具，本身的构建过程足够快速和简单，但随着博客配置的不断完善，自动化部署和发布的需求逐渐提上了日程。&lt;/p>
 &lt;h2 id="持续构建">持续构建&lt;/h2>
 &lt;p>构建（Build）的概念来源于软件工程，指的是源码提交到代码仓库之后的编译、测试、安装、部署等步骤，通常 Web 应用程序的构建可能包含以下过程：&lt;/p>
@@ -15,10 +15,10 @@
 &lt;p>在使用持续部署前，我的博客怎么做上线呢？当我写完了新的文章，或者对错别字和样式做修复后，我会在自己机器上运行命令&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">hugo --gc
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>命令会有如下的输出，表示生成了多少个 &lt;kbd>⌘&lt;/kbd> + &lt;kbd>⌥&lt;/kbd> + &lt;kbd>⇧&lt;/kbd> + &lt;kbd>⇪&lt;/kbd> 静态页面：&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200425120527.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200425120527.jpg" alt="">&lt;/p>
 &lt;p>然后提交到版本控制系统，如果这个修改是主题范围内的，还要修改主题的仓库。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200425122401.jpg" alt="">&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200413005729.jpg#border" alt="写博客时的界面，左边预览右边编写" title="写博客时的界面，左边预览右边编写">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200425122401.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200413005729.jpg#border" alt="写博客时的界面，左边预览右边编写" title="写博客时的界面，左边预览右边编写">&lt;/p>
 &lt;p>每次的修订和发布涉及到 3 个 Git 仓库的联动：&lt;/p>
 &lt;dl>
 &lt;dt>博客源仓库&lt;/dt>
@@ -135,7 +135,7 @@ CS --> BE
 &lt;p>接下来我想谈谈博客在样式上的配置，包括相关 CSS 特性的讨论，以及我对技术博客排版的个人理解。文章组成博客，段落组成文章，段落的排版决定了博客的排版，段落的排版又以字体、行距、对齐最为关键。&lt;/p>
 &lt;h2 id="两端对齐">两端对齐&lt;/h2>
 &lt;p>正文段落 &lt;a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E4%B8%A4%E7%AB%AF%E5%B0%8D%E9%BD%8A/">两端对齐&lt;/a>（&lt;em>&lt;span lang="en">justify&lt;/span>&lt;/em>），与 Web 中常规的 &lt;a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E9%BD%8A#%E9%9D%A0%E5%B7%A6%E5%B0%8D%E9%BD%8A/">左对齐&lt;/a>（&lt;em>&lt;span lang="en">Left justify&lt;/span>&lt;/em>）相比，两端对齐保持各行左右边距的基线一致，视觉上更加整齐，适合中文这样单个字符构成的语言。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182842.png#border" alt="两端对齐（上）与左对齐（下）的效果对比" title="两端对齐（上）与左对齐（下）的效果对比">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200405182842.png#border" alt="两端对齐（上）与左对齐（下）的效果对比" title="两端对齐（上）与左对齐（下）的效果对比">&lt;/p>
 &lt;p>左对齐时，字符之间的间隙均等，行尾超过容器宽度的长单词折行显示；两端对齐时，字符之间的间隙不等，行尾的长单词同样会折行，但是会相应调整上一行的字符间隙来填充空白。&lt;/p>
 &lt;p>在 Web 中实现两端对齐，完整且保证兼容性的 CSS 写法为：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="nt">p&lt;/span> &lt;span class="p">{&lt;/span>
@@ -151,7 +151,7 @@ CS --> BE
 &lt;/ul>
 &lt;h3 id="两端对齐的不足">两端对齐的不足&lt;/h3>
 &lt;p>两端对齐的不足主要在于中西文混排时的行间疏密参差不齐，这一点在移动设备上更为明显，下图中的单词 &lt;em>RedisCache&lt;/em> 显得过于松散，是因为浏览器为了保持对齐而做了字符间距补偿：&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406002400.png#mobile-screenshot" alt="width-360" title="iPhone 8 上的显示效果">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200406002400.png#mobile-screenshot" alt="width-360" title="iPhone 8 上的显示效果">&lt;/p>
 &lt;p>目前这种情况没有一劳永逸的解决方案，只能等未来 CSS 标准和浏览器实现能支持更加智能的折行，临时方案要么使用左对齐，要么尽量在文本中少用西文单词。&lt;/p>
 &lt;h3 id="折行">折行&lt;/h3>
 &lt;p>提到对齐方式不得不说折行，折行规定了文本过长时容器的处理方式。不同语言的书写系统对折行有不同要求，东亚语言（中文、日文、韩文等）用「音节」而不是「空格」区分单词，这些语言的文本几乎可以在任何字符之间折行&lt;sup id="fnref:1">&lt;a href="https://zhix.co/posts/talking-typesetting/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。建议的配置如下：&lt;/p>
@@ -192,7 +192,7 @@ CS --> BE
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>对比下以下两种排版效果，第一段是是默认的 1.75 行距两端对齐段落，第二段是 1.5 行距左对齐段落：&lt;/p>
 &lt;p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.&lt;/p>
 &lt;p lang="en">Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.&lt;/p>
-&lt;!-- ![不同 lang 属性下的段落显示效果](https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001130.png#border "不同 lang 属性下的段落显示效果") -->
+&lt;!-- ![不同 lang 属性下的段落显示效果](/blog/20200406001130.png#border "不同 lang 属性下的段落显示效果") -->
 &lt;p>相较于上面第一段的默认效果，用 &lt;em>lang=&amp;ldquo;en&amp;rdquo;&lt;/em> 描述的段落的 &lt;em>1.5&lt;/em> 倍行距更加紧凑，文本左对齐和自动断词达到了更加贴近英文印刷品的排版效果，如果你的浏览器宽度恰好，甚至能看到行尾的 “&lt;span lang="en">a new nation&lt;/span>” 进行了连字符折断。&lt;/p>
 &lt;h2 id="字体与字号">字体与字号&lt;/h2>
 &lt;p>中西文字体分别使用 &lt;a href="https://fonts.google.com/specimen/Noto+Serif+SC/">思源宋体&lt;/a> 和 &lt;a href="https://fonts.google.com/specimen/Zilla+SLab/">Zilla Slab&lt;/a>，从 &lt;a href="https://fonts.google.com/">Google Fonts&lt;/a> 加载，字号为 16px，确定字体大小后保证每行字数在 38～42，CSS 的配置为：&lt;/p>
@@ -204,14 +204,14 @@ CS --> BE
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>统一的字体是为了各平台下的显示效果完全一致，给读者连续的阅读体验，代价是在读者本地没有安装对应字体的情况下，页面有字体请求的网络开销。&lt;/p>
 &lt;h3 id="思源系列字体">思源系列字体&lt;/h3>
 &lt;p>思源系列字体是 Google 和 Adobe 联合开发的开源免费字体集（Google 称作 Noto 系列，Adode 称作 Source 系列），特点是设计优雅，可读性高，对 CJK 书写系统的支持很好，任何人都可免费下载和几乎在任何地方使用，宋体相对于黑体增加的笔锋更加接近于书本的效果，更具文字美感。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182812.png#border" alt="思源宋体：开源的泛 CJK 字体">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200405182812.png#border" alt="思源宋体：开源的泛 CJK 字体">&lt;/p>
 &lt;p>基于以上诸多优点，我建议每个人的电脑里都应该安装思源系列字体。&lt;/p>
 &lt;h3 id="衬线体与无衬线体">衬线体与无衬线体&lt;/h3>
 &lt;p>另一个问题是，正文选用衬线体还是无衬线体？即选用宋体还是黑体。&lt;/p>
 &lt;p>如果是五年前，无笔锋的黑体更适合，黑体在中低分辨率屏幕的可读性更好，尤其是各平台默认黑体几乎是最安全的选择。现在则凭个人喜好，一方面开源的衬线体比如思源宋体获取门槛降低，另一方面随着 Web 技术和显示器分辨率的进步，使用衬线体的效果渐渐不再逊色于无衬线体，甚至能呈现更逼真的纸张模拟。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182754.png#border" alt="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比" title="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200405182754.png#border" alt="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比" title="衬线思源宋体（上）与无衬线苹方（下）的显示效果对比">&lt;/p>
 &lt;p>另外，正文中的无衬线字体应当降低颜色对比度，让文本整体更加偏灰以减少攻击性和视觉冲击，比如下图中 &lt;a href="https://sspai.com/">少数派&lt;/a> 页面的正文效果：&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405183037.png#border" alt="少数派的正文字体颜色偏灰" title="少数派的正文字体颜色偏灰">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200405183037.png#border" alt="少数派的正文字体颜色偏灰" title="少数派的正文字体颜色偏灰">&lt;/p>
 &lt;h2 id="hancss">Han.css&lt;/h2>
 &lt;p>&lt;a href="https://github.com/ethantw/Han/">Han.css&lt;/a> 是一套用于 Web 的汉字排版解决方案，作为已有 CSS 的补充为网页提供了丰富地用于汉字书写系统的特性，尤其针对那些已有 CSS 属性无法支持的排版特性比如：&lt;/p>
 &lt;ul>
@@ -222,7 +222,7 @@ CS --> BE
 &lt;/ul>
 &lt;p>Han.css 可对页面整体使用，也可对某个子元素使用，甚至是只开启部分功能。出于摸索阶段的谨慎，我只开启了标点挤压功能。&lt;/p>
 &lt;p>标点挤压是指：汉字排版连续使用多个符号时，字与字间将出现一个汉字宽度的空隙，不甚美观，而用额外的 JavaScript 脚本缩减连续标点及行首／行尾标点的多余空间。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200405182709.png#border" alt="博客中使用了标点挤压模式 B" title="博客中使用了标点挤压模式 B（图来自 The Type）">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200405182709.png#border" alt="博客中使用了标点挤压模式 B" title="博客中使用了标点挤压模式 B（图来自 The Type）">&lt;/p>
 &lt;h3 id="启用标点挤压">启用标点挤压&lt;/h3>
 &lt;p>在头部引入 Han.css 的脚本和样式：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">link&lt;/span> &lt;span class="na">rel&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span class="na">media&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;all&amp;#34;&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;//cdnjs.cloudflare.com/ajax/libs/Han/3.3.0/han.min.css&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
@@ -236,15 +236,15 @@ CS --> BE
 &lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="p">})&lt;/span>
 &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>开启前后的效果对比如下图所示，注意第二行的右括号和逗号的处理：&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001103.png#border" alt="" title="启用标点挤压（上）和无标点挤压（下）的效果对比">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200406001103.png#border" alt="" title="启用标点挤压（上）和无标点挤压（下）的效果对比">&lt;/p>
 &lt;p>因为目前的 CSS 标准并没有覆盖到该特性，所以这项技术的本质是依赖外部样式和脚本做后置渲染。&lt;/p>
 &lt;h2 id="其他">其他&lt;/h2>
 &lt;h3 id="首行缩进">首行缩进&lt;/h3>
 &lt;p>MemE 主题的正文的分段样式有两种选择，&lt;span lang="en">margin&lt;/span> 和 &lt;span lang="en">indent&lt;/span>，前者就是一般的依靠 CSS 上下外边距分隔段落，后者是类似书本的首行缩进，这里的选用凭个人喜好，具体见 MemE 主题的 &lt;a href="https://github.com/reuixiy/hugo-theme-meme/blob/a323e45d5ece0afb741fe90b495a723698600b8c/config-examples/zh-cn/config.toml#L916/">配置文件&lt;/a>。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200406001535.png#border" alt="margin 和 indent 的区别" title="margin 和 indent 的区别">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200406001535.png#border" alt="margin 和 indent 的区别" title="margin 和 indent 的区别">&lt;/p>
 &lt;h3 id="何时使用-italic">何时使用 italic&lt;/h3>
 &lt;p>另外就是，技术文章中大量用到的「类型名」、「函数名」、「变量名」。严格意义上应当使用 &lt;em>&amp;lt;var&amp;gt;&lt;/em> 标签标记，但考虑到 Markdown 里面没有类似的语法，所以我参照 &lt;a href="https://www.baeldung.com/">Baeldung&lt;/a> 的样式，使用 &lt;em>&amp;lt;em&amp;gt;&lt;/em> 标签标记，比如下图中的 &lt;em>SearchCriteria&lt;/em> 作为类型名称被渲染成了斜体。&lt;/p>
-&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20200401205159.jpg#border" alt="Bealdung 网站的文本使用 标签描述类型名" title="Bealdung 网站的文本使用 &amp;lt;em&amp;gt; 标签描述类型名">&lt;/p>
+&lt;p>&lt;img src="https://zhix.co/blog/20200401205159.jpg#border" alt="Bealdung 网站的文本使用 标签描述类型名" title="Bealdung 网站的文本使用 &amp;lt;em&amp;gt; 标签描述类型名">&lt;/p>
 &lt;h2 id="总结">总结&lt;/h2>
 &lt;p>在「够看」的情况下继续深入优化排版，像对待印刷品一样对待 Web 页面，是一种工匠精神的体现，但另一方面我们又不得不面对一个尴尬的现实：文中所提到的那些高阶排版技巧，除了已经纳入 CSS 标准的特性外，有些需要微调页面元素，有些需要 JavaScript 脚本参与，有些则要求打字者一一手动校对，而 Web 网页作为「快速消费品」，大多数用户根本不会注意到这些额外的排版特性带来的效果增益，所以浏览器也没有足够的理由为支持这些特性而投入成本。&lt;/p>
 &lt;p>就像《死亡搁浅》中场景里的某朵小花，它会在你送快递的时候于视野中一闪而过，构成你对游戏整体体验的一部分，但是如果没有它，也不影响你继续游戏过程，更不会降低你对《死亡搁浅》的评价。&lt;/p>
@@ -683,7 +683,7 @@ RKP --> |N| DB[(Database)]
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>写入一个内容为&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">zhix.encoding.spi._9527CharsetProvider
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>的新行。&lt;/p>
-&lt;figure>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/configure-spi-in-meta-inf-directory.png"
+&lt;figure>&lt;img src="https://zhix.co/blog/configure-spi-in-meta-inf-directory.png"
 alt="配置 _9527CharsetProvider"/>&lt;figcaption>
 &lt;p>配置 _9527CharsetProvider&lt;/p>
 &lt;/figcaption>
@@ -731,7 +731,7 @@ alt="配置 _9527CharsetProvider"/>&lt;figcaption>
 &lt;span class="o">}&lt;/span>
 &lt;span class="o">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>运行单元测试的结果如下：&lt;/p>
-&lt;figure>&lt;img src="https://cdn.jsdelivr.net/gh/wzhix/image-hosting/images/20.3.16-unit-test-result-of-_9527-charset-provider.png"
+&lt;figure>&lt;img src="https://zhix.co/blog/20.3.16-unit-test-result-of-_9527-charset-provider.png"
 alt="_9527CharsetProvider 单元测试结果"/>&lt;figcaption>
 &lt;p>_9527CharsetProvider 单元测试结果&lt;/p>
 &lt;/figcaption>
