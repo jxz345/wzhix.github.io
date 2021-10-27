@@ -28,7 +28,7 @@
 <link rel=alternate type=application/atom+xml href=https://zhix.co/atom.xml title=今天的天空差了点>
 <link rel=alternate type=application/rss+xml href=https://zhix.co/rss.xml title=今天的天空差了点>
 <link rel=canonical href=https://zhix.co/>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebSite","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-08-04T09:30:38+00:00","url":"https://zhix.co/","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","author":{"@type":"Person","description":"不滞于物","email":"zhixuan@zhix.co","image":"https://zhix.co/icons/avatar.png","url":"https://zhix.co/","name":"zhix"},"license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","name":"今天的天空差了点"}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebSite","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-10-27T18:06:47+00:00","url":"https://zhix.co/","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","author":{"@type":"Person","description":"不滞于物","email":"zhixuan@zhix.co","image":"https://zhix.co/icons/avatar.png","url":"https://zhix.co/","name":"zhix"},"license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","name":"今天的天空差了点"}</script>
 <meta property="og:title" content="今天的天空差了点">
 <meta property="og:description" content="zhix 的精神避难所。">
 <meta property="og:url" content="https://zhix.co/">
@@ -118,6 +118,24 @@ SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消�
 <a href=/posts/talking-spi-in-java/ class=read-more-link>阅读全文 »</a>
 </div>
 </article>
+<article class="content post home h-entry">
+<h2 class="post-title p-name">
+<a href=/posts/solving-planing-problem-by-genetic-algorithm/ class="summary-title-link u-url">用遗传算法解决规划问题（一）</a>
+</h2>
+<div class=post-meta>
+<span class="post-meta-item category">
+<a href=/categories/%E6%8A%80%E6%9C%AF/ class="category-link p-category">技术</a></span>
+&#183;
+<time datetime=2020-02-15T20:54:41+08:00 class="post-meta-item published">&nbsp;2020-02-15</time>
+</div>
+<summary class="summary p-summary">
+<p>我的算法知识启蒙源自大学时期的「人工智能技术与运用」课程，这门课教授的第一个技术要点是「搜索」，由启发式搜索的概念展开，后续描述了各类算法实现，比如 <a href=https://zh.wikipedia.org/wiki/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95>遗传算法</a>、<a href=https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB>模拟退火</a>，也包括各种实际问题的解决，比如迷宫寻路、<a href=https://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98>七桥问题</a>。</p>
+<p>工作之后的第一年，我在一家游戏公司担任服务端工程师，届时参与制作一款 TPS 类型坦克载具类网游，类似于移动版「坦克世界」，需要解决的第一个棘手需求是：如何为匹配服务器设计一个算法，使得对战双方 N 辆坦克的类型、战斗力、玩家战斗水平都尽量公平。</p>……
+</summary>
+<div class=read-more-container>
+<a href=/posts/solving-planing-problem-by-genetic-algorithm/ class=read-more-link>阅读全文 »</a>
+</div>
+</article>
 </div>
 </main>
 <div id=back-to-top class=back-to-top>
@@ -125,13 +143,13 @@ SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消�
 </div>
 <footer id=footer class=footer>
 <div class=footer-inner>
-<div class=site-info>2021&nbsp;©&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
+<div class=site-info>©&nbsp;2021&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
 </div>
 </footer>
 </div>
 <script>'serviceWorker'in navigator&&window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})</script>
 <script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
-<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'var(--color-bg)'})</script>
+<script>let imgNodes=document.querySelectorAll('div.post-body img');imgNodes=Array.from(imgNodes).filter(a=>a.parentNode.tagName!=="A"),mediumZoom(imgNodes,{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script>
 <script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script>
 </body>
 </html>

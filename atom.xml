@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><title type="text">今天的天空差了点</title><subtitle type="html">zhix 的精神避难所。</subtitle><updated>2021-08-04T09:30:56+00:00</updated><id>https://zhix.co/</id><link rel="alternate" type="text/html" href="https://zhix.co/"/><link rel="self" type="application/atom+xml" href="https://zhix.co/atom.xml"/><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><generator uri="https://gohugo.io/" version="0.86.0">Hugo</generator><entry><title type="text">谈谈技术博客的排版</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/talking-typesetting/"/><id>https://zhix.co/posts/talking-typesetting/</id><updated>2021-08-04T09:30:38+00:00</updated><published>2020-03-31T22:01:33+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">在「够看」的情况下继续深入优化排版，像对待印刷品一样对待 Web 页面，是一种工匠精神的体现，但另一方面我们又不得不面对一个尴尬的现实：Web 网页作为「快速消费品」，大多数用户根本不会注意到这些额外的排版特性带来的效果增益，所以浏览器也没有足够的理由为支持这些特性而投入成本。</summary><content type="html">&lt;h2 id="概述">概述&lt;/h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><title type="text">今天的天空差了点</title><subtitle type="html">zhix 的精神避难所。</subtitle><updated>2021-10-27T18:07:16+00:00</updated><id>https://zhix.co/</id><link rel="alternate" type="text/html" href="https://zhix.co/"/><link rel="self" type="application/atom+xml" href="https://zhix.co/atom.xml"/><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><generator uri="https://gohugo.io/" version="0.86.0">Hugo</generator><entry><title type="text">谈谈技术博客的排版</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/talking-typesetting/"/><id>https://zhix.co/posts/talking-typesetting/</id><updated>2021-10-27T18:06:47+00:00</updated><published>2020-03-31T22:01:33+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">在「够看」的情况下继续深入优化排版，像对待印刷品一样对待 Web 页面，是一种工匠精神的体现，但另一方面我们又不得不面对一个尴尬的现实：Web 网页作为「快速消费品」，大多数用户根本不会注意到这些额外的排版特性带来的效果增益，所以浏览器也没有足够的理由为支持这些特性而投入成本。</summary><content type="html">&lt;h2 id="概述">概述&lt;/h2>
 &lt;p>相比于国内已有的内容平台，比如豆瓣、知乎、公众号，独立博客在搭建、配置和维护上会花费额外的精力，也需要一定动手能力才能持续运作，但是相对地，独立博客能更加灵活地控制内容产出，更加自由地挥洒笔墨，对排版样式更可以进行像素级的控制。&lt;/p>
 &lt;p>排版简单来说就是考虑如何组织文本，让文章对读者更加友好 &amp;mdash; 这涉及到字体、字型、段落等元素的样式平衡。排版定义了网站的整体基调，引导读者阅读，决定用户体验，正如 &lt;a href="https://github.com/sparanoid/chinese-copywriting-guidelines/">中文文案排版指北&lt;/a> 所说，一致的排版能够降低团队成员之间的沟通成本，增强网站气质，整齐划一的排版也是我写博客所追求的目标。&lt;/p>
 &lt;p>接下来我想谈谈博客在样式上的配置，包括相关 CSS 特性的讨论，以及我对技术博客排版的个人理解。文章组成博客，段落组成文章，段落的排版决定了博客的排版，段落的排版又以字体、行距、对齐最为关键。&lt;/p>
@@ -142,7 +142,7 @@ Latin and other Western language systems use spaces and punctuation to separate 
 &lt;/blockquote>
 &amp;#160;&lt;a href="https://zhix.co/posts/talking-typesetting/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/li>
 &lt;/ol>
-&lt;/section></content><category scheme="https://zhix.co/categories/%E8%AE%BE%E8%AE%A1/" term="设计" label="设计"/><category scheme="https://zhix.co/series/%E6%8E%92%E7%89%88%E5%AD%A6/" term="排版学" label="排版学"/><category scheme="https://zhix.co/tags/%E5%8D%9A%E5%AE%A2/" term="博客" label="博客"/><category scheme="https://zhix.co/tags/%E8%AE%BE%E8%AE%A1/" term="设计" label="设计"/><category scheme="https://zhix.co/tags/%E6%8E%92%E7%89%88/" term="排版" label="排版"/><category scheme="https://zhix.co/tags/%E5%AD%97%E4%BD%93/" term="字体" label="字体"/><category scheme="https://zhix.co/tags/css/" term="css" label="css"/><category scheme="https://zhix.co/tags/baeldung/" term="baeldung" label="baeldung"/><category scheme="https://zhix.co/tags/markdown/" term="markdown" label="markdown"/><category scheme="https://zhix.co/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/" term="公众号" label="公众号"/></entry><entry><title type="text">在 Spring Cache 中为 Redis 添加内存缓存</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/"/><id>https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</id><updated>2021-08-04T09:30:38+00:00</updated><published>2020-03-29T12:44:41+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">缓存是提升应用程序性能的首要途径，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问缓存服务器，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。</summary><content type="html">&lt;p>缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。&lt;/p>
+&lt;/section></content><category scheme="https://zhix.co/categories/%E8%AE%BE%E8%AE%A1/" term="设计" label="设计"/><category scheme="https://zhix.co/series/%E6%8E%92%E7%89%88%E5%AD%A6/" term="排版学" label="排版学"/><category scheme="https://zhix.co/tags/%E5%8D%9A%E5%AE%A2/" term="博客" label="博客"/><category scheme="https://zhix.co/tags/%E8%AE%BE%E8%AE%A1/" term="设计" label="设计"/><category scheme="https://zhix.co/tags/%E6%8E%92%E7%89%88/" term="排版" label="排版"/><category scheme="https://zhix.co/tags/%E5%AD%97%E4%BD%93/" term="字体" label="字体"/><category scheme="https://zhix.co/tags/css/" term="css" label="css"/><category scheme="https://zhix.co/tags/baeldung/" term="baeldung" label="baeldung"/><category scheme="https://zhix.co/tags/markdown/" term="markdown" label="markdown"/><category scheme="https://zhix.co/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/" term="公众号" label="公众号"/></entry><entry><title type="text">在 Spring Cache 中为 Redis 添加内存缓存</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/"/><id>https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/</id><updated>2021-10-27T18:06:47+00:00</updated><published>2020-03-29T12:44:41+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">缓存是提升应用程序性能的首要途径，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问缓存服务器，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。</summary><content type="html">&lt;p>缓存是提升应用程序性能的首要途径，我们一般会使用 Redis 来实现缓存层以减小对持久层的访问压力，随之带来的问题是：即便在缓存命中的情况下，应用程序依然需要访问 Redis 服务器并消耗一定的 CPU 算力和网络带宽资源，随着业务量增长，代价可能变得更加明显。本文将以 Spring Cache 为背景，探讨如何以最小化的改动来实现给 Redis 加持内存缓存。&lt;/p>
 &lt;h2 id="spring-cache-抽象">Spring Cache 抽象&lt;/h2>
 &lt;p>&lt;a href="https://docs.spring.io/spring/docs/5.0.0.RELEASE/spring-framework-reference/integration.html#cache">Spring Cache&lt;/a> 作为 Spring 最核心的模块之一，提供了开箱即用的缓存支持，应用程序只需要在任意 &lt;em>Configuration&lt;/em> 类上加入注解 &lt;em>@EnableCaching&lt;/em> 即可启用缓存：&lt;/p>
 &lt;p>Spring Cache 的实现位 &lt;em>org.springframework.cache&lt;/em> 包下，如果使用 Maven 的话需要引入 &lt;a href="https://search.maven.org/search?q=g:org.springframework%20a:spring-context">&lt;em>spring-context&lt;/em>&lt;/a> 模块，其中最核心的 2 个接口定义如下：&lt;/p>
@@ -451,7 +451,7 @@ RKP --> |N| DB[(Database)]
 &lt;p> 即 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultSerializer.html">&lt;em>DefaultSerializer&lt;/em>&lt;/a> 和 &lt;a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/serializer/DefaultDeserializer.html">&lt;em>DefaultDeserializer&lt;/em>&lt;/a>。&amp;#160;&lt;a href="https://zhix.co/posts/spring-cache-in-practice-adding-memory-cache-in-front-of-redis-cache/#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></content><category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术"/><category scheme="https://zhix.co/series/spring-framework/" term="Spring Framework" label="Spring Framework"/><category scheme="https://zhix.co/tags/java/" term="Java" label="Java"/><category scheme="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/" term="编程" label="编程"/><category scheme="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" term="软件工程" label="软件工程"/><category scheme="https://zhix.co/tags/%E7%BC%93%E5%AD%98/" term="缓存" label="缓存"/><category scheme="https://zhix.co/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" term="面向对象" label="面向对象"/><category scheme="https://zhix.co/tags/cache/" term="cache" label="cache"/><category scheme="https://zhix.co/tags/spring-framework/" term="spring framework" label="spring framework"/><category scheme="https://zhix.co/tags/spring-cache/" term="spring cache" label="spring cache"/><category scheme="https://zhix.co/tags/redis/" term="redis" label="redis"/></entry><entry><title type="text">谈谈 Java SPI：以字符集举例</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/talking-spi-in-java/"/><id>https://zhix.co/posts/talking-spi-in-java/</id><updated>2021-08-04T09:30:38+00:00</updated><published>2020-03-11T20:12:51+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化。</summary><content type="html">&lt;p>自 Java 6.0 开始，JDK 提供了名为 SPI（&lt;span lang="en">Service Provider Interface&lt;/span>）的加载机制，SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、&lt;em>Charset&lt;/em> 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。&lt;/p>
+&lt;/section></content><category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术"/><category scheme="https://zhix.co/series/spring-framework/" term="Spring Framework" label="Spring Framework"/><category scheme="https://zhix.co/tags/java/" term="Java" label="Java"/><category scheme="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/" term="编程" label="编程"/><category scheme="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" term="软件工程" label="软件工程"/><category scheme="https://zhix.co/tags/%E7%BC%93%E5%AD%98/" term="缓存" label="缓存"/><category scheme="https://zhix.co/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" term="面向对象" label="面向对象"/><category scheme="https://zhix.co/tags/cache/" term="cache" label="cache"/><category scheme="https://zhix.co/tags/spring-framework/" term="spring framework" label="spring framework"/><category scheme="https://zhix.co/tags/spring-cache/" term="spring cache" label="spring cache"/><category scheme="https://zhix.co/tags/redis/" term="redis" label="redis"/></entry><entry><title type="text">谈谈 Java SPI：以字符集举例</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/talking-spi-in-java/"/><id>https://zhix.co/posts/talking-spi-in-java/</id><updated>2021-10-27T18:06:47+00:00</updated><published>2020-03-11T20:12:51+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化。</summary><content type="html">&lt;p>自 Java 6.0 开始，JDK 提供了名为 SPI（&lt;span lang="en">Service Provider Interface&lt;/span>）的加载机制，SPI 能够在运行时发现某个接口／抽象类的实现类，为接口消费方提供了一致的模型来使用接口，对于接口实现方，按 SPI 的规范注册的实现类可实现运行时自动加载。这种方式既解除了接口与实现的耦合，又解决了实现类的自动初始化，比较典型的用例有 JDBC 驱动类的注册、&lt;em>Charset&lt;/em> 字符集注册等，Spring Framework 和 Dubbo 的代码中也或多或少参考和封装了该机制。&lt;/p>
 &lt;h2 id="spi-机制">SPI 机制&lt;/h2>
 &lt;p>在 SPI 里，接口或者抽象类被称为服务（&lt;span lang="en">Service&lt;/span>）或服务提供者接口（&lt;span lang="en">Service Provider Interface&lt;/span>），实现类被称为服务提供者（&lt;span lang="en">Service Provider&lt;/span>）。虽然常见的概念被赋予了不太好理解的名称，但是二者在本质上还是代表了面向对象编程中规范（&lt;span lang="en">Specification&lt;/span>）和实现（&lt;span lang="en">Implementation&lt;/span>）的关系。&lt;/p>
 &lt;h3 id="服务提供者">服务提供者&lt;/h3>
@@ -634,4 +634,274 @@ alt="_9527CharsetProvider 单元测试结果"/>&lt;figcaption>
 &lt;p>静态绑定的典型应用是 &lt;a href="http://www.slf4j.org/">Slf4J&lt;/a>&amp;#160;&lt;a href="https://zhix.co/posts/talking-spi-in-java/#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></content><category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术"/><category scheme="https://zhix.co/series/java-%E6%A0%B8%E5%BF%83/" term="Java 核心" label="Java 核心"/><category scheme="https://zhix.co/tags/java/" term="Java" label="Java"/><category scheme="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/" term="编程" label="编程"/><category scheme="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" term="软件工程" label="软件工程"/><category scheme="https://zhix.co/tags/utf-8/" term="UTF-8" label="UTF-8"/><category scheme="https://zhix.co/tags/unicode/" term="Unicode" label="Unicode"/><category scheme="https://zhix.co/tags/jdk/" term="JDK" label="JDK"/><category scheme="https://zhix.co/tags/spi/" term="SPI" label="SPI"/><category scheme="https://zhix.co/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" term="字符集" label="字符集"/></entry></feed>
+&lt;/section></content><category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术"/><category scheme="https://zhix.co/series/java-%E6%A0%B8%E5%BF%83/" term="Java 核心" label="Java 核心"/><category scheme="https://zhix.co/tags/java/" term="Java" label="Java"/><category scheme="https://zhix.co/tags/%E7%BC%96%E7%A8%8B/" term="编程" label="编程"/><category scheme="https://zhix.co/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" term="软件工程" label="软件工程"/><category scheme="https://zhix.co/tags/utf-8/" term="UTF-8" label="UTF-8"/><category scheme="https://zhix.co/tags/unicode/" term="Unicode" label="Unicode"/><category scheme="https://zhix.co/tags/jdk/" term="JDK" label="JDK"/><category scheme="https://zhix.co/tags/spi/" term="SPI" label="SPI"/><category scheme="https://zhix.co/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/" term="字符集" label="字符集"/></entry><entry><title type="text">用遗传算法解决规划问题（一）</title><link rel="alternate" type="text/html" href="https://zhix.co/posts/solving-planing-problem-by-genetic-algorithm/"/><id>https://zhix.co/posts/solving-planing-problem-by-genetic-algorithm/</id><updated>2021-10-27T18:06:47+00:00</updated><published>2020-02-15T20:54:41+08:00</published><author><name>zhix</name><uri>https://zhix.co/</uri><email>zhixuan@zhix.co</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">&lt;p>我的算法知识启蒙源自大学时期的「人工智能技术与运用」课程，这门课教授的第一个技术要点是「搜索」，由启发式搜索的概念展开，后续描述了各类算法实现，比如 &lt;a href="https://zh.wikipedia.org/wiki/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95">遗传算法&lt;/a>、&lt;a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB">模拟退火&lt;/a>，也包括各种实际问题的解决，比如迷宫寻路、&lt;a href="https://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98">七桥问题&lt;/a>。&lt;/p>
+&lt;p>工作之后的第一年，我在一家游戏公司担任服务端工程师，届时参与制作一款 TPS 类型坦克载具类网游，类似于移动版「坦克世界」，需要解决的第一个棘手需求是：如何为匹配服务器设计一个算法，使得对战双方 N 辆坦克的类型、战斗力、玩家战斗水平都尽量公平。&lt;/p>……</summary><content type="html">&lt;p>我的算法知识启蒙源自大学时期的「人工智能技术与运用」课程，这门课教授的第一个技术要点是「搜索」，由启发式搜索的概念展开，后续描述了各类算法实现，比如 &lt;a href="https://zh.wikipedia.org/wiki/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95">遗传算法&lt;/a>、&lt;a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB">模拟退火&lt;/a>，也包括各种实际问题的解决，比如迷宫寻路、&lt;a href="https://zh.wikipedia.org/wiki/%E6%9F%AF%E5%B0%BC%E6%96%AF%E5%A0%A1%E4%B8%83%E6%A1%A5%E9%97%AE%E9%A2%98">七桥问题&lt;/a>。&lt;/p>
+&lt;p>工作之后的第一年，我在一家游戏公司担任服务端工程师，届时参与制作一款 TPS 类型坦克载具类网游，类似于移动版「坦克世界」，需要解决的第一个棘手需求是：如何为匹配服务器设计一个算法，使得对战双方 N 辆坦克的类型、战斗力、玩家战斗水平都尽量公平。&lt;/p>
+&lt;h2 id="澡盆玩具生产问题">澡盆玩具生产问题&lt;/h2>
+&lt;p>详细讨论上述匹配需求之前，先聊聊另一个更加简单的问题，&lt;a href="https://book.douban.com/subject/5257905/">《&lt;span lang="en">Head First Data Analysis&lt;/span>》&lt;/a>这本书的第三章描述了一个入门的规划问题：&lt;/p>
+&lt;p>&lt;em>假设你是一家名为「浴盆宝」的公司的数据分析师，这家公司的业务是生产和销售澡盆玩具，主要的产品线有两个：橡皮鸭和橡皮鱼，其中每只橡皮鸭和橡皮鱼的利润分别是 5 美元和 4 美元，它们分别消耗 100 单位和 125 单位的橡胶成本，问如果想让产品在下个月上架销售，橡皮鸭的产量不高于 400 只，橡皮鱼的产量不高于 300 只、且成本不超过 50,000 单位橡胶的情况下，怎样的生产组合能够使利润最大。&lt;/em>&lt;/p>
+&lt;p>上述参数转化为表格的描述如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">产品&lt;/th>
+&lt;th style="text-align:center">最大产量&lt;/th>
+&lt;th style="text-align:center">利润&lt;/th>
+&lt;th style="text-align:center">单位成本&lt;/th>
+&lt;th style="text-align:center">产量&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">Duck&lt;/td>
+&lt;td style="text-align:center">400&lt;/td>
+&lt;td style="text-align:center">$5&lt;/td>
+&lt;td style="text-align:center">100&lt;/td>
+&lt;td style="text-align:center">$N_d$&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">Fish&lt;/td>
+&lt;td style="text-align:center">300&lt;/td>
+&lt;td style="text-align:center">$4&lt;/td>
+&lt;td style="text-align:center">125&lt;/td>
+&lt;td style="text-align:center">$N_f$&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>即产量满足约束&lt;/p>
+&lt;p>$$
+100N_d + 125N_f \leq 50000 \mid N_d \leq 400, N_f \leq 300
+$$&lt;/p>
+&lt;p>时，使得 $5N_d + 4N_f$ 最大。&lt;/p>
+&lt;p>书中引入这个案例更多是为了介绍如何在 &lt;span lang="en">Microsoft Excel&lt;/span> 中操作以做规划求解，而如何通过解不等式方程得到最优解不在本文讨论范围之内。这里介绍这个基础的案例是为了讨论如何用遗传算法解该问题。&lt;/p>
+&lt;h2 id="遗传算法">遗传算法&lt;/h2>
+&lt;blockquote>
+&lt;p>遗传算法（&lt;span lang="en">Genetic Algorithm (GA)&lt;/span> ）是计算数学中用于解决最优化的搜索算法，是进化算法的一种。进化算法最初是借鉴了进化生物学中的一些现象而发展起来的，这些现象包括遗传、突变、自然选择以及杂交等。&lt;/p>
+&lt;p>遗传算法通常实现方式为一种计算机模拟。对于一个最优化问题，一定数量的候选解（称为个体）可抽象表示为染色体，使种群向更好的解进化。传统上，解用二进制表示（即 0 和 1 的串），但也可以用其他表示方法。进化从完全随机个体的种群开始，之后一代一代发生。在每一代中评价整个种群的适应度，从当前种群中随机地选择多个个体（基于它们的适应度），通过自然选择和突变产生新的生命种群，该种群在算法的下一次迭代中成为当前种群。&lt;/p>
+&lt;/blockquote>
+&lt;p>遗传算法以达尔文的进化论为理论提出以下结论：生物以种群（&lt;span lang="en">Population&lt;/span>）为单位做演化，种群由若干数量的个体组成，每个个体都有自己的基因（&lt;span lang="en">Gene&lt;/span>）序列，不同的基因序列表现不同的性状，因此具有不同的环境适应度（&lt;span lang="en">Fitness&lt;/span>），适应度高的个体更容易在自然选择中生存下来，将自己的基因序列遗传给下一代个体，两个个体之间会发生基因的交叉（&lt;span lang="en">Crossover&lt;/span>），即繁殖过程，单个个体的基因序列存在一定概率发生突变（&lt;span lang="en">Mutation&lt;/span>）而产生新的基因序列。&lt;/p>
+&lt;p>所谓的基因序列，就是将解空间中的解进行编码，使得解空间的每一个解都有唯一的一组基因对应。比较通用的编码方式就是 0-1 二进制串，若某个问题的解是可枚举的，且总共存在 $M$ 种不同的可能解，那么可以选择 $2n$ 中第一个超过 $M$ 的 $n$ 的自然数作为基因的编码长度，比如解有 960 中可能时用 10 位二进制串编码基因，解有 60000 中可能时用 16 位二进制串编码基因，依次类推。根据该结论，随着种群一代一代演化，适应度低的个体会被逐渐淘汰，保留下来的个体的基因序列都倾向于有更高的适应度，经过若干轮处理后，种群朝着整体适应度更高的方向发展，适应度最高的个体的基因序列便是我们需要的解。&lt;/p>
+&lt;p>在实践中我们发现，演化的方向可能是贪婪的，因此可能出现种群整体朝着一个次优的方向演化并在某一代收敛，即新产生的基因的适应度不再高于种群整体的适应度，以至于之后的演化不在产生更好的解。想象一个求极大值的函数的函数图像在给定定义域里存在两个波峰，它们的值一高一低，贪婪的演化可能导致基因序列在演化开始后逐渐趋近于低波峰附近的解且无法跳出。引入突变则使得即使是较高适应度的基因序列仍有一定概率突变成更好的或者更差的基因序列，从而跳出当前的解范围。从生物学的角度来说就是，遗传物质的复制过程中存在一定概率出现差错，进而为个体带来全新的基因序列，这种差错是完全随机的，带来的优劣也是因环境而异。&lt;/p>
+&lt;blockquote>
+&lt;p>突变通常会导致细胞运作不正常或死亡，甚至可以在较高等生物中引发癌症。但同时，突变也被视为演化的「推动力」：不理想的突变会经天择过程被淘汰，而对物种有利的突变则会被累积下去。&lt;/p>
+&lt;/blockquote>
+&lt;p>通用的遗传算法一般会有以下几个控制参数：基因长度、种群大小、突变率、演化次数、随机数种子和适应度函数。&lt;/p>
+&lt;dl>
+&lt;dt>基因长度&lt;/dt>
+&lt;dd>正如之前描述的，依据解空间的大小可以确定基因长度，比如对于 10 位基因长度、解空间大小为 960 的问题来说，一个可能的解为 0100101101 (301)。&lt;/dd>
+&lt;dt>种群大小&lt;/dt>
+&lt;dd>计算机依据种群为单位批量计算，种群大小即计算机一次处理的样本大小，设置过大的种群大小会消耗更多的计算资源，设置过小则会导致进化缓慢，甚至可能出现演化结束后依旧无法找到最优解。最佳的大小值可能因问题和计算力而异。&lt;/dd>
+&lt;dt>突变（概）率&lt;/dt>
+&lt;dd>突变的产生是概率性的，表现在算法中就是，每一个个体在演化过程中都有一定概率使得自己基因序列的某一位或者某几位发生比特逆转。设置过小的突变率，比如 0，即不发生突变，会出现上一节描述的次优解陷阱，而过高的突变率会使得算法退化为无目的的随机搜索，一般来说 5% ~ 10% 的突变率就能够适应大部分问题。&lt;/dd>
+&lt;dt>演化次数&lt;/dt>
+&lt;dd>遗传算法本质上是一个有限步骤的算法，我们必须决定何时结束算法的循环，通常会设置经过多少代的演化后结束，或是直到种群中的某个个体适应度超过给定值后结束。无论是哪一种，这个参数是用来表示何时算法得以中止。同样，过快的终止条件可能导致尚未搜索出最优解的情况下中止，过慢的中止条件则导致后期已经收敛的种群演化效率低下。&lt;/dd>
+&lt;dt>随机数种子&lt;/dt>
+&lt;dd>用于生成初始种群的基因序列，相同的随机数种子应当每次都生成相同的初始种群。可随意设置，一般设置为当前的时间戳。&lt;/dd>
+&lt;dt>适应度函数&lt;/dt>
+&lt;dd>适应度函数模拟了环境的选择，决定了某一个基因序列对应的解的优劣。这里的优劣完全取决于适应度函数的定义，对于同一个问题，不同的适应度函数可能导致最终产生完全不同的种群，这与实际的生物演化是相符的，就好比橘树栽在淮南就是橘，而栽在淮北却变成了枳，或是亚洲象和非洲象在性状上的差异。无论如何，适应度函数的定义域等于解空间。&lt;/dd>
+&lt;/dl>
+&lt;p>通常来说，我们面对的问题还会设置一些限制条件，比如生产问题中消耗量不能高于供给量，或是匹配问题中的玩家平均等级差不超过给定范围等。若最终演化后种群中的个体的基因序列对应的解违反了这些限制条件，则意味着演化出现了无用的解。因此有必要指定一些致死基因（&lt;span lang="en">Lethal Gene&lt;/span>）来优化演化算法，所谓的致死基因就是那些对应的解违反了限制条件的基因序列，若演化得到的新基因序列包含致死基因，则设置该基因序列的适应度为 0，因为适应度为 0 的基因序列永远无法通过自然选择（随机轮盘）将自身遗传到下一代，用伪代码表示就是：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-coffeescript" data-lang="coffeescript">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">gene&lt;/span> &lt;span class="o">is&lt;/span> &lt;span class="nx">lethal&lt;/span> &lt;span class="nx">gene&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">fitness = &lt;/span>&lt;span class="mi">0&lt;/span>
+&lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nv">fitness = &lt;/span>&lt;span class="nx">Fitness&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">gene&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>遗传算法是 &lt;a href="https://zh.wikipedia.org/wiki/%E9%81%97%E4%BC%A0%E7%BC%96%E7%A8%8B">遗传编程&lt;/a> 的一个实现，这类编程范式的本质在于告诉计算机需要完成什么而不是如何完成，通过特定的策略去搜索解空间中的解并逐步收敛，最终找到最优解。&lt;/p>
+&lt;h2 id="用遗传算法解决澡盆玩具问题">用遗传算法解决澡盆玩具问题&lt;/h2>
+&lt;p>以上一节中的澡盆玩具生产问题为例，我们用 $x$ 代表最终生产的橡皮鸭数量，$y$ 代表最终生产的橡皮鱼数量，则任意合法的、不包含致死基因 $x$ 和 $y$ 的组合都是一个解，则问题的本质变成了：我们需要在有限的步骤内找到一组 $(x, y)$ 使得 $\text{Fitness}(x, y)$ 最大。&lt;/p>
+&lt;h3 id="基因定义">基因定义&lt;/h3>
+&lt;p>由于 $x$ 不超过 400，$y$ 不超过 300，与 400 和 300 最接近的 $2n$ 为 512 即 $n$ = 9，因此可以设置基因序列的长度为 9 + 9 = 18 位，解的个数应当低于 2&lt;sup>18&lt;/sup>=262144 个，但实际有效的解会低于这个数字，因为这个数字包括了 $y\gt400$ 或 $y\gt300$ 的情况。想象一个长度为 18 的比特串，索引 0-8 的位置分配给 $x$，索引 9-17 的位置分配给 $y$，这个比特串就是这个问题的基因序列的编码方式。&lt;/p>
+&lt;h3 id="参数设置">参数设置&lt;/h3>
+&lt;p>我们已经确定基因序列的长度为 18，这里我们使用如下的参数配置来初始化算法。实际上，寻找一个正确而高效的参数来配置遗传算法可能需要多次调试：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">参数名称&lt;/th>
+&lt;th style="text-align:center">参数值&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">基因长度&lt;/td>
+&lt;td style="text-align:center">18 位&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">种群大小&lt;/td>
+&lt;td style="text-align:center">200 个&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">突变率&lt;/td>
+&lt;td style="text-align:center">7.5%&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">随机数种子&lt;/td>
+&lt;td style="text-align:center">0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">演化次数&lt;/td>
+&lt;td style="text-align:center">200 代&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>设置适应度函数为：&lt;/p>
+&lt;p>$$
+F =
+\begin{cases}
+5x + 4y, &amp;amp; \text{if $x \leq 400 \land y \leq 300 \land 100x + 125y \leq 50000$} \\&lt;br>
+0, &amp;amp; \text{otherwise}
+\end{cases}
+$$&lt;/p>
+&lt;h3 id="自然选择">自然选择&lt;/h3>
+&lt;p>下面开始真正的算法迭代过程，首先进行的是自然选择步骤，为了简便起见，我们假设种群只包含 4 个个体，初始种群的个体基因序列是随机生成的，我们以 0 为随机数种子生成初始种群，假定生成的 4 个个体 $a \sim d$ 的基因序列如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>个体名称&lt;/th>
+&lt;th>基因序列&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>𝑎&lt;/td>
+&lt;td>&lt;code>001111000011001000&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>𝑏&lt;/td>
+&lt;td>&lt;code>100101100011001000&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>𝑐&lt;/td>
+&lt;td>&lt;code>000111100001001011&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>𝑑&lt;/td>
+&lt;td>&lt;code>001110100010000010&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>通过拆分二进制串可以计算得到每个基因序列对应的 $x$、$y$ 和适应度：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">个体名称&lt;/th>
+&lt;th style="text-align:left">基因序列&lt;/th>
+&lt;th style="text-align:right">𝑥 和 𝑦 值&lt;/th>
+&lt;th style="text-align:right">适应度&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">𝑎&lt;/td>
+&lt;td style="text-align:left">&lt;code>001111000011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:right">120, 200&lt;/td>
+&lt;td style="text-align:right">1400&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">𝑏&lt;/td>
+&lt;td style="text-align:left">&lt;code>100101100011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:right">300, 200&lt;/td>
+&lt;td style="text-align:right">2300&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">𝑐&lt;/td>
+&lt;td style="text-align:left">&lt;code>000111100001001011&lt;/code>&lt;/td>
+&lt;td style="text-align:right">60, 75&lt;/td>
+&lt;td style="text-align:right">600&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">𝑑&lt;/td>
+&lt;td style="text-align:left">&lt;code>001110100010000010&lt;/code>&lt;/td>
+&lt;td style="text-align:right">116, 130&lt;/td>
+&lt;td style="text-align:right">1100&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>在遗传算法的迭代过程中，种群的个体数量始终恒定不变，n 个个体的种群演化至下一代仍有 n 个个体，自然选择的过程就是通过某种选择策略，从上一代的 n 个个体选择 n 次，组建出下一代的 n 个个体，通常的选择策略便是依据个体适应度大小的加权随机采样，想象将 $a \sim d$ 依据适应度绘制一个饼图：&lt;/p>
+&lt;p>加权随机的意思是在该圆中随机某一点，该点对应 $a \sim d$ 哪一个的区域，就选择哪一个个体，重复 4 次。加权随机的具体实现算法在此不赘述，不管怎样，适应度越高的个体，在饼图中占据的区域越大，随机生成的点落在该个体区域的概率也越高，反之，低适应度的个体更加不容易被选中，对应于自然界的「适者生存」。假设经过一轮自然选择后的种群为 $\{b_1, a, b_2, d\}$：意味着在下一轮的 4 次选择中，$b$ 在第 1 次和第 3 次被命中，第 2 次命中了 𝑎，第 4 次命中了 $d$，而 $c$ 因为适应度最低不幸没有被命中。这是一个很大可能的结果，因为 $c$ 的命中概率为 11.1% 而远低于 $b$ 的 42.6%，此时的种群基因序列如下&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">个体（选择前）&lt;/th>
+&lt;th style="text-align:right">适应度（选择前）&lt;/th>
+&lt;th style="text-align:left">个体（选择后）&lt;/th>
+&lt;th style="text-align:right">适应度（选择后）&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">$a$&lt;/td>
+&lt;td style="text-align:right">1400&lt;/td>
+&lt;td style="text-align:left">$b_1$&lt;/td>
+&lt;td style="text-align:right">2300&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$b$&lt;/td>
+&lt;td style="text-align:right">2300&lt;/td>
+&lt;td style="text-align:left">$a$&lt;/td>
+&lt;td style="text-align:right">1400&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$c$&lt;/td>
+&lt;td style="text-align:right">60&lt;/td>
+&lt;td style="text-align:left">$b_2$&lt;/td>
+&lt;td style="text-align:right">2300&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$d$&lt;/td>
+&lt;td style="text-align:right">1100&lt;/td>
+&lt;td style="text-align:left">$d$&lt;/td>
+&lt;td style="text-align:right">1100&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>可以看出选择前种群的平均适应度为 1350，而选择后为 1775，即经过一轮自然选择，种群中的个体普遍比上一代个体具有更高的适应度。同时，带有致死基因的个体因为其适应度为 0 而永远不会被自然选择命中，这保证了我们能够及早的在搜索结果中排除那些不满足限制条件的解。&lt;/p>
+&lt;h3 id="基因交叉">基因交叉&lt;/h3>
+&lt;p>演化迭代的第二步是基因交叉，基因交叉发生与两两个体之间，指的是两个个体间的基因序列在随机某个位置之后的子序列发生交换，假设对于上一节经过自然选择之后的种群 $\{b_1, a, b_2, d\}$ 在基因位置 14 之后的子序列进行基因交叉，即 $b_1$ 与 $a$ 交叉，$b_2$ 与 $d$ 交叉，则如下表格描述了经过交叉后的种群的基因序列和对应的适应度：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">个体&lt;/th>
+&lt;th style="text-align:left">交叉前基因序列后 9 位&lt;/th>
+&lt;th style="text-align:left">交叉后基因序列后 9 位&lt;/th>
+&lt;th style="text-align:right">新 $x$ 和 $y$&lt;/th>
+&lt;th style="text-align:right">新适应度&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">$b_1$&lt;/td>
+&lt;td style="text-align:left">&lt;code>011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:right">300, 200&lt;/td>
+&lt;td style="text-align:right">2300&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$a$&lt;/td>
+&lt;td style="text-align:left">&lt;code>011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:right">120, 200&lt;/td>
+&lt;td style="text-align:right">1400&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$b_2$&lt;/td>
+&lt;td style="text-align:left">&lt;code>011001000&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>011000010&lt;/code>&lt;/td>
+&lt;td style="text-align:right">300, 194&lt;/td>
+&lt;td style="text-align:right">2276&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">$d$&lt;/td>
+&lt;td style="text-align:left">&lt;code>010000010&lt;/code>&lt;/td>
+&lt;td style="text-align:left">&lt;code>010001100&lt;/code>&lt;/td>
+&lt;td style="text-align:right">116, 140&lt;/td>
+&lt;td style="text-align:right">1140&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>可以看出交叉前种群的平均适应度为 1775，而交叉后为 1779，即经过一轮基因交叉，种群中的个体的适应度比上一代个体略有上升，若选择另一位置的字序列交叉，则可能出现更坏的情况。如果说自然选择是已有基因序列的择优筛选，本质上并没有为种群引入新的基因序列，而从这一步开始，种群内的个体产生了新的基因序列。&lt;/p>
+&lt;h3 id="基因变异">基因变异&lt;/h3>
+&lt;p>演化迭代的第三步是基因变异，基因变异发生在单个个体间，每个个体在每一轮迭代中都有一定概率出现遗传物质的复制错误，该行为模拟了生物 DNA 的转录错误，表现在算法中就是比特串某一位置的比特值发生反转。与基因交叉类似，变异可能产生原本种群内不存在基因，这可能改变种群整体的进化方向以避免之前讨论过的次有解陷阱。&lt;/p>
+&lt;p>假设经过上一步交叉后的种群里，只有个体 $b_1$ 发生了基因突变，且突变的位置为 4，则 $b_i$ 突变后的基因即从 1001..0..1100011001000 变异为 100..1..01100011001000。&lt;/p>
+&lt;h3 id="种群更替与搜索结果">种群更替与搜索结果&lt;/h3>
+&lt;p>在种群完成「自然选择」、「基因交叉」和「基因突变」后，种群便完成了一次代际的更替，一般来说，新的种群会比上一代种群更加适合生存。如果选择了合适的参数，算法能够在中止前完成搜索的解收敛。&lt;/p>
+&lt;p>我在我的机器上按照上述参数实现了一版算法，运行后最终种群在第 4 代便完成了解的收敛，最终算法给出的适应度最高的基因为 110010000001010000，即 $x$=400,$y$=80 时，利润最高，达到 2320 美元。&lt;/p></content><category scheme="https://zhix.co/categories/%E6%8A%80%E6%9C%AF/" term="技术" label="技术"/><category scheme="https://zhix.co/tags/%E7%AE%97%E6%B3%95/" term="算法" label="算法"/><category scheme="https://zhix.co/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" term="人工智能" label="人工智能"/><category scheme="https://zhix.co/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" term="遗传算法" label="遗传算法"/><category scheme="https://zhix.co/tags/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/" term="启发式搜索" label="启发式搜索"/></entry></feed>

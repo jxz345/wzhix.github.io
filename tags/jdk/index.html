@@ -26,7 +26,7 @@
 <meta name=msapplication-TileImage content="../../icons/mstile-150x150.png">
 <link rel=manifest href=/manifest.json>
 <link rel=canonical href=https://zhix.co/tags/jdk/>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-08-04T09:30:38+00:00","url":"https://zhix.co/tags/jdk/","name":"Tags: JDK","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-10-27T18:06:47+00:00","url":"https://zhix.co/tags/jdk/","name":"Tags: JDK","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
 <meta property="og:title" content="Tags: JDK">
 <meta property="og:description" content="zhix 的精神避难所。">
 <meta property="og:url" content="https://zhix.co/tags/jdk/">
@@ -83,13 +83,13 @@
 </div>
 <footer id=footer class=footer>
 <div class=footer-inner>
-<div class=site-info>2021&nbsp;©&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
+<div class=site-info>©&nbsp;2021&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
 </div>
 </footer>
 </div>
 <script>'serviceWorker'in navigator&&window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})</script>
 <script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
-<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'var(--color-bg)'})</script>
+<script>let imgNodes=document.querySelectorAll('div.post-body img');imgNodes=Array.from(imgNodes).filter(a=>a.parentNode.tagName!=="A"),mediumZoom(imgNodes,{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script>
 <script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script>
 </body>
 </html>

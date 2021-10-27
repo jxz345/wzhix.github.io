@@ -26,7 +26,7 @@
 <meta name=msapplication-TileImage content="../icons/mstile-150x150.png">
 <link rel=manifest href=/manifest.json>
 <link rel=canonical href=https://zhix.co/about/>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2020-02-13T04:42:43+08:00","dateModified":"2021-08-04T09:30:38+00:00","url":"https://zhix.co/about/","name":"关于 ZHIX 和这里","description":"我叫 ZHIX，是一名软件工程师，专注于游戏领域的 Web 服务端开发，喜欢编程，会点 Java……","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"2020-02-13T04:42:43+08:00","dateModified":"2021-10-27T18:06:47+00:00","url":"https://zhix.co/about/","name":"关于 ZHIX 和这里","description":"我叫 ZHIX，是一名软件工程师，专注于游戏领域的 Web 服务端开发，喜欢编程，会点 Java……","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
 <meta property="og:title" content="关于 ZHIX 和这里">
 <meta property="og:description" content="我叫 ZHIX，是一名软件工程师，专注于游戏领域的 Web 服务端开发，喜欢编程，会点 Java……">
 <meta property="og:url" content="https://zhix.co/about/">
@@ -82,7 +82,7 @@
 </div>
 </article>
 <div class=updated-badge-container>
-<span title="最后更新于 2021-08-04 09:30:38 UTC" style=cursor:help><svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2021-08-04</text><text x="915" y="140" textLength="650" transform="scale(.1)">2021-08-04</text></g></svg>
+<span title="最后更新于 2021-10-27 18:06:47 UTC" style=cursor:help><svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" class="updated-badge"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="130" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path class="updated-badge-left" d="M0 0h55v20H0z"/><path class="updated-badge-right" d="M55 0h75v20H55z"/><path fill="url(#b)" d="M0 0h130v20H0z"/></g><g fill="#fff" text-anchor="middle" font-size="110"><text x="285" y="150" fill="#010101" fill-opacity=".3" textLength="450" transform="scale(.1)">updated</text><text x="285" y="140" textLength="450" transform="scale(.1)">updated</text><text x="915" y="150" fill="#010101" fill-opacity=".3" textLength="650" transform="scale(.1)">2021-10-27</text><text x="915" y="140" textLength="650" transform="scale(.1)">2021-10-27</text></g></svg>
 </span></div>
 </div>
 </main>
@@ -91,13 +91,13 @@
 </div>
 <footer id=footer class=footer>
 <div class=footer-inner>
-<div class=site-info>2021&nbsp;©&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
+<div class=site-info>©&nbsp;2021&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
 </div>
 </footer>
 </div>
 <script>'serviceWorker'in navigator&&window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})</script>
 <script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
-<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'var(--color-bg)'})</script>
+<script>let imgNodes=document.querySelectorAll('div.post-body img');imgNodes=Array.from(imgNodes).filter(a=>a.parentNode.tagName!=="A"),mediumZoom(imgNodes,{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script>
 <script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script>
 </body>
 </html>

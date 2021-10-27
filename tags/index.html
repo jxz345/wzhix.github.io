@@ -26,7 +26,7 @@
 <meta name=msapplication-TileImage content="../icons/mstile-150x150.png">
 <link rel=manifest href=/manifest.json>
 <link rel=canonical href=https://zhix.co/tags/>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-08-04T09:30:38+00:00","url":"https://zhix.co/tags/","name":"Tags","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"WebPage","datePublished":"1989-06-04T20:17:43+00:00","dateModified":"2021-10-27T18:06:47+00:00","url":"https://zhix.co/tags/","name":"Tags","description":"zhix 的精神避难所。","image":"https://zhix.co/icons/avatar.png","license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"今天的天空差了点","logo":{"@type":"ImageObject","url":"https://zhix.co/icons/avatar.png"},"url":"https://zhix.co/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://zhix.co/"}}</script>
 <meta property="og:title" content="Tags">
 <meta property="og:description" content="zhix 的精神避难所。">
 <meta property="og:url" content="https://zhix.co/tags/">
@@ -79,15 +79,19 @@
 <a href=/tags/spring-framework/ class=tag-cloud-item style=font-size:1em>#spring framework</a>
 <a href=/tags/unicode/ class=tag-cloud-item style=font-size:1em>#Unicode</a>
 <a href=/tags/utf-8/ class=tag-cloud-item style=font-size:1em>#UTF-8</a>
+<a href=/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/ class=tag-cloud-item style=font-size:1em>#人工智能</a>
 <a href=/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/ class=tag-cloud-item style=font-size:1em>#公众号</a>
 <a href=/tags/%E5%8D%9A%E5%AE%A2/ class=tag-cloud-item style=font-size:1em>#博客</a>
+<a href=/tags/%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/ class=tag-cloud-item style=font-size:1em>#启发式搜索</a>
 <a href=/tags/%E5%AD%97%E4%BD%93/ class=tag-cloud-item style=font-size:1em>#字体</a>
 <a href=/tags/%E5%AD%97%E7%AC%A6%E9%9B%86/ class=tag-cloud-item style=font-size:1em>#字符集</a>
 <a href=/tags/%E6%8E%92%E7%89%88/ class=tag-cloud-item style=font-size:1em>#排版</a>
+<a href=/tags/%E7%AE%97%E6%B3%95/ class=tag-cloud-item style=font-size:1em>#算法</a>
 <a href=/tags/%E7%BC%93%E5%AD%98/ class=tag-cloud-item style=font-size:1em>#缓存</a>
 <a href=/tags/%E7%BC%96%E7%A8%8B/ class=tag-cloud-item style=font-size:1.9463946303571862em>#编程</a>
 <a href=/tags/%E8%AE%BE%E8%AE%A1/ class=tag-cloud-item style=font-size:1em>#设计</a>
 <a href=/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/ class=tag-cloud-item style=font-size:1.9463946303571862em>#软件工程</a>
+<a href=/tags/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/ class=tag-cloud-item style=font-size:1em>#遗传算法</a>
 <a href=/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/ class=tag-cloud-item style=font-size:1em>#面向对象</a>
 </div>
 </div>
@@ -97,13 +101,13 @@
 </div>
 <footer id=footer class=footer>
 <div class=footer-inner>
-<div class=site-info>2021&nbsp;©&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
+<div class=site-info>©&nbsp;2021&nbsp;zhix</div><div class=powered-by>Powered by <a href=https://github.com/gohugoio/hugo target=_blank rel=noopener>Hugo</a> | Theme is <a href=https://github.com/reuixiy/hugo-theme-meme target=_blank rel=noopener>MemE</a></div>
 </div>
 </footer>
 </div>
 <script>'serviceWorker'in navigator&&window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})</script>
 <script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
-<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'var(--color-bg)'})</script>
+<script>let imgNodes=document.querySelectorAll('div.post-body img');imgNodes=Array.from(imgNodes).filter(a=>a.parentNode.tagName!=="A"),mediumZoom(imgNodes,{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script>
 <script src=https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js type=module defer></script>
 </body>
 </html>
